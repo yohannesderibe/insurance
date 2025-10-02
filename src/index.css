@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #FFA000;
+  --secondary: #FFD54F;
+}
+
+.hero-bg {
+  background-image: url('https://static.readdy.ai/image/c8a6c583ef21d6ef7328804d498f9e0f/7153f1453bea8744454e277b70ff16bd.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom color classes */
+.bg-primary { background-color: var(--primary); }
+.text-primary { color: var(--primary); }
+.border-primary { border-color: var(--primary); }
+.hover\:bg-primary:hover { background-color: var(--primary); }
+.hover\:text-primary:hover { color: var(--primary); }
+
+.bg-secondary { background-color: var(--secondary); }
+.text-secondary { color: var(--secondary); }
+
+/* Custom border radius */
+.rounded-button { border-radius: 8px; }
