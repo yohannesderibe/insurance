@@ -1,11 +1,10 @@
-
 import api from '../axios';
 import { AxiosError } from 'axios';
 
 // ---------- Interfaces ----------
 
 export interface User {
-  email?: string; // Not provided in response
+  email?: string;
   name: string;
   role: string;
 }
@@ -37,6 +36,7 @@ function isAxiosError(error: unknown): error is AxiosError {
 // ---------- Real API Implementation ----------
 
 const realApi = {
+  // ✅ Login
   async login(email: string, password: string): Promise<{ token: string; user: User }> {
     try {
       const response = await api.post<LoginResponse>('/Auth/login', {
@@ -44,11 +44,10 @@ const realApi = {
         password
       });
 
-      // Construct User manually
       const user: User = {
         name: response.data.userName,
         role: response.data.role,
-        email: email // since backend doesn't return email
+        email
       };
 
       return {
@@ -60,9 +59,10 @@ const realApi = {
     }
   },
 
+  // ✅ Forgot Password (send OTP)
   async forgotPassword(email: string): Promise<MessageResponse> {
     try {
-      const response = await api.post('/Auth/send-otp', { email });
+      const response = await api.post('/Auth/forgot-password', { email });
       return {
         message: response.data,
         success: true
@@ -72,41 +72,12 @@ const realApi = {
     }
   },
 
-  async verifyOtp(email: string, otp: string): Promise<MessageResponse> {
+  // ✅ Verify OTP
+  async verifyOtp(email: string, otpCode: string): Promise<MessageResponse> {
     try {
-      const response = await api.post('/Auth/verify-otp', { email, otp });
-      return {
-        message: response.data,
-        success: true
-      };
-    } catch (error: unknown) {
-      throw this.handleApiError(error);
-    }
-  },
-
-  async resetPassword(email: string, newPassword: string): Promise<MessageResponse> {
-    try {
-      const response = await api.post(
-        `/Auth/reset-password?email=${encodeURIComponent(email)}&newPassword=${encodeURIComponent(newPassword)}`
-      );
-      return {
-        message: response.data,
-        success: true
-      };
-    } catch (error: unknown) {
-      throw this.handleApiError(error);
-    }
-  },
-
-
-  
- async setAppUserPassword(token: string, password: string): Promise<MessageResponse> {
-    try {
-      const response = await api.post('/AppUser/set-password', null, {
-        params: {
-          token,
-          newPassword: password
-        }
+      const response = await api.post('/Auth/verify-otp', {
+        email,
+        otpCode
       });
       return {
         message: response.data,
@@ -117,24 +88,36 @@ const realApi = {
     }
   },
 
+  // ✅ Resend OTP
+  async resendOtp(email: string): Promise<MessageResponse> {
+    try {
+      const response = await api.post('/Auth/resend-otp', { email });
+      return {
+        message: response.data,
+        success: true
+      };
+    } catch (error: unknown) {
+      throw this.handleApiError(error);
+    }
+  },
 
-  async setPassword(token: string, password: string): Promise<MessageResponse> {
-  try {
-    const response = await api.post('/Merchant/reset-password', {
-      token,
-      newPassword: password, // ✅ this is the required change
-    });
+  // ✅ Reset Password (requires only email and newPassword according to your API)
+  async resetPassword(email: string, newPassword: string): Promise<MessageResponse> {
+    try {
+      const response = await api.post('/Auth/reset-password', {
+        email,
+        newPassword
+      });
+      return {
+        message: response.data,
+        success: true
+      };
+    } catch (error: unknown) {
+      throw this.handleApiError(error);
+    }
+  },
 
-    return {
-      message: response.data,
-      success: true
-    };
-  } catch (error: unknown) {
-    throw this.handleApiError(error); 
-  }
-}
-,
-
+  // ---------- Error Handling ----------
   handleApiError(error: unknown): ErrorResponse {
     if (isAxiosError(error)) {
       if (error.response) {
@@ -160,6 +143,5 @@ const realApi = {
 };
 
 // ---------- Export Auth API ----------
-
 const authApi = realApi;
 export default authApi;

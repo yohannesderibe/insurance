@@ -1,0 +1,88 @@
+{
+  "cities": [
+    {
+      "name": "Addis Ababa",
+      "sub_cities": ["Bole", "Kolfe", "Arada", "Yeka", "Kirkos", "Lideta", "Nifas Silk", "Gulele", "Akaki Kality"]
+    },
+    {
+      "name": "Hawassa",
+      "sub_cities": ["Hayek Dare", "Tabour", "Misrak Sub City", "Menaheriya"]
+    },
+    {
+      "name": "Dire Dawa",
+      "sub_cities": ["Sabian", "Megala", "Gende Kore", "Kechema"]
+    },
+    {
+      "name": "Bahir Dar",
+      "sub_cities": ["Tana Sub City", "Dagmawi Sub City", "Shum Abo", "Sewne", "Hidar 11"]
+    },
+    {
+      "name": "Mekelle",
+      "sub_cities": ["Hawelti", "Semien", "Ayder", "Kedamay Weyane", "Adihaki"]
+    },
+    {
+      "name": "Gondar",
+      "sub_cities": ["Maraki", "Azezo", "Belico", "Arada", "Abajale"]
+    },
+    {
+      "name": "Jimma",
+      "sub_cities": ["Hermata Mentina", "Jiren", "Bacho Bore", "Bosa Kito", "Mendera Kochi"]
+    },
+    {
+      "name": "Adama (Nazret)",
+      "sub_cities": ["Dabe Dabera", "Oromia 01", "Geda", "Dambal", "Wonji"]
+    },
+    {
+      "name": "Harar",
+      "sub_cities": ["Aboker", "Hakim", "Shenkor", "Jegol", "Jinela"]
+    },
+    {
+      "name": "Shashemene",
+      "sub_cities": ["Alelu", "Abosto", "Arsi Negele", "Awasho", "Gorii"]
+    },
+    {
+      "name": "Debre Markos",
+      "sub_cities": ["Gozamin", "Ketema", "Yewetwot", "Kebele 03", "Kebele 05"]
+    },
+    {
+      "name": "Assosa",
+      "sub_cities": ["Abun Gida", "Sali", "Selga", "Kebele 01", "Kebele 02"]
+    },
+    {
+      "name": "Debre Birhan",
+      "sub_cities": ["Ketema", "Tabor", "Kebele 06", "Kebele 08", "Ginbi"]
+    },
+    {
+      "name": "Wolaita Sodo",
+      "sub_cities": ["Fana", "Boditte", "Merkato", "Dendo", "Kebele 03"]
+    },
+    {
+      "name": "Dessie",
+      "sub_cities": ["Arada", "Buanbuawuha", "Menafesha", "Piassa", "Enewari"]
+    },
+    {
+      "name": "Hosaena",
+      "sub_cities": ["Mehal Ketema", "Addis Ketema", "Hosaena 02", "Wachemo", "Kibet"]
+    },
+    {
+      "name": "Nekemte",
+      "sub_cities": ["Burka Jato", "Cheleleki", "Bikiltu", "Bake Jama", "Kebele 04"]
+    },
+    {
+      "name": "Arba Minch",
+      "sub_cities": ["Sikela", "Secha", "Chamo", "Limat", "Kebele 03"]
+    },
+    {
+      "name": "Dilla",
+      "sub_cities": ["Dilla Zuria", "Kochere", "Bule", "Addis Ketema", "Hawassa Road"]
+    },
+    {
+      "name": "Metu",
+      "sub_cities": ["Hinde", "Metu Kebele 01", "Metu Kebele 03", "Gore Road", "Bicho"]
+    },
+    {
+      "name": "Gambela",
+      "sub_cities": ["Abobo", "Gambela Town", "Pugnido", "Tierkidi", "Itang"]
+    }
+  ]
+}

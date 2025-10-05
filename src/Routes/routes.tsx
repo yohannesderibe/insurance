@@ -7,8 +7,10 @@ import {Routes,Route} from 'react-router-dom';
 const FirstPage = lazy(()=> import('../pages/FirstPage'));
 const SignIn = lazy(()=> import('../pages/Auth/signin'));
 const Dash = lazy(()=> import('../pages/1/dash'));
-
-
+const Otp=lazy(()=> import('../pages/Auth/OTPForm'));
+const ForgetPassword=lazy(()=> import('../pages/Auth/ForgotPassword'));
+const ChangePassword=lazy(()=> import('../pages/Auth/ChangePassword'));
+const SelfRegistedClient =lazy(()=>import('../pages/Auth/SelfRegisteredClient'))
 //Admin
 const AdminDash = lazy(()=> import('../pages/Actors/Admin/AdminDash'));
 
@@ -36,8 +38,10 @@ const AppRoutes:React.FC = () => {
             <Route path= "/Startpage" element ={<FirstPage />} />
             <Route path= "/login" element ={<SignIn />} />
             <Route path= "/dashboard" element ={<Dash />} />
-
-
+            <Route path= "/otp" element ={<Otp />} />
+            <Route path= "/forgot-password" element ={<ForgetPassword />} />
+            <Route path= "/reset-password" element ={<ChangePassword />} />
+            <Route path="/selfcreatedclient" element={<SelfRegistedClient />} />
             {/* admin */}
                 <Route path= "/admindash" element ={<AdminDash />} />
 

@@ -306,7 +306,7 @@ const role = String(rawRole).toLowerCase(); // ✅ Fix: always a string
             <a href="/forgot-password" className="hover:text-yellow-500">
               Forgot Password?
             </a>
-            <a href="/register" className="hover:text-yellow-500">
+            <a href="/selfcreatedclient" className="hover:text-yellow-500">
               Create Account
             </a>
           </div>
