@@ -1,25 +1,12 @@
-import axios from "axios";
+// src/api/Admin/adminDashboardApi.ts
+import api from '../axios';
 
-const BASE_URL = "http://localhost:5150/api/Admin/dashboard";
-
-// 🟡 Get overall dashboard stats
-export const getDashboardStats = async (token: string) => {
-  const res = await axios.get(BASE_URL, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "*/*",
-    },
-  });
+export const getDashboardStats = async () => {
+  const res = await api.get('/Admin/dashboard'); // Now: http://localhost:5150/api/Admin/dashboard
   return res.data;
 };
 
-// 🟠 Get user trends
-export const getUserTrends = async (token: string) => {
-  const res = await axios.get(`${BASE_URL}/user-trends`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "*/*",
-    },
-  });
+export const getUserTrends = async () => {
+  const res = await api.get('/Admin/dashboard/user-trends');
   return res.data;
 };

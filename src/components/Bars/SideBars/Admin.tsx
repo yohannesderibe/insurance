@@ -10,7 +10,7 @@ interface SidebarProps {
 
 const AdminMenu = [
   { label: "dashboard", to: "/admindash" },
-  { label: "Admin", to: "/policy" },
+  { label: "User Managment ", to: "/UserManagment" },
   { label: "Admin", to: "/claims" },
   { label: "payment", to: "/payment" },
   { label: "support", to: "/support" },

@@ -314,25 +314,37 @@ const AdminDash: React.FC = () => {
   const [trends, setTrends] = useState<any>(null);
   const [selectedRange, setSelectedRange] = useState("Monthly");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+// In your AdminDash.tsx component
+// In your AdminDash.tsx component
+useEffect(() => {
+  const fetchData = async () => {
+    const token = localStorage.getItem("token") || localStorage.getItem("authToken");
+    
+    if (!token) {
+      console.error('❌ No authentication token found in localStorage');
+      return;
+    }
 
-      try {
-        const [dashboardRes, trendsRes] = await Promise.all([
-          getDashboardStats(token),
-          getUserTrends(token),
-        ]);
+    console.log('🔑 Token found, fetching data...');
 
-        setStats(dashboardRes);
-        setTrends(trendsRes);
-      } catch (err) {
-        console.error("Failed to fetch dashboard data", err);
-      }
-    };
-    fetchData();
-  }, []);
+    try {
+      const [dashboardRes, trendsRes] = await Promise.all([
+        getDashboardStats(),
+        // Add 100ms delay to the second call
+        new Promise(resolve => setTimeout(() => resolve(getUserTrends()), 100))
+      ]);
+
+      console.log('✅ Data fetched successfully');
+      
+      setStats(dashboardRes);
+      setTrends(trendsRes);
+    } catch (err) {
+      console.error("❌ Failed to fetch dashboard data", err);
+    }
+  };
+  
+  fetchData();
+}, []);
 
   // 🧮 Convert trend API data into chart-friendly format
   const chartData = trends

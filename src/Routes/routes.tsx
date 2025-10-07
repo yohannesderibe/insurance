@@ -13,7 +13,7 @@ const ChangePassword=lazy(()=> import('../pages/Auth/ChangePassword'));
 const SelfRegistedClient =lazy(()=>import('../pages/Auth/SelfRegisteredClient'))
 //Admin
 const AdminDash = lazy(()=> import('../pages/Actors/Admin/AdminDash'));
-
+const AdminUserManagment = lazy(()=> import('../pages/Actors/Admin/User-managment/UserManagementPage'));
 
 //manager
 const ManagerDash = lazy(()=> import('../pages/Actors/Manager/ManagerDash'));
@@ -44,7 +44,7 @@ const AppRoutes:React.FC = () => {
             <Route path="/selfcreatedclient" element={<SelfRegistedClient />} />
             {/* admin */}
                 <Route path= "/admindash" element ={<AdminDash />} />
-
+                <Route path= "/UserManagment" element ={<AdminUserManagment />} />
 
 
             {/* coustmer */}
