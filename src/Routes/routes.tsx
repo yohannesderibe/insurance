@@ -14,7 +14,7 @@ const SelfRegistedClient =lazy(()=>import('../pages/Auth/SelfRegisteredClient'))
 //Admin
 const AdminDash = lazy(()=> import('../pages/Actors/Admin/AdminDash'));
 const AdminUserManagment = lazy(()=> import('../pages/Actors/Admin/User-managment/UserManagementPage'));
-
+const CatagoryInAdmin = lazy(()=> import('../pages/Actors/Admin/Catagory-Managemnt/CatagoryInAdmin'));
 //manager
 const ManagerDash = lazy(()=> import('../pages/Actors/Manager/ManagerDash'));
 
@@ -45,7 +45,7 @@ const AppRoutes:React.FC = () => {
             {/* admin */}
                 <Route path= "/admindash" element ={<AdminDash />} />
                 <Route path= "/UserManagment" element ={<AdminUserManagment />} />
-
+                <Route path= "/catagoyinadmin" element ={<CatagoryInAdmin />} />
 
             {/* coustmer */}
                 <Route path= "/coustmerdash" element ={<CoustmerDash />} />

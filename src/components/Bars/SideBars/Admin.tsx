@@ -11,7 +11,7 @@ interface SidebarProps {
 const AdminMenu = [
   { label: "dashboard", to: "/admindash" },
   { label: "User Managment ", to: "/UserManagment" },
-  { label: "Admin", to: "/claims" },
+  { label: "Catagory Managmwent ", to: "/catagoyinadmin" },
   { label: "payment", to: "/payment" },
   { label: "support", to: "/support" },
 ];
