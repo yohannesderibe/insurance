@@ -156,3 +156,50 @@ export const deleteFinance = async (token: string, id: string) => {
     handleError(error, `delete finance officer (${id})`);
   }
 };
+// 🟡 Update Manager
+export const updateManager = async (token: string, id: string, formData: FormData) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/managers/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "*/*",
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data;
+  } catch (error) {
+    handleError(error, `update manager (${id})`);
+  }
+};
+
+// 🟡 Update Operator
+export const updateOperator = async (token: string, id: string, formData: FormData) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/operators/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "*/*",
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data;
+  } catch (error) {
+    handleError(error, `update operator (${id})`);
+  }
+};
+
+// 🟡 Update Finance Officer
+export const updateFinance = async (token: string, id: string, formData: FormData) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/finances/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "*/*",
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data;
+  } catch (error) {
+    handleError(error, `update finance (${id})`);
+  }
+};

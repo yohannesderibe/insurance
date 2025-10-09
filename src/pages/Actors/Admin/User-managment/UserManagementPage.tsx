@@ -16,6 +16,9 @@ import SearchBar from "../../../../reusable/UI/SearchBar";
 import Pagination from "../../../../reusable/UI/Pagination";
 import Sidebar from "../../../../components/Bars/SideBars/Admin";
 import { Users, Search, Filter } from "lucide-react";
+import DetailModal from "../../../../reusable/UI/DetailModal";
+import EditUserModal from "../../../../reusable/UI/EditUserModal";
+import { updateManager, updateOperator, updateFinance } from "../../../../api/Admin/userManagementTableApi";
 
 type RoleType = "Client" | "Manager" | "Finance Officer" | "Operation Officer";
 
@@ -34,52 +37,91 @@ const UserManagementPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
   // Mock token - replace with actual auth token
   const token = "your-auth-token-here";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        let data;
-        switch (selectedRole) {
-          case "Client":
-            data = await getClients(token);
-            break;
-          case "Manager":
-            data = await getManagers(token);
-            break;
-          case "Finance Officer":
-            data = await getFinances(token);
-            break;
-          case "Operation Officer":
-            data = await getOperators(token);
-            break;
-          default:
-            data = await getClients(token);
-        }
-        
-        // data is already the array, no need for data.data
-        if (Array.isArray(data)) {
-          setUsers(data);
-          setTotalPages(Math.ceil(data.length / 10));
-        } else {
-          console.error("Expected array but got:", data);
-          setUsers([]);
-          setTotalPages(1);
-        }
-      } catch (err) {
-        console.error("Error fetching users:", err);
+  // Move fetchData outside useEffect so it can be reused
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      let data;
+      switch (selectedRole) {
+        case "Client":
+          data = await getClients(token);
+          break;
+        case "Manager":
+          data = await getManagers(token);
+          break;
+        case "Finance Officer":
+          data = await getFinances(token);
+          break;
+        case "Operation Officer":
+          data = await getOperators(token);
+          break;
+        default:
+          data = await getClients(token);
+      }
+      
+      // data is already the array, no need for data.data
+      if (Array.isArray(data)) {
+        setUsers(data);
+        setTotalPages(Math.ceil(data.length / 10));
+      } else {
+        console.error("Expected array but got:", data);
         setUsers([]);
         setTotalPages(1);
-      } finally {
-        setLoading(false);
       }
-    };
-    
+    } catch (err) {
+      console.error("Error fetching users:", err);
+      setUsers([]);
+      setTotalPages(1);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [selectedRole, currentPage]);
+
+  const handleEdit = (user: any) => {
+    setSelectedUser(user);
+    setIsEditOpen(true);
+  };
+
+  const handleSave = async (formData: FormData) => {
+    if (!selectedUser) return;
+
+    try {
+       // Debug: Log what's in the FormData
+    console.log("FormData contents:");
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+      if (selectedRole === "Manager") {
+        await updateManager(token, selectedUser.id, formData);
+      } else if (selectedRole === "Operation Officer") {
+        await updateOperator(token, selectedUser.id, formData);
+      } else if (selectedRole === "Finance Officer") {
+        await updateFinance(token, selectedUser.id, formData);
+      }
+
+      setIsEditOpen(false);
+      await fetchData(); // Now this will work - refresh the table after update
+    } catch (error) {
+      console.error("Error updating user:", error);
+      alert("Failed to update user.");
+    }
+  };
+
+  const handleView = (user: User) => {
+    setSelectedUser(user);
+    setIsDetailOpen(true);
+  };
 
   const filteredUsers = users.filter(user =>
     user.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -113,16 +155,9 @@ const UserManagementPage: React.FC = () => {
     }
   };
 
-  const handleEdit = (user: User) => {
-    console.log("Edit user:", user);
-    // Implement edit functionality
-    // You might want to open a modal or navigate to an edit page
-  };
-
   const handleAddUser = () => {
     console.log(`Add ${selectedRole}`);
     // Implement add functionality
-    // You might want to open a modal or navigate to an add user page
   };
 
   const roleTabs: RoleType[] = ["Client", "Finance Officer", "Manager", "Operation Officer"];
@@ -131,6 +166,16 @@ const UserManagementPage: React.FC = () => {
   const usersPerPage = 10;
   const startIndex = (currentPage - 1) * usersPerPage;
   const paginatedUsers = filteredUsers.slice(startIndex, startIndex + usersPerPage);
+
+  // Fix role mapping for EditUserModal
+  const getEditModalRole = (): "manager" | "operator" | "finance" => {
+    switch (selectedRole) {
+      case "Manager": return "manager";
+      case "Operation Officer": return "operator";
+      case "Finance Officer": return "finance";
+      default: return "manager"; // fallback
+    }
+  };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-amber-50/50 to-yellow-50/50">
@@ -231,6 +276,20 @@ const UserManagementPage: React.FC = () => {
                   role={selectedRole} 
                   onEdit={handleEdit}
                   onDelete={handleDelete}
+                  onView={handleView}
+                />
+                <DetailModal
+                  isOpen={isDetailOpen}
+                  onClose={() => setIsDetailOpen(false)}
+                  title={`${selectedRole} Details`}
+                  data={selectedUser}
+                />
+                <EditUserModal
+                  isOpen={isEditOpen}
+                  onClose={() => setIsEditOpen(false)}
+                  role={getEditModalRole()}
+                  user={selectedUser}
+                  onSave={handleSave}
                 />
                 
                 {/* Pagination */}

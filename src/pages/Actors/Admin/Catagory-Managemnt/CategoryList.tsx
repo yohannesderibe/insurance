@@ -4,7 +4,7 @@ import ReusableTable from "../../../../components/Tables/ReusableTable";
 import { TableRow, TableCell } from "@mui/material";
 import { getCategories, deleteCategory } from "../../../../api/Admin/categoriesApi";
 import type { CategoryDto } from "../../../../api/Admin/categoriesApi";
-import { FiEdit2, FiTrash } from "react-icons/fi"; // Added missing icons
+import { FiEdit2, FiTrash,FiEye } from "react-icons/fi"; // Added missing icons
 
 import AddButton from "../../../../reusable/UI/AddButton";
 import SearchBar from "../../../../reusable/UI/SearchBar";
@@ -14,10 +14,11 @@ import { Search, Filter, Folder } from "lucide-react";
 interface Props {
   onEdit: (id: string) => void;
   onCreate: () => void;
+  onView:(id:string)=>void; // 🌟 Added new prop
   refreshKey?: number;
 }
 
-const CategoryList: React.FC<Props> = ({ onEdit, onCreate, refreshKey = 0 }) => {
+const CategoryList: React.FC<Props> = ({ onEdit, onCreate,onView, refreshKey = 0 }) => {
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -139,21 +140,31 @@ const CategoryList: React.FC<Props> = ({ onEdit, onCreate, refreshKey = 0 }) => 
                   </TableCell>
                   <TableCell className="py-3 px-4 text-center">
                     <div className="flex justify-center gap-2">
-                      <button
-                        className="p-2 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-700 transition-colors"
-                        onClick={() => onEdit(row.id)}
-                        title="Edit category"
-                      >
-                        <FiEdit2 className="w-4 h-4" />
-                      </button>
-                      <button
-                        className="p-2 rounded-lg bg-red-100 hover:bg-red-200 text-red-600 transition-colors"
-                        onClick={() => handleDelete(row.id)}
-                        title="Delete category"
-                      >
-                        <FiTrash className="w-4 h-4" />
-                      </button>
-                    </div>
+  <button
+    className="p-2 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-700 transition-colors"
+    onClick={() => onEdit(row.id)}
+    title="Edit category"
+  >
+    <FiEdit2 className="w-4 h-4" />
+  </button>
+
+  <button
+    className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-700 transition-colors"
+    onClick={() => onView(row.id)}
+    title="View details"
+  >
+    <FiEye className="w-4 h-4" />
+  </button>
+
+  <button
+    className="p-2 rounded-lg bg-red-100 hover:bg-red-200 text-red-600 transition-colors"
+    onClick={() => handleDelete(row.id)}
+    title="Delete category"
+  >
+    <FiTrash className="w-4 h-4" />
+  </button>
+</div>
+
                   </TableCell>
                 </TableRow>
               )}

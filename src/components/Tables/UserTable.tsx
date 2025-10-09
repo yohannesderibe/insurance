@@ -109,7 +109,7 @@
 // export default UserTable;
 // src/components/Tables/UserTable.tsx
 import React from "react";
-import { FiEdit2, FiTrash, FiUser } from "react-icons/fi";
+import { FiEdit2, FiTrash, FiUser, FiEye } from "react-icons/fi";
 import ReusableTable from "./ReusableTable";
 
 interface User {
@@ -126,9 +126,10 @@ interface UserTableProps {
   role: string;
   onEdit?: (user: User) => void;
   onDelete?: (id: string) => void;
+  onView?: (user: User) => void; // 🌟 Added new prop
 }
 
-const UserTable: React.FC<UserTableProps> = ({ data, role, onEdit, onDelete }) => {
+const UserTable: React.FC<UserTableProps> = ({ data, role, onEdit, onDelete, onView }) => {
   const columns = [
     { label: "User", key: "fullName" },
     { label: "Contact", key: "email" },
@@ -194,6 +195,15 @@ const UserTable: React.FC<UserTableProps> = ({ data, role, onEdit, onDelete }) =
               >
                 <FiEdit2 className="w-4 h-4" />
               </button>
+
+              <button
+                className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 transition-colors"
+                onClick={() => onView && onView(user)} // 🌸 Added View handler
+                title="View full details"
+              >
+                <FiEye className="w-4 h-4" />
+              </button>
+
               <button
                 className="p-2 rounded-lg bg-red-100 hover:bg-red-200 text-red-600 transition-colors"
                 onClick={() => onDelete && onDelete(user.id)}
@@ -210,3 +220,4 @@ const UserTable: React.FC<UserTableProps> = ({ data, role, onEdit, onDelete }) =
 };
 
 export default UserTable;
+

@@ -60,3 +60,4 @@ export const deleteCategory = async (id: string, forceDelete = false) => {
   });
   return res.data;
 };
+

@@ -3,12 +3,27 @@ import React, { useState } from "react";
 import Sidebar from "../../../../components/Bars/SideBars/Admin";
 import CategoryList from "./CategoryList";
 import CategoryForm from "./CategoryForm";
+import DetailModal from "../../../../reusable/UI/DetailModal";
+import { getCategoryById } from "../../../../api/Admin/categoriesApi";
 
 const CategoryPage: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [detailData, setDetailData] = useState<any | null>(null);
+const [isDetailOpen, setIsDetailOpen] = useState(false);
+
+const handleView = async (id: string) => {
+  try {
+    const data = await getCategoryById(id);
+    setDetailData(data);
+    setIsDetailOpen(true);
+  } catch (err) {
+    console.error("Failed to fetch category details", err);
+    alert("Failed to load details.");
+  }
+};
 
   const openCreate = () => {
     setEditingId(null);
@@ -47,11 +62,13 @@ const CategoryPage: React.FC = () => {
       {/* Main content (space reserved for md:ml-64) */}
       <main className="flex-1 md:ml-64 pt-16 md:pt-0">
         <div className="p-6">
-          <CategoryList
-            onEdit={openEdit}
-            onCreate={openCreate}
-            refreshKey={refreshKey}
-          />
+       <CategoryList
+  onEdit={openEdit}
+  onCreate={openCreate}
+  onView={handleView}
+  refreshKey={refreshKey}
+/>
+
         </div>
 
         {/* Modal / drawer for add/edit */}
@@ -62,6 +79,13 @@ const CategoryPage: React.FC = () => {
             </div>
           </div>
         )}
+        <DetailModal
+  isOpen={isDetailOpen}
+  onClose={() => setIsDetailOpen(false)}
+  title="Category Details"
+  data={detailData}
+/>
+
       </main>
     </div>
   );
