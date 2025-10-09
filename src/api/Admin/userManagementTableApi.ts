@@ -157,6 +157,7 @@ export const deleteFinance = async (token: string, id: string) => {
   }
 };
 // 🟡 Update Manager
+
 export const updateManager = async (token: string, id: string, formData: FormData) => {
   try {
     const res = await axios.put(`${BASE_URL}/managers/${id}`, formData, {
@@ -167,8 +168,34 @@ export const updateManager = async (token: string, id: string, formData: FormDat
       },
     });
     return res.data;
-  } catch (error) {
-    handleError(error, `update manager (${id})`);
+  } catch (error: any) {
+    // Enhanced error logging with validation details
+    console.error(`Error updating manager (${id}):`, error.response?.data);
+    console.error(`Status:`, error.response?.status);
+    
+    // Log the specific validation errors with details
+    if (error.response?.data?.errors) {
+      console.error("Detailed validation errors:");
+      Object.entries(error.response.data.errors).forEach(([field, errors]) => {
+        console.error(`${field}:`, errors);
+      });
+    }
+    
+    if (error.response?.data) {
+      // Create a detailed error message with validation errors
+      let errorMessage = `Failed to update manager: ${error.response.data.title}`;
+      
+      if (error.response.data.errors) {
+        const validationErrors = Object.entries(error.response.data.errors)
+          .map(([field, errors]) => `${field}: ${(errors as string[]).join(', ')}`)
+          .join('; ');
+        errorMessage += ` | Validation errors: ${validationErrors}`;
+      }
+      
+      throw new Error(errorMessage);
+    } else {
+      handleError(error, `update manager (${id})`);
+    }
   }
 };
 

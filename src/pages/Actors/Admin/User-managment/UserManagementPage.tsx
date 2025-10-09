@@ -93,21 +93,19 @@ const UserManagementPage: React.FC = () => {
     setIsEditOpen(true);
   };
 
-  const handleSave = async (formData: FormData) => {
+  const handleSave = async (data: any) => { // Changed from FormData to any
     if (!selectedUser) return;
 
     try {
-       // Debug: Log what's in the FormData
-    console.log("FormData contents:");
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
+      // Debug: Log what's in the data (now JSON object)
+      console.log("Data contents:", data);
+      
       if (selectedRole === "Manager") {
-        await updateManager(token, selectedUser.id, formData);
+        await updateManager(token, selectedUser.id, data);
       } else if (selectedRole === "Operation Officer") {
-        await updateOperator(token, selectedUser.id, formData);
+        await updateOperator(token, selectedUser.id, data);
       } else if (selectedRole === "Finance Officer") {
-        await updateFinance(token, selectedUser.id, formData);
+        await updateFinance(token, selectedUser.id, data);
       }
 
       setIsEditOpen(false);
