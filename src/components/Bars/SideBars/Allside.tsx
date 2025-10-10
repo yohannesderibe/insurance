@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -10,16 +10,11 @@ interface SidebarProps {
   open: boolean;
   onClose: () => void;
   onCollapse?: (collapsed: boolean) => void;
-  collapsed?: boolean;
   role: string; // This is the key difference - we pass the role as prop
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ open, onClose, onCollapse, collapsed = false, role }) => {
-  const [isCollapsed, setIsCollapsed] = useState(collapsed);
-
-  useEffect(() => {
-    setIsCollapsed(collapsed);
-  }, [collapsed]);
+const Sidebar: React.FC<SidebarProps> = ({ open, onClose, onCollapse, role }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   // Get menu items and styles for the specific role
   const menuItems: MenuItem[] = MENU_CONFIG[role] || MENU_CONFIG.customer;
