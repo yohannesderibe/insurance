@@ -23,8 +23,8 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
     { label: "Dashboard", to: "/admindash", icon: <DashboardIcon /> },
     { label: "User Management", to: "/UserManagment", icon: <PeopleIcon /> },
     { label: "Category Management", to: "/catagoyinadmin", icon: <CategoryIcon /> },
-    { label: "Payment", to: "/payment", icon: <PaymentIcon /> },
-    { label: "Support", to: "/support", icon: <SupportIcon /> },
+    { label: "Policy", to: "/payment", icon: <PaymentIcon /> },
+    { label: "Report", to: "/support", icon: <SupportIcon /> },
   ],
   
   customer: [
@@ -32,14 +32,14 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
     { label: "Policy", to: "/policy", icon: <PolicyIcon /> },
     { label: "Claims", to: "/claims", icon: <ClaimsIcon /> },
     { label: "Payment", to: "/payment", icon: <PaymentIcon /> },
-    { label: "Support", to: "/support", icon: <SupportIcon /> },
+    { label: "My Profile", to: "/support", icon: <SupportIcon /> },
   ],
   
   finance: [
     { label: "Dashboard", to: "/financedash", icon: <DashboardIcon /> },
     { label: "Financial Reports", to: "/finance-reports", icon: <FinanceIcon /> },
     { label: "Payment Processing", to: "/payment-processing", icon: <PaymentIcon /> },
-    { label: "Support", to: "/support", icon: <SupportIcon /> },
+    { label: "Invoices", to: "/support", icon: <SupportIcon /> },
   ],
   
   manager: [
