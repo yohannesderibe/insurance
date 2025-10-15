@@ -307,7 +307,7 @@ const role = String(rawRole).toLowerCase(); // ✅ Fix: always a string
               Forgot Password?
             </a>
             <a href="/selfcreatedclient" className="hover:text-yellow-500">
-              Create Account
+              Create Account(Client only)
             </a>
           </div>
         </form>
