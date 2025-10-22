@@ -281,7 +281,15 @@ const RegisterPage: React.FC = () => {
               "Create Account"
             )}
           </button>
+        
         </form>
+<button
+  type="button"
+  onClick={() => navigate("/login")}
+  className="w-full text-sm text-amber-500 hover:text-amber-600 text-center mt-3 transition"
+>
+  Already have an account? <span className="underline">Return to login</span>
+</button>
 
         {/* Footer */}
         <div className="mt-4 text-center">
