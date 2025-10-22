@@ -1,0 +1,34 @@
+{
+  "stats": {
+    "activePolicies": 5,
+    "pendingClaims": 2,
+    "upcomingRenewals": 1,
+    "totalCoverage": "$2.5M"
+  },
+  "quickActions": [
+    {
+      "title": "Buy Insurance",
+      "description": "Explore and purchase new coverage tailored to your needs",
+      "icon": "ShieldPlus",
+      "color": "bg-yellow-100"
+    },
+    {
+      "title": "My Policies",
+      "description": "View and manage all your active insurance policies",
+      "icon": "FileText",
+      "color": "bg-blue-100"
+    },
+    {
+      "title": "File a Claim",
+      "description": "Submit and track insurance claims easily",
+      "icon": "FileWarning",
+      "color": "bg-orange-100"
+    },
+    {
+      "title": "Notifications",
+      "description": "Stay updated with policy changes and reminders",
+      "icon": "Bell",
+      "color": "bg-purple-100"
+    }
+  ]
+}
