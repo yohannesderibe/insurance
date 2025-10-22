@@ -213,7 +213,7 @@ const LoginPage: React.FC = () => {
       operator: "/operatingdash",     // map Operator → operator
       operatingofficer: "/operatingdash",
       finance: "/financedash",
-      client: "/coustmerdash",
+      client: "/customerdash",
     };
 
   const handleSubmit = async (e: React.FormEvent) => {
