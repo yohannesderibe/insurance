@@ -141,40 +141,30 @@ const UserManagementPage: React.FC = () => {
   // Mock token - replace with actual auth token
   const token = "your-auth-token-here";
 
-  // Enhanced helper function to get user display name with better placeholder detection
+  // Helper function to get user display name
   const getUserDisplayName = (user: User): string => {
     if (!user) return "User";
-    
-    // Check for actual meaningful names (not placeholder values)
-    const meaningfulName = (name: string | undefined): boolean => {
-      if (!name) return false;
-      const lowerName = name.toLowerCase();
-      return !['string', 'user', 'null', 'undefined', 'test', 'example', ''].includes(lowerName) && 
-             name.length > 1;
-    };
 
     // Try different possible name properties in priority order
-    if (meaningfulName(user.fullName)) return user.fullName!;
-    if (meaningfulName(user.name)) return user.name!;
-    if (meaningfulName(user.firstName) && meaningfulName(user.lastName)) 
-      return `${user.firstName} ${user.lastName}`;
-    if (meaningfulName(user.firstName)) return user.firstName!;
-    if (meaningfulName(user.lastName)) return user.lastName!;
-    if (meaningfulName(user.userName) && !user.userName!.includes('@')) 
-      return user.userName!;
-    
-    // Use email username part if it's meaningful
+    if (user.fullName) return user.fullName;
+    if (user.name) return user.name;
+    if (user.firstName && user.lastName) return `${user.firstName} ${user.lastName}`;
+    if (user.firstName) return user.firstName;
+    if (user.lastName) return user.lastName;
+    if (user.userName && !user.userName.includes('@')) return user.userName;
+
+    // Use email username part as fallback
     if (user.email) {
       const emailName = user.email.split('@')[0];
-      if (meaningfulName(emailName)) return emailName;
+      return emailName;
     }
-    
+
     // Use userName even if it's email, but extract the name part
     if (user.userName && user.userName.includes('@')) {
       const emailName = user.userName.split('@')[0];
-      if (meaningfulName(emailName)) return emailName;
+      return emailName;
     }
-    
+
     return "User";
   };
 

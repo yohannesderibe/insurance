@@ -125,7 +125,9 @@ interface UserTableProps {
   data: User[];
   role: string;
   onEdit?: (user: User) => void;
-  onDelete?: (id: string) => void;
+  //onDelete?: (id: string) => void;
+  onDelete?: (user: User) => void;
+
   onView?: (user: User) => void; // 🌟 Added new prop
 }
 
@@ -134,7 +136,7 @@ const UserTable: React.FC<UserTableProps> = ({ data, role, onEdit, onDelete, onV
     { label: "User", key: "fullName" },
     { label: "Contact", key: "email" },
     { label: "Role", key: "role" },
-    { label: "Actions", key: "actions", align: "center" },
+    { label: "Actions", key: "actions", align: "center" as const },
   ];
 
   return (
@@ -206,7 +208,9 @@ const UserTable: React.FC<UserTableProps> = ({ data, role, onEdit, onDelete, onV
 
               <button
                 className="p-2 rounded-lg bg-red-100 hover:bg-red-200 text-red-600 transition-colors"
-                onClick={() => onDelete && onDelete(user.id)}
+                //    onClick={() => onDelete && onDelete(user.id)}
+
+                onClick={() => onDelete && onDelete(user)}
                 title="Delete user"
               >
                 <FiTrash className="w-4 h-4" />
