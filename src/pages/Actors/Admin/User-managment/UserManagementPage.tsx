@@ -13,19 +13,108 @@ import UserTable from "../../../../components/Tables/UserTable";
 import AddButton from "../../../../reusable/UI/AddButton";
 import SearchBar from "../../../../reusable/UI/SearchBar";
 import Pagination from "../../../../reusable/UI/Pagination";
-import { Users, Search, Filter } from "lucide-react";
+import { Users, Search, Filter, AlertTriangle } from "lucide-react";
 import DetailModal from "../../../../reusable/UI/DetailModal";
 import EditUserModal from "../../../../reusable/UI/EditUserModal";
 import { updateManager, updateOperator, updateFinance } from "../../../../api/Admin/userManagementTableApi";
+import CreateManagerModal from "../../../../components/Modals/CreateManagerModal";
+import CreateFinanceModal from "../../../../components/Modals/CreateFinanceModal";
+import CreateOperatorModal from "../../../../components/Modals/CreateOperatorModal";
+import CreateClientModal from "../../../../components/Modals/CreateClientModal";
+import { Add } from "@mui/icons-material";
 
 type RoleType = "Client" | "Manager" | "Finance Officer" | "Operation Officer";
 
 interface User {
   id: string;
   fullName?: string;
+  name?: string;
+  firstName?: string;
+  lastName?: string;
+  userName?: string;
   email?: string;
   // Add other user properties as needed
 }
+
+// Delete Confirmation Modal Component
+interface DeleteConfirmationModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  userName: string;
+  userEmail?: string;
+  role: string;
+  loading?: boolean;
+}
+
+const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  userName,
+  userEmail,
+  role,
+  loading = false
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md border border-red-200">
+        <div className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-4 rounded-t-2xl flex justify-between items-center">
+          <h2 className="text-lg font-semibold">Confirm Deletion</h2>
+          <button 
+            onClick={onClose} 
+            className="text-white text-xl hover:text-red-200 transition-colors"
+            disabled={loading}
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="p-6">
+          <div className="flex items-center justify-center mb-4">
+            <div className="bg-red-100 p-3 rounded-full">
+              <AlertTriangle className="w-8 h-8 text-red-600" />
+            </div>
+          </div>
+          
+          <div className="text-center mb-6">
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              Are you sure you want to delete this {role.toLowerCase()}?
+            </h3>
+            <p className="text-gray-600 mb-2">
+              This action cannot be undone.
+            </p>
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 mt-3">
+              <p className="font-medium text-amber-800">{userName}</p>
+              {userEmail && (
+                <p className="text-amber-600 text-sm">{userEmail}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={onClose}
+              disabled={loading}
+              className="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition-all duration-200 font-medium disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={onConfirm}
+              disabled={loading}
+              className="px-5 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 font-medium hover:from-red-700 hover:to-red-800 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Deleting..." : "Delete"}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const UserManagementPage: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<RoleType>("Client");
@@ -38,8 +127,62 @@ const UserManagementPage: React.FC = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
+  // Delete confirmation modal state
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState<User | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  // Create modals state
+  const [isCreateManagerOpen, setIsCreateManagerOpen] = useState(false);
+  const [isCreateFinanceOpen, setIsCreateFinanceOpen] = useState(false);
+  const [isCreateOperatorOpen, setIsCreateOperatorOpen] = useState(false);
+  const [isCreateClientOpen, setIsCreateClientOpen] = useState(false);
+
   // Mock token - replace with actual auth token
   const token = "your-auth-token-here";
+
+  // Enhanced helper function to get user display name with better placeholder detection
+  const getUserDisplayName = (user: User): string => {
+    if (!user) return "User";
+    
+    // Check for actual meaningful names (not placeholder values)
+    const meaningfulName = (name: string | undefined): boolean => {
+      if (!name) return false;
+      const lowerName = name.toLowerCase();
+      return !['string', 'user', 'null', 'undefined', 'test', 'example', ''].includes(lowerName) && 
+             name.length > 1;
+    };
+
+    // Try different possible name properties in priority order
+    if (meaningfulName(user.fullName)) return user.fullName!;
+    if (meaningfulName(user.name)) return user.name!;
+    if (meaningfulName(user.firstName) && meaningfulName(user.lastName)) 
+      return `${user.firstName} ${user.lastName}`;
+    if (meaningfulName(user.firstName)) return user.firstName!;
+    if (meaningfulName(user.lastName)) return user.lastName!;
+    if (meaningfulName(user.userName) && !user.userName!.includes('@')) 
+      return user.userName!;
+    
+    // Use email username part if it's meaningful
+    if (user.email) {
+      const emailName = user.email.split('@')[0];
+      if (meaningfulName(emailName)) return emailName;
+    }
+    
+    // Use userName even if it's email, but extract the name part
+    if (user.userName && user.userName.includes('@')) {
+      const emailName = user.userName.split('@')[0];
+      if (meaningfulName(emailName)) return emailName;
+    }
+    
+    return "User";
+  };
+
+  // Helper function to get user email
+  const getUserEmail = (user: User): string | undefined => {
+    if (!user) return undefined;
+    return user.email || user.userName; // Use userName as fallback for email
+  };
 
   // Move fetchData outside useEffect so it can be reused
   const fetchData = async () => {
@@ -61,6 +204,15 @@ const UserManagementPage: React.FC = () => {
           break;
         default:
           data = await getClients(token);
+      }
+      
+      // Log the data structure to understand what properties are available
+      console.log("Fetched data for", selectedRole, ":", data);
+      
+      if (Array.isArray(data) && data.length > 0) {
+        // Log the first user to see the structure
+        console.log("First user in data:", data[0]);
+        console.log("All properties of first user:", Object.keys(data[0]));
       }
       
       // data is already the array, no need for data.data
@@ -86,6 +238,7 @@ const UserManagementPage: React.FC = () => {
   }, [selectedRole, currentPage]);
 
   const handleEdit = (user: any) => {
+    console.log("Editing user:", user);
     setSelectedUser(user);
     setIsEditOpen(true);
   };
@@ -118,41 +271,62 @@ const UserManagementPage: React.FC = () => {
     setIsDetailOpen(true);
   };
 
-  const filteredUsers = users.filter(user =>
-    user.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredUsers = users.filter(user => {
+    const userName = getUserDisplayName(user).toLowerCase();
+    const userEmail = getUserEmail(user)?.toLowerCase() || "";
+    const searchLower = searchTerm.toLowerCase();
+    
+    return userName.includes(searchLower) || userEmail.includes(searchLower);
+  });
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm(`Are you sure you want to delete this ${selectedRole.toLowerCase()}?`)) return;
+  // New delete handler with confirmation modal
+  const handleDeleteClick = (user: User) => {
+    console.log("User to delete:", user);
+    console.log("User display name:", getUserDisplayName(user));
+    setUserToDelete(user);
+    setIsDeleteModalOpen(true);
+  };
 
+  const handleDeleteConfirm = async () => {
+    if (!userToDelete) return;
+
+    setDeleteLoading(true);
     try {
       switch (selectedRole) {
         case "Client":
-          await deleteClient(token, id);
+          await deleteClient(token, userToDelete.id);
           break;
         case "Manager":
-          await deleteManager(token, id);
+          await deleteManager(token, userToDelete.id);
           break;
         case "Finance Officer":
-          await deleteFinance(token, id);
+          await deleteFinance(token, userToDelete.id);
           break;
         case "Operation Officer":
-          await deleteOperator(token, id);
+          await deleteOperator(token, userToDelete.id);
           break;
       }
 
-      setUsers((prev) => prev.filter((user) => user.id !== id));
+      setUsers((prev) => prev.filter((user) => user.id !== userToDelete.id));
+      
+      // Close modal and reset state
+      setIsDeleteModalOpen(false);
+      setUserToDelete(null);
+      
+      // Show success message
       alert(`${selectedRole} deleted successfully.`);
     } catch (error) {
       console.error("Error deleting user:", error);
       alert("Failed to delete user.");
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
-  const handleAddUser = () => {
-    console.log(`Add ${selectedRole}`);
-    // Implement add functionality
+  const handleDeleteCancel = () => {
+    setIsDeleteModalOpen(false);
+    setUserToDelete(null);
+    setDeleteLoading(false);
   };
 
   const roleTabs: RoleType[] = ["Client", "Finance Officer", "Manager", "Operation Officer"];
@@ -172,6 +346,23 @@ const UserManagementPage: React.FC = () => {
     }
   };
 
+  const handleAddUser = () => {
+    switch(selectedRole){
+      case "Manager":
+        setIsCreateManagerOpen(true);
+        break;
+      case "Finance Officer":
+        setIsCreateFinanceOpen(true);
+        break;
+      case "Operation Officer":
+        setIsCreateOperatorOpen(true);
+        break;  
+      case "Client":
+        setIsCreateClientOpen(true);
+        break;
+    }
+  }
+
   return (
     <div>
       {/* Header Section */}
@@ -185,6 +376,8 @@ const UserManagementPage: React.FC = () => {
               Manage all users, roles and permissions in one place
             </p>
           </div>
+        </div>
+        <div className="mb-6">
           <div className="flex items-center space-x-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-amber-200">
             <Users className="w-5 h-5 text-amber-600" />
             <span className="text-amber-700 font-medium">Active Users</span>
@@ -252,15 +445,18 @@ const UserManagementPage: React.FC = () => {
               data={paginatedUsers} 
               role={selectedRole} 
               onEdit={handleEdit}
-              onDelete={handleDelete}
+              onDelete={handleDeleteClick} // Updated to use the new handler
               onView={handleView}
             />
+            
+            {/* Modals */}
             <DetailModal
               isOpen={isDetailOpen}
               onClose={() => setIsDetailOpen(false)}
               title={`${selectedRole} Details`}
               data={selectedUser}
             />
+            
             <EditUserModal
               isOpen={isEditOpen}
               onClose={() => setIsEditOpen(false)}
@@ -268,7 +464,36 @@ const UserManagementPage: React.FC = () => {
               user={selectedUser}
               onSave={handleSave}
             />
-            
+
+            {/* Delete Confirmation Modal */}
+            <DeleteConfirmationModal
+              isOpen={isDeleteModalOpen}
+              onClose={handleDeleteCancel}
+              onConfirm={handleDeleteConfirm}
+              userName={userToDelete ? getUserDisplayName(userToDelete) : "User"}
+              userEmail={userToDelete ? getUserEmail(userToDelete) : undefined}
+              role={selectedRole}
+              loading={deleteLoading}
+            />
+
+            {/* Create Modals */}
+            <CreateManagerModal
+              isOpen={isCreateManagerOpen}
+              onClose={() => setIsCreateManagerOpen(false)}
+            />
+            <CreateFinanceModal
+              isOpen={isCreateFinanceOpen}
+              onClose={() => setIsCreateFinanceOpen(false)}
+            />
+            <CreateOperatorModal
+              isOpen={isCreateOperatorOpen}
+              onClose={() => setIsCreateOperatorOpen(false)}
+            />
+            <CreateClientModal
+              isOpen={isCreateClientOpen}
+              onClose={() => setIsCreateClientOpen(false)}
+            />
+
             {/* Pagination */}
             {totalPages > 1 && (
               <div className="px-6 py-4 border-t border-amber-200">
