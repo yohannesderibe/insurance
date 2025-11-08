@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { addCategory, updateCategory, getCategoryById } from "../../../../api/Admin/categoriesApi";
-import type { CategoryDto } from "../../../../api/Admin/categoriesApi";
+ import { getCategories } from "../../../../api/Admin/categoriesApi";
+ import { addSubCategory, updateSubCategory, getSubCategoryById } from "../../../../api/Admin/Catagories/subCategoriesApi";
 import { X, Check } from "lucide-react";
 
 interface Props {
@@ -9,38 +9,33 @@ interface Props {
   onSaved?: () => void;
 }
 
-const CategoryForm: React.FC<Props> = ({ id, onClose, onSaved }) => {
+const SubCategoryForm: React.FC<Props> = ({ id, onClose, onSaved }) => {
   const [name, setName] = useState("");
+  const [parentCategoryId, setParentCategoryId] = useState("");
   const [description, setDescription] = useState("");
   const [isActive, setIsActive] = useState(true);
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!id) return;
-    (async () => {
-      try {
-        const cat: CategoryDto = await getCategoryById(id);
-        setName(cat.name);
-        setDescription(cat.description);
-        setIsActive(cat.isActive);
-      } catch (err) {
-        console.error(err);
-      }
-    })();
+    getCategories().then(setCategories);
+    if (id) {
+      getSubCategoryById(id).then((data) => {
+        setName(data.name);
+        setDescription(data.description);
+        setIsActive(data.isActive);
+        setParentCategoryId(data.parentCategoryId);
+      });
+    }
   }, [id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const form = new FormData();
-      form.append("Name", name);
-      form.append("Description", description);
-      form.append("IsActive", String(isActive));
-
-      if (id) await updateCategory(id, form);
-      else await addCategory(form);
-
+      const payload = { name, description, isActive, parentCategoryId };
+      if (id) await updateSubCategory(id, payload);
+      else await addSubCategory(payload);
       onSaved?.();
     } catch (err) {
       console.error(err);
@@ -54,7 +49,7 @@ const CategoryForm: React.FC<Props> = ({ id, onClose, onSaved }) => {
     <div className="bg-white rounded-xl shadow-lg w-full max-w-md border border-amber-200 p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-amber-900">
-          {id ? "Edit Category" : "New Category"}
+          {id ? "Edit Subcategory" : "New Subcategory"}
         </h2>
         <button onClick={onClose} className="p-1 hover:bg-amber-100 rounded">
           <X className="w-5 h-5 text-amber-700" />
@@ -70,6 +65,23 @@ const CategoryForm: React.FC<Props> = ({ id, onClose, onSaved }) => {
             required
             className="w-full border border-amber-200 rounded-lg p-2 text-sm focus:ring-1 focus:ring-amber-500"
           />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-amber-700 mb-1">Parent Category *</label>
+          <select
+            value={parentCategoryId}
+            onChange={(e) => setParentCategoryId(e.target.value)}
+            required
+            className="w-full border border-amber-200 rounded-lg p-2 text-sm focus:ring-1 focus:ring-amber-500"
+          >
+            <option value="">Select category</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
@@ -126,4 +138,4 @@ const CategoryForm: React.FC<Props> = ({ id, onClose, onSaved }) => {
   );
 };
 
-export default CategoryForm;
+export default SubCategoryForm;

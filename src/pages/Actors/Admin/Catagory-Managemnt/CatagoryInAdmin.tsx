@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import CategoryList from "./CategoryList";
 import CategoryForm from "./CategoryForm";
+import SubCategoryList from "./SubCategoryList";
+import SubCategoryForm from "./SubCategoryForm";
 import DetailModal from "../../../../reusable/UI/DetailModal";
 import { getCategoryById } from "../../../../api/Admin/categoriesApi";
 
 const CategoryPage: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<"category" | "subcategory">("category");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -34,31 +37,69 @@ const CategoryPage: React.FC = () => {
 
   const onSaved = () => {
     setShowForm(false);
-    setRefreshKey((k) => k + 1); // triggers list re-fetch
+    setRefreshKey((k) => k + 1);
   };
 
   return (
-    <div>
-      <CategoryList
-        onEdit={openEdit}
-        onCreate={openCreate}
-        onView={handleView}
-        refreshKey={refreshKey}
-      />
+    <div className="p-4">
+      {/* Tabs */}
+      <div className="inline-flex bg-gray-100 rounded-full p-1 mb-4">
+        <button
+          className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+            activeTab === "category"
+              ? "bg-white shadow text-amber-700"
+              : "text-gray-600 hover:text-amber-700"
+          }`}
+          onClick={() => setActiveTab("category")}
+        >
+          Category Management
+        </button>
+        <button
+          className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+            activeTab === "subcategory"
+              ? "bg-white shadow text-amber-700"
+              : "text-gray-600 hover:text-amber-700"
+          }`}
+          onClick={() => setActiveTab("subcategory")}
+        >
+          Subcategory Management
+        </button>
+      </div>
 
-      {/* Modal / drawer for add/edit */}
+      {/* Tab Content */}
+      {activeTab === "category" ? (
+        <CategoryList
+          onEdit={openEdit}
+          onCreate={openCreate}
+          onView={handleView}
+          refreshKey={refreshKey}
+        />
+      ) : (
+        <SubCategoryList
+          onEdit={openEdit}
+          onCreate={openCreate}
+          onView={handleView}
+          refreshKey={refreshKey}
+        />
+      )}
+
+      {/* Modal / Drawer for Add/Edit */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="w-full max-w-3xl p-6">
-            <CategoryForm id={editingId} onClose={() => setShowForm(false)} onSaved={onSaved} />
+            {activeTab === "category" ? (
+              <CategoryForm id={editingId} onClose={() => setShowForm(false)} onSaved={onSaved} />
+            ) : (
+              <SubCategoryForm id={editingId} onClose={() => setShowForm(false)} onSaved={onSaved} />
+            )}
           </div>
         </div>
       )}
-      
+
       <DetailModal
         isOpen={isDetailOpen}
         onClose={() => setIsDetailOpen(false)}
-        title="Category Details"
+        title={activeTab === "category" ? "Category Details" : "Subcategory Details"}
         data={detailData}
       />
     </div>
