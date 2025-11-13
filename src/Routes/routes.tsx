@@ -376,6 +376,9 @@ const CoustmerDash = lazy(() => import('../pages/Actors/Coustmer/CoustmerDash'))
 // const CategoryDetails = lazy(() => import('../pages/Actors/Coustmer/CategoryDetails'));
 // const InsurancePurchase = lazy(() => import('../pages/Actors/Coustmer/InsurancePurchase'));
 // const ClientProfilePage = lazy(() => import('../pages/Actors/Coustmer/ClientProfilePage'));
+const CoustomerInsuranceCategories = lazy(() => import('../pages/Actors/Coustmer/Catagory/CategoryPage'));
+const CoustomerInsuranceSubCategories = lazy(() => import('../pages/Actors/Coustmer/Catagory/Subcategories'));
+
 
 // Operating Officer Pages
 const OperatingDash = lazy(() => import('../pages/Actors/OperatingOfficer/OpDash'));
@@ -535,6 +538,25 @@ const AppRoutes: React.FC = () => {
             </CustomerLayout>
           } 
         />
+
+        <Route path="/categories"
+        element={
+          <CustomerLayout>
+            <CoustomerInsuranceCategories />
+          </CustomerLayout>
+        }
+        />
+
+
+        <Route path="/categories/:id"
+        element={
+          <CustomerLayout>
+            <CoustomerInsuranceSubCategories />
+          </CustomerLayout>
+        }
+        />
+
+
         {/* <Route 
           path="/categories" 
           element={
