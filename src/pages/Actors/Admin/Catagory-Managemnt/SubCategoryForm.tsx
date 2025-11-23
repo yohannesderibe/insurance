@@ -16,6 +16,7 @@ const SubCategoryForm: React.FC<Props> = ({ id, onClose, onSaved }) => {
   const [isActive, setIsActive] = useState(true);
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const[pricePerYear , setPricePerYear] = useState(0);
 
   useEffect(() => {
     getCategories().then(setCategories);
@@ -25,25 +26,36 @@ const SubCategoryForm: React.FC<Props> = ({ id, onClose, onSaved }) => {
         setDescription(data.description);
         setIsActive(data.isActive);
         setParentCategoryId(data.parentCategoryId);
+    setPricePerYear(data.pricePerYear || 0); // <-- add this
       });
     }
   }, [id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const payload = { name, description, isActive, parentCategoryId };
-      if (id) await updateSubCategory(id, payload);
-      else await addSubCategory(payload);
-      onSaved?.();
-    } catch (err) {
-      console.error(err);
-      alert("Save failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const form = new FormData();
+    form.append("Name", name);
+    form.append("Description", description);
+    form.append("IsActive", String(isActive));
+    form.append("ParentCategoryId", parentCategoryId);
+    form.append("CreatedAt", new Date().toISOString());
+form.append("PricePerYear", pricePerYear.toString());
+
+if (id) await updateSubCategory(id, form);
+    else await addSubCategory(form,parentCategoryId);
+
+    onSaved?.();
+  } catch (err) {
+    console.error(err);
+    alert("Save failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="bg-white rounded-xl shadow-lg w-full max-w-md border border-amber-200 p-6">
@@ -83,6 +95,21 @@ const SubCategoryForm: React.FC<Props> = ({ id, onClose, onSaved }) => {
             ))}
           </select>
         </div>
+    <div>
+  <label className="block text-xs font-medium text-amber-700 mb-1">
+    Base Price
+  </label>
+  <input
+    type="number"
+    value={pricePerYear}
+    onChange={(e) => setPricePerYear(Number(e.target.value))}
+    required
+    className="w-full border border-amber-200 rounded-lg p-2 text-sm focus:ring-1 focus:ring-amber-500"
+  />
+</div>
+
+
+
 
         <div>
           <label className="block text-xs font-medium text-amber-700 mb-1">Description</label>

@@ -37,6 +37,7 @@ const CategoryForm: React.FC<Props> = ({ id, onClose, onSaved }) => {
       form.append("Name", name);
       form.append("Description", description);
       form.append("IsActive", String(isActive));
+      form.append("CreatedAt", new Date().toISOString());
 
       if (id) await updateCategory(id, form);
       else await addCategory(form);
