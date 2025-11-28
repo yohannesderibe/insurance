@@ -349,7 +349,7 @@
 // export default AppRoutes;
 import React, { lazy, Suspense, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-
+import {InsuranceApplicationProvider } from '../context/InsuranceApplicationContext'
 // Type definitions
 type Role = 'admin' | 'customer' | 'finance' | 'manager' | 'operator';
 
@@ -372,6 +372,19 @@ const ManagerDash = lazy(() => import('../pages/Actors/Manager/ManagerDash'));
 
 // Customer Pages
 const CoustmerDash = lazy(() => import('../pages/Actors/Coustmer/CoustmerDash'));
+const CustomerPolicies = lazy(() => import('../pages/Actors/Coustmer/Policy/CustomerPolicies'));
+const CustomerClaims = lazy(() => import('../pages/Actors/Coustmer/Claims/CustomerClaims'));
+const FileClaimWizard = lazy(() => import('../pages/Actors/Coustmer/Claims/FileClaimWizard'));
+
+//Customer Pages Insurance Application Steps common for all 
+const InsurancePersonalStep = lazy(() => import('../pages/Actors/Coustmer/InsuranceApplication/PersonalInfoStep'));
+const InsuranceCalculationStep = lazy(() => import('../pages/Actors/Coustmer/InsuranceApplication/InsuranceCalculationStep'));
+
+// Customer Pages Insurance Application Steps(the middle one )
+const HealthInfoStep = lazy(() => import('../pages/Actors/Coustmer/InsuranceApplication/HealthInfoStep'));
+const LifeInfoStep = lazy(() => import('../pages/Actors/Coustmer/InsuranceApplication/LifeInfoStep'));
+const InsuranceCarStep = lazy(() => import('../pages/Actors/Coustmer/InsuranceApplication/CarInfoStep'));
+
 // const InsuranceCategories = lazy(() => import('../pages/Actors/Coustmer/InsuranceCategories'));
 // const CategoryDetails = lazy(() => import('../pages/Actors/Coustmer/CategoryDetails'));
 // const InsurancePurchase = lazy(() => import('../pages/Actors/Coustmer/InsurancePurchase'));
@@ -382,9 +395,22 @@ const CoustomerInsuranceSubCategories = lazy(() => import('../pages/Actors/Coust
 
 // Operating Officer Pages
 const OperatingDash = lazy(() => import('../pages/Actors/OperatingOfficer/OpDash'));
+const OperatingOfficerClaimReview = lazy(() => import('../pages/Actors/OperatingOfficer/OperatingOfficerClaimReview'));
+const ClaimDetails = lazy(() => import('../pages/Actors/OperatingOfficer/ClaimDetails'));
 
 // Finance Officer Pages
 const FinanceDash = lazy(() => import('../pages/Actors/Finance/FinanceDash'));
+const FinanceApplications = lazy(() => import('../pages/Actors/Finance/FinanceApplications'));
+const FinanceOfficerClientApplications = lazy(() => import('../pages/Actors/Finance/FinanceOfficerClientApplications'));
+
+
+
+//finace and coustomer combied to do together 
+const FinanceOfficerReview = lazy(() => import('../pages/Actors/Coustmer/payment/FinanceOfficerReview'));
+const PaymentStep = lazy(() => import('../pages/Actors/Coustmer/payment/PaymentStep'));
+const RejectionPage = lazy(() => import('../pages/Actors/Coustmer/payment/RejectionPage'));
+
+
 
 // Sidebars for different roles
 const AdminSidebar = lazy(() => import('../components/Bars/SideBars/Admin'));
@@ -538,6 +564,29 @@ const AppRoutes: React.FC = () => {
             </CustomerLayout>
           } 
         />
+        <Route path='/policy'
+        element={
+          <CustomerLayout>
+            <CustomerPolicies />
+          </CustomerLayout> 
+        }
+          />
+
+          <Route path='/claims'
+        element={
+          <CustomerLayout>
+            <CustomerClaims />
+          </CustomerLayout> 
+        }
+          />
+
+          <Route path='/claims/file'
+          element ={
+            <CustomerLayout>
+              <FileClaimWizard />
+            </CustomerLayout>
+          }
+          />
 
         <Route path="/categories"
         element={
@@ -598,17 +647,116 @@ const AppRoutes: React.FC = () => {
           } 
         /> */}
 
+
+
+        {/* for apply  */}
+        <Route path='/apply/personal-info'
+        element={
+          <CustomerLayout>
+            <InsuranceApplicationProvider>
+            <InsurancePersonalStep />
+            </InsuranceApplicationProvider>
+            </CustomerLayout>
+        }
+        />
+
+        <Route path='/apply/insurance-calculation'
+        element={
+          <CustomerLayout>
+            <InsuranceCalculationStep />
+            </CustomerLayout>
+        }
+        />
+
+        <Route path='/apply/health-info'
+        element={
+          <CustomerLayout>
+            <HealthInfoStep />
+            </CustomerLayout>
+        }
+        />
+
+        <Route  path='/apply/life-info'
+        element={
+          <CustomerLayout>
+            <LifeInfoStep />
+            </CustomerLayout>
+        }
+        />
+
+        <Route  path='/apply/car-info'
+        element={
+          <CustomerLayout>
+            <InsuranceCarStep />
+            </CustomerLayout>
+        }
+        />
+
+        <Route path='/payment/review'
+        element={
+          <CustomerLayout>
+            <FinanceOfficerReview />
+            </CustomerLayout>
+        }
+        />
+        <Route path='/payment/process'
+        element={
+          <CustomerLayout>
+            <PaymentStep/>
+            </CustomerLayout>
+        }
+        />
+        <Route path='/payment/rejection'
+        element={
+          <CustomerLayout>
+            <RejectionPage/>
+            </CustomerLayout>
+        }
+        />
+
+
+      
+
+
+
         {/* Operating Officer Routes */}
         <Route 
           path="/operatingdash" 
           element={<ProtectedRouteWrapper role="operator" component={OperatingDash} />} 
         />
+        <Route 
+          path="/operatingofficer/claim-review" 
+          element={<ProtectedRouteWrapper role="operator" component={OperatingOfficerClaimReview} />} 
+        />
+        <Route 
+          path="/operatingofficer/claim-details/:id" 
+          element={<ProtectedRouteWrapper role="operator" component={ClaimDetails} />} 
+        />
+
+
+
+
+
 
         {/* Finance Officer Routes */}
         <Route 
           path="/financedash" 
           element={<ProtectedRouteWrapper role="finance" component={FinanceDash} />} 
         />
+
+               <Route 
+          path="/finance-applications" 
+          element={<ProtectedRouteWrapper role="finance" component={FinanceApplications} />} 
+        />
+        <Route 
+          path="/client-finance-application" 
+          element={<ProtectedRouteWrapper role="finance" component={FinanceOfficerClientApplications} />} 
+        />
+
+
+
+
+
 
         {/* Manager Routes */}
         <Route 
@@ -623,4 +771,4 @@ const AppRoutes: React.FC = () => {
   );
 };
 
-export default AppRoutes;
+export default AppRoutes; 

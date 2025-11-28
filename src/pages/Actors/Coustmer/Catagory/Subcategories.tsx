@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getSubcategoriesByCategory } from "../../../../api/Coustomer/Catagory/customerSubcategoryApi";
+import { getSubcategoriesByCategory } from "../../../../api/Coustomer/BeforeFinanceORWillchange/customerGetCategoryAndSub";
+
 import {
   Card,
   CardContent,
@@ -13,11 +14,20 @@ import {
 const CustomerSubcategories = () => {
   const { id } = useParams<{ id: string }>();
   const [subcategories, setSubcategories] = useState<any[]>([]);
+  const [clicked, setClicked] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (id) getSubcategoriesByCategory(Number(id)).then(setSubcategories);
+    if (id) getSubcategoriesByCategory(id).then(setSubcategories);
   }, [id]);
+
+  const handleApply = (subId: string) => {
+    setClicked(subId);
+
+    setTimeout(() => {
+      navigate("/apply/personal-info");
+    }, 300); // slight animation delay
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-amber-50 to-yellow-100 p-8">
@@ -41,10 +51,11 @@ const CustomerSubcategories = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {subcategories.map((sub) => (
+          {subcategories?.map((sub) => (
             <Card
               key={sub.id}
-              className="!rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+              className={`!rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg
+                ${clicked === sub.id ? "scale-95 opacity-80" : ""}`}
               sx={{
                 background:
                   "linear-gradient(145deg, #FEF3C7 0%, #FCD34D 100%)",
@@ -58,14 +69,13 @@ const CustomerSubcategories = () => {
                 >
                   {sub.name}
                 </Typography>
-                <Typography
-                  variant="body2"
-                  className="text-amber-700 mb-2"
-                >
+
+                <Typography variant="body2" className="text-amber-700 mb-2">
                   {sub.description}
                 </Typography>
+
                 <Typography className="text-amber-900 font-medium mb-3">
-                  Base Price: ${sub.basePrice}
+                  Base Price: ${sub.pricePerYear}
                 </Typography>
 
                 <div className="border-t border-amber-200 pt-3">
@@ -75,7 +85,8 @@ const CustomerSubcategories = () => {
                   >
                     Coverage Options
                   </Typography>
-                  {sub.coverages.map((c: any, index: number) => (
+
+                  {sub.coverages?.map((c: any, index: number) => (
                     <FormControlLabel
                       key={index}
                       control={
@@ -86,10 +97,27 @@ const CustomerSubcategories = () => {
                           }}
                         />
                       }
-                      label={`${c.name} (+$${c.extraCost})`}
+                      label={`${c.name} (+$${c.additionalCost})`}
                     />
                   ))}
                 </div>
+
+                <Button
+                  fullWidth
+                  onClick={() => handleApply(sub.id)}
+                  sx={{
+                    mt: 2,
+                    textTransform: "none",
+                    backgroundColor: "#92400E",
+                    borderRadius: "12px",
+                    color: "white",
+                    "&:hover": {
+                      backgroundColor: "#B45309",
+                    },
+                  }}
+                >
+                  Apply Now →
+                </Button>
               </CardContent>
             </Card>
           ))}

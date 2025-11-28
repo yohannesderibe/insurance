@@ -276,7 +276,9 @@
 // export default CustomerCategories;
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCustomerCategories } from "../../../../api/Coustomer/Catagory/customerCategoryApi";
+// import { getCustomerCategories } from "../../../../api/Coustomer/Catagory/customerCategoryApi";// this is the real one to be done later when the application will be first be checked by the fo first befor appering to the coustomer's catagory page 
+import { getCustomerCategories } from "../../../../api/Coustomer/BeforeFinanceORWillchange/customerGetCategoryAndSub";
+
 import { Card, CardContent, Typography, Button } from "@mui/material";
 import { FiShield, FiGrid, FiList, FiChevronDown } from "react-icons/fi";
 import { IoStar } from "react-icons/io5";

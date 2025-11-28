@@ -7,12 +7,12 @@ import {
   FolderKanban, 
   FileText, 
   AlertCircle, 
-  CreditCard, 
   User,
   Menu,
   X,
   LogOut,
-  ChevronDown
+  ChevronDown,
+  ClipboardCheck
 } from "lucide-react";
 
 const CustomerTopNav: React.FC = () => {
@@ -41,9 +41,18 @@ const CustomerTopNav: React.FC = () => {
   const navItems = [
     { label: "Dashboard", to: "/customerdash", icon: <LayoutDashboard className="w-5 h-5" /> },
     { label: "Categories", to: "/categories", icon: <FolderKanban className="w-5 h-5" /> },
-    { label: "Policies", to: "/customer/policies", icon: <FileText className="w-5 h-5" /> },
-    { label: "Claims", to: "/customer/claims", icon: <AlertCircle className="w-5 h-5" /> },
-    { label: "Payments", to: "/customer/payments", icon: <CreditCard className="w-5 h-5" /> },
+    { label: "Policies", to: "/policy", icon: <FileText className="w-5 h-5" /> },
+    { label: "Claims", to: "/claims", icon: <AlertCircle className="w-5 h-5" /> },
+    {
+      label: "Apply For Insurance",
+      to: "/insurance/apply/personal",
+      icon: <ClipboardCheck className="w-5 h-5" />
+    },
+    {
+      label: "Finance Review & Payment",
+      to: "/insurance/apply/payment",
+      icon: <ClipboardCheck className="w-5 h-5" />
+    }
   ];
 
   return (

@@ -6,10 +6,11 @@ import {
   Help as SupportIcon,
   Assignment as PolicyIcon,
   Receipt as ClaimsIcon,
-  Business as BusinessIcon,
+  // Business as BusinessIcon,
   AccountBalance as FinanceIcon,
   Groups as TeamIcon,
-  Task as TaskIcon,
+  // Task as TaskIcon,
+  Description as ApplicationsIcon,
 } from "@mui/icons-material";
 
 export interface MenuItem {
@@ -37,6 +38,8 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
   
   finance: [
     { label: "Dashboard", to: "/financedash", icon: <DashboardIcon /> },
+        { label: "See Applications", to: "/finance-applications", icon: <ApplicationsIcon /> },
+    { label: "Client Applications", to: "/client-finance-application", icon: <ApplicationsIcon /> },
     { label: "Financial Reports", to: "/finance-reports", icon: <FinanceIcon /> },
     { label: "Payment Processing", to: "/payment-processing", icon: <PaymentIcon /> },
     { label: "Invoices", to: "/support", icon: <SupportIcon /> },
@@ -51,8 +54,7 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
   
   operator: [
     { label: "Dashboard", to: "/operatingdash", icon: <DashboardIcon /> },
-    { label: "Operations", to: "/operations", icon: <BusinessIcon /> },
-    { label: "Task Management", to: "/tasks", icon: <TaskIcon /> },
+    { label: "Claims", to: "/operating-claims", icon: <ClaimsIcon /> },
     { label: "Support", to: "/support", icon: <SupportIcon /> },
   ],
 };
