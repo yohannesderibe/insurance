@@ -9,6 +9,12 @@ import {
   deleteOperator,
   deleteFinance
 } from "../../../../api/Admin/userManagementTableApi";
+
+
+import {  createManager,
+  createFinance,
+  createOperator,
+  createClient } from "../../../../api/Admin/CreateUser";
 import UserTable from "../../../../components/Tables/UserTable";
 import AddButton from "../../../../reusable/UI/AddButton";
 import SearchBar from "../../../../reusable/UI/SearchBar";
@@ -33,7 +39,14 @@ interface User {
   lastName?: string;
   userName?: string;
   email?: string;
-  // Add other user properties as needed
+  mobilePhone?: string;
+  imageUrl?: string;
+  gender?: string;
+  region?: string;
+  city?: string;
+  subCity?: string;
+  nationalIdOrPassport?: string;
+  createdAt?: string;
 }
 
 // Delete Confirmation Modal Component
@@ -205,10 +218,33 @@ const UserManagementPage: React.FC = () => {
         console.log("All properties of first user:", Object.keys(data[0]));
       }
       
-      // data is already the array, no need for data.data
+      // Map to table-friendly shape, especially for Clients
       if (Array.isArray(data)) {
-        setUsers(data);
-        setTotalPages(Math.ceil(data.length / 10));
+        const mapped = data.map((u: any) => {
+          if (selectedRole === "Client") {
+            const fullName = [u.firstName, u.fatherName, u.grandFatherName]
+              .filter(Boolean)
+              .join(" ")
+              .trim();
+            return {
+              id: u.id,
+              fullName: fullName || u.firstName || "Client",
+              email: u.email || "",
+              mobilePhone: u.phoneNumber || "",
+              imageUrl: u.passportOrNationalIdImageUrl ? `http://localhost:5150${u.passportOrNationalIdImageUrl}` : undefined,
+              gender: u.gender,
+              region: u.region,
+              city: u.city,
+              subCity: u.subCity,
+              nationalIdOrPassport: u.nationalIdOrPassport,
+              createdAt: u.createdAt,
+              userName: u.email || undefined,
+            } as User;
+          }
+          return u as User;
+        });
+        setUsers(mapped);
+        setTotalPages(Math.ceil(mapped.length / 10));
       } else {
         console.error("Expected array but got:", data);
         setUsers([]);
@@ -260,6 +296,53 @@ const UserManagementPage: React.FC = () => {
     setSelectedUser(user);
     setIsDetailOpen(true);
   };
+
+
+  // Add these functions after your other handlers (like handleEdit, handleSave, etc.)
+
+const handleCreateManager = async (formData: FormData) => {
+  try {
+    await createManager(token, formData);
+    alert("Manager created successfully!");
+    fetchData(); // Refresh the data
+  } catch (error) {
+    console.error("Error creating manager:", error);
+    alert("Failed to create manager. Please try again.");
+  }
+};
+
+const handleCreateFinance = async (formData: FormData) => {
+  try {
+    await createFinance(token, formData);
+    alert("Finance officer created successfully!");
+    fetchData(); // Refresh the data
+  } catch (error) {
+    console.error("Error creating finance officer:", error);
+    alert("Failed to create finance officer. Please try again.");
+  }
+};
+
+const handleCreateOperator = async (formData: FormData) => {
+  try {
+    await createOperator(token, formData);
+    alert("Operation officer created successfully!");
+    fetchData(); // Refresh the data
+  } catch (error) {
+    console.error("Error creating operation officer:", error);
+    alert("Failed to create operation officer. Please try again.");
+  }
+};
+
+const handleCreateClient = async (formData: FormData) => {
+  try {
+    await createClient(token, formData);
+    alert("Client created successfully!");
+    fetchData(); // Refresh the data
+  } catch (error) {
+    console.error("Error creating client:", error);
+    alert("Failed to create client. Please try again.");
+  }
+};
 
   const filteredUsers = users.filter(user => {
     const userName = getUserDisplayName(user).toLowerCase();
@@ -467,21 +550,26 @@ const UserManagementPage: React.FC = () => {
             />
 
             {/* Create Modals */}
+          {/* Create Modals */}
             <CreateManagerModal
               isOpen={isCreateManagerOpen}
               onClose={() => setIsCreateManagerOpen(false)}
+              onSubmit={handleCreateManager}
             />
             <CreateFinanceModal
               isOpen={isCreateFinanceOpen}
               onClose={() => setIsCreateFinanceOpen(false)}
+              onSubmit={handleCreateFinance}
             />
             <CreateOperatorModal
               isOpen={isCreateOperatorOpen}
               onClose={() => setIsCreateOperatorOpen(false)}
+              onSubmit={handleCreateOperator}
             />
             <CreateClientModal
               isOpen={isCreateClientOpen}
               onClose={() => setIsCreateClientOpen(false)}
+              onSubmit={handleCreateClient}
             />
 
             {/* Pagination */}

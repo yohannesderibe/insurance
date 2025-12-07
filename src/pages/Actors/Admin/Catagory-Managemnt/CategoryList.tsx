@@ -60,14 +60,15 @@ const CategoryList: React.FC<Props> = ({ onEdit, onCreate, onView, refreshKey = 
   const startIndex = (currentPage - 1) * perPage;
   const pageItems = filtered.slice(startIndex, startIndex + perPage);
 
-  const columns = [
-    { label: "Name", key: "name" },
-    { label: "Description", key: "description" },
-    { label: "Price / Year", key: "pricePerYear", align: "right" },
-    { label: "Status", key: "isActive", align: "center" },
-    { label: "Created", key: "createdAt" },
-    { label: "Actions", key: "actions", align: "center" },
-  ];
+const columns = [
+  { label: "Name", key: "name" },
+  { label: "Description", key: "description" },
+  { label: "Full Insurance %", key: "fullInsurancePercentage", align: "right" },
+  { label: "Third Party %", key: "thirdPartyPercentage", align: "right" },
+  { label: "Status", key: "isActive", align: "center" },
+  { label: "Created", key: "createdAt" },
+  { label: "Actions", key: "actions", align: "center" },
+];
 
   return (
     <>
@@ -124,9 +125,12 @@ const CategoryList: React.FC<Props> = ({ onEdit, onCreate, onView, refreshKey = 
                 <TableRow key={row.id} className="hover:bg-amber-50">
                   <TableCell className="py-3 px-4 font-medium text-amber-900">{row.name}</TableCell>
                   <TableCell className="py-3 px-4 text-amber-800">{row.description}</TableCell>
-                  <TableCell className="py-3 px-4 text-amber-800" align="right">
-                    ${row.pricePerYear?.toFixed(2) || "0.00"}
-                  </TableCell>
+              <TableCell className="py-3 px-4 text-amber-800" align="right">
+  {row.fullInsurancePercentage?.toFixed(2) || "0.00"}%
+</TableCell>
+<TableCell className="py-3 px-4 text-amber-800" align="right">
+  {row.thirdPartyPercentage?.toFixed(2) || "0.00"}%
+</TableCell>
                   <TableCell className="py-3 px-4 text-center">
                     <span
                       className={`px-3 py-1 rounded-full text-sm font-semibold ${

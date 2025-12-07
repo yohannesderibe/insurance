@@ -300,15 +300,16 @@ const SubCategoryList: React.FC<Props> = ({ onEdit, onCreate, onView, refreshKey
   const startIndex = (currentPage - 1) * perPage;
   const pageItems = filtered.slice(startIndex, startIndex + perPage);
 
-  const columns = [
-    { label: "Subcategory Name", key: "name" },
-    { label: "Description", key: "description" },
-    { label: "Parent Category", key: "parentCategory" },
-    { label: "Base Price", key: "pricePerYear", align: "center" },
-    { label: "Status", key: "isActive", align: "center" },
-    { label: "Created", key: "createdAt" },
-    { label: "Actions", key: "actions", align: "center" },
-  ];
+ const columns = [
+  { label: "Subcategory Name", key: "name" },
+  { label: "Description", key: "description" },
+  { label: "Parent Category", key: "parentCategory" },
+  { label: "Full Insurance %", key: "fullInsurancePercentage", align: "center" },
+  { label: "Third Party %", key: "thirdPartyPercentage", align: "center" },
+  { label: "Status", key: "isActive", align: "center" },
+  { label: "Created", key: "createdAt" },
+  { label: "Actions", key: "actions", align: "center" },
+];
 
   return (
     <>
@@ -413,9 +414,13 @@ const SubCategoryList: React.FC<Props> = ({ onEdit, onCreate, onView, refreshKey
                   <TableCell className="py-3 px-4 text-amber-800">
                     {getCategoryName(row.parentId)}
                   </TableCell>
-                  <TableCell className="py-3 px-4 text-center text-amber-700">
-                    {row.pricePerYear ? `$${row.pricePerYear}` : "Free"}
-                  </TableCell>
+                 <TableCell className="py-3 px-4 text-center text-amber-700">
+  {row.fullInsurancePercentage?.toFixed(2) || "N/A"}%
+</TableCell>
+<TableCell className="py-3 px-4 text-center text-amber-700">
+  {row.thirdPartyPercentage?.toFixed(2) || "N/A"}%
+</TableCell>
+
                   <TableCell className="py-3 px-4 text-center">
                     <span
                       className={`px-3 py-1 rounded-full text-sm font-semibold ${

@@ -45,7 +45,7 @@ const CustomerTopNav: React.FC = () => {
     { label: "Claims", to: "/claims", icon: <AlertCircle className="w-5 h-5" /> },
     {
       label: "Apply For Insurance",
-      to: "/insurance/apply/personal",
+      to: "/apply/personal-info",
       icon: <ClipboardCheck className="w-5 h-5" />
     },
     {

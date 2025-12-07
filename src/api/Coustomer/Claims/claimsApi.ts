@@ -1,5 +1,5 @@
 import axios from "axios";
-import { customerClaims, type CustomerClaim } from "../../mockdata/claims";
+import { customerClaims, type CustomerClaim } from "../../../mockdata/claims";
 
 const API_URL = "http://localhost:5150/api/Customer";
 

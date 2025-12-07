@@ -159,4 +159,3 @@ const AnalyticsSummary: React.FC<Props> = ({ analytics }) => {
 };
 
 export default AnalyticsSummary;
-
