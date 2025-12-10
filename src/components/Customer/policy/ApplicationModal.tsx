@@ -1,10 +1,13 @@
-// src/components/PaidApplications/ApplicationModal.tsx
 import React from "react";
 import { 
   ShieldCheck, CheckCircle, Building, FileText, UserCheck, Download, 
-  X, ExternalLink, Eye 
+  X, ExternalLink, Eye, Car, Heart
 } from "lucide-react";
-import { type Policy } from "../../../api/Coustomer/Policy/policiesApi";
+import { 
+  type Policy, 
+  isMotorApplication, 
+  isLifeApplication 
+} from "../../../api/Coustomer/Policy/policiesApi";
 import DetailItem from "./DetailItem";
 
 interface ApplicationModalProps {
@@ -23,22 +26,26 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
   formatDate
 }) => {
   const ImageGallery: React.FC = () => {
+    if (!application.rawApplication) return null;
+    
+    const { rawApplication } = application;
+    
     const images = [
       {
         title: "ID/Passport Image",
-        url: application.rawApplication?.clientPassportOrNationalIdImageUrl,
+        url: rawApplication.clientPassportOrNationalIdImageUrl,
         alt: "ID Document"
       },
-      {
+      ...(isMotorApplication(rawApplication) && rawApplication.carImageUrl ? [{
         title: "Car Image",
-        url: application.rawApplication?.carImageUrl,
+        url: rawApplication.carImageUrl,
         alt: "Car Photo"
-      },
-      {
+      }] : []),
+      ...(isMotorApplication(rawApplication) && rawApplication.carLibreImageUrl ? [{
         title: "Car Libre Image",
-        url: application.rawApplication?.carLibreImageUrl,
+        url: rawApplication.carLibreImageUrl,
         alt: "Car Libre Document"
-      }
+      }] : [])
     ].filter(img => img.url);
 
     if (images.length === 0) return null;
@@ -108,6 +115,31 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Category Badge */}
+      <div className="flex justify-center">
+        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl ${
+          application.category === 'MOTOR'
+            ? 'bg-blue-50 text-blue-700 border border-blue-100'
+            : application.category === 'LIFE'
+            ? 'bg-purple-50 text-purple-700 border border-purple-100'
+            : 'bg-gray-50 text-gray-700 border border-gray-100'
+        }`}>
+          {application.category === 'MOTOR' ? (
+            <>
+              <Car className="w-4 h-4" />
+              <span className="font-semibold">Motor Insurance</span>
+            </>
+          ) : application.category === 'LIFE' ? (
+            <>
+              <Heart className="w-4 h-4" />
+              <span className="font-semibold">Life Insurance</span>
+            </>
+          ) : (
+            <span className="font-semibold">Insurance</span>
+          )}
         </div>
       </div>
 
@@ -236,23 +268,87 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
 
     return (
       <div className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Vehicle Information */}
-          <div className="bg-blue-50 border border-blue-100 rounded-xl p-5">
-            <h3 className="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
-              <Building className="w-5 h-5" />
-              Vehicle Information
-            </h3>
-            <div className="space-y-3">
-              <DetailItem label="Model" value={rawApplication.model} />
-              <DetailItem label="Plate Number" value={rawApplication.plateNumber} />
-              <DetailItem label="Year" value={rawApplication.yearOfManufacture.toString()} />
-              <DetailItem label="Engine Number" value={rawApplication.engineNumber} />
-              <DetailItem label="Chassis Number" value={rawApplication.chassisNumber} />
-              <DetailItem label="Market Price" value={`$${rawApplication.marketPrice.toLocaleString()}`} />
-              <DetailItem label="Insurance Type" value={rawApplication.insuranceType} />
-            </div>
+        {/* Category Header */}
+        <div className={`p-4 rounded-xl ${
+          application.category === 'MOTOR'
+            ? 'bg-blue-50 border border-blue-100'
+            : application.category === 'LIFE'
+            ? 'bg-purple-50 border border-purple-100'
+            : 'bg-gray-50 border border-gray-100'
+        }`}>
+          <div className="flex items-center gap-3">
+            {application.category === 'MOTOR' ? (
+              <>
+                <Car className="w-6 h-6 text-blue-600" />
+                <div>
+                  <h3 className="font-bold text-blue-900">Motor Insurance Application</h3>
+                  <p className="text-sm text-blue-700">Complete vehicle and insurance details</p>
+                </div>
+              </>
+            ) : application.category === 'LIFE' ? (
+              <>
+                <Heart className="w-6 h-6 text-purple-600" />
+                <div>
+                  <h3 className="font-bold text-purple-900">Life Insurance Application</h3>
+                  <p className="text-sm text-purple-700">Complete life insurance details</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <ShieldCheck className="w-6 h-6 text-gray-600" />
+                <div>
+                  <h3 className="font-bold text-gray-900">Insurance Application</h3>
+                  <p className="text-sm text-gray-700">Complete application details</p>
+                </div>
+              </>
+            )}
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Insurance Information */}
+          {isMotorApplication(rawApplication) ? (
+            <div className="bg-blue-50 border border-blue-100 rounded-xl p-5">
+              <h3 className="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
+                <Car className="w-5 h-5" />
+                Vehicle Information
+              </h3>
+              <div className="space-y-3">
+                <DetailItem label="Model" value={rawApplication.model} />
+                <DetailItem label="Plate Number" value={rawApplication.plateNumber} />
+                <DetailItem label="Year" value={rawApplication.yearOfManufacture.toString()} />
+                <DetailItem label="Engine Number" value={rawApplication.engineNumber} />
+                <DetailItem label="Chassis Number" value={rawApplication.chassisNumber} />
+                <DetailItem label="Market Price" value={`$${rawApplication.marketPrice.toLocaleString()}`} />
+                <DetailItem label="Insurance Type" value={rawApplication.insuranceType} />
+              </div>
+            </div>
+          ) : isLifeApplication(rawApplication) ? (
+            <div className="bg-purple-50 border border-purple-100 rounded-xl p-5">
+              <h3 className="text-lg font-bold text-purple-900 mb-4 flex items-center gap-2">
+                <Heart className="w-5 h-5" />
+                Life Insurance Information
+              </h3>
+              <div className="space-y-3">
+                <DetailItem label="Insurance Type" value={rawApplication.lifeInsuranceType} />
+                <DetailItem label="Age" value={rawApplication.age.toString()} />
+                <DetailItem label="Height" value={`${rawApplication.height} cm`} />
+                <DetailItem label="Weight" value={`${rawApplication.weight} kg`} />
+                <DetailItem label="Life Price" value={`$${rawApplication.lifePrice.toLocaleString()}`} />
+                <DetailItem label="Category" value={rawApplication.categoryName} />
+                <DetailItem label="Sub Category" value={rawApplication.subCategoryName} />
+              </div>
+            </div>
+          ) : (
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">
+                Insurance Information
+              </h3>
+              <p className="text-gray-600">
+                Unable to determine application type. Showing generic information.
+              </p>
+            </div>
+          )}
 
           {/* Application Details */}
           <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-5">
@@ -263,9 +359,6 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
             <div className="space-y-3">
               <DetailItem label="Application ID" value={rawApplication.applicationId} />
               <DetailItem label="Status" value={rawApplication.status} />
-              <DetailItem label="Category" value={rawApplication.categoryName} />
-              <DetailItem label="Sub Category" value={rawApplication.subCategoryName} />
-              <DetailItem label="Calculated Premium" value={`$${rawApplication.calculatedPremium.toLocaleString()}`} />
               <DetailItem label="Created Date" value={formatDate(rawApplication.createdAt)} />
               <DetailItem label="Message" value={rawApplication.message || "No message"} />
             </div>
@@ -273,8 +366,8 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
         </div>
 
         {/* Client Information */}
-        <div className="bg-purple-50 border border-purple-100 rounded-xl p-5">
-          <h3 className="text-lg font-bold text-purple-900 mb-4 flex items-center gap-2">
+        <div className="bg-amber-50 border border-amber-100 rounded-xl p-5">
+          <h3 className="text-lg font-bold text-amber-900 mb-4 flex items-center gap-2">
             <UserCheck className="w-5 h-5" />
             Client Information
           </h3>
@@ -292,7 +385,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
           </div>
         </div>
 
-        {/* Images Section - Now visible automatically */}
+        {/* Images Section */}
         <ImageGallery />
 
         {/* Raw JSON View (for debugging) */}
@@ -315,8 +408,20 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
         <div className="sticky top-0 bg-white border-b border-amber-100 p-6">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-start gap-4">
-              <div className="bg-amber-100 text-amber-600 p-3 rounded-2xl">
-                <ShieldCheck className="w-6 h-6" />
+              <div className={`p-3 rounded-2xl ${
+                application.category === 'MOTOR'
+                  ? 'bg-blue-100 text-blue-600'
+                  : application.category === 'LIFE'
+                  ? 'bg-purple-100 text-purple-600'
+                  : 'bg-amber-100 text-amber-600'
+              }`}>
+                {application.category === 'MOTOR' ? (
+                  <Car className="w-6 h-6" />
+                ) : application.category === 'LIFE' ? (
+                  <Heart className="w-6 h-6" />
+                ) : (
+                  <ShieldCheck className="w-6 h-6" />
+                )}
               </div>
               <div>
                 <p className="text-sm text-amber-600 font-semibold">
@@ -328,6 +433,15 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                 <div className="flex gap-2 mt-2">
                   <span className="text-xs px-2 py-1 rounded-full font-semibold bg-amber-100 text-amber-700">
                     {viewMode === 'full' ? 'Full Details View' : 'Preview Mode'}
+                  </span>
+                  <span className={`text-xs px-2 py-1 rounded-full font-semibold ${
+                    application.category === 'MOTOR'
+                      ? 'bg-blue-100 text-blue-700'
+                      : application.category === 'LIFE'
+                      ? 'bg-purple-100 text-purple-700'
+                      : 'bg-gray-100 text-gray-700'
+                  }`}>
+                    {application.category || 'Unknown'} Insurance
                   </span>
                   <span className="text-xs px-2 py-1 rounded-full font-semibold bg-emerald-100 text-emerald-700">
                     {application.rawApplication ? 'API Data Available' : 'Basic View'}

@@ -352,7 +352,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import {InsuranceApplicationProvider } from '../context/InsuranceApplicationContext'
 // Type definitions
 type Role = 'admin' | 'customer' | 'finance' | 'manager' | 'operator';
-
+import { LifeInsuranceProvider } from '../context/LifeInsuranceContext';
 // Lazy-loaded components
 const FirstPage = lazy(() => import('../pages/FirstPage'));
 const SignIn = lazy(() => import('../pages/Auth/signin'));
@@ -654,9 +654,9 @@ const AppRoutes: React.FC = () => {
         <Route path='/apply/personal-info'
         element={
           <CustomerLayout>
-            <InsuranceApplicationProvider>
+           
             <InsurancePersonalStep />
-            </InsuranceApplicationProvider>
+           
             </CustomerLayout>
         }
         />
@@ -664,9 +664,9 @@ const AppRoutes: React.FC = () => {
         <Route path='/apply/insurance-calculation'
         element={
           <CustomerLayout>
-            <InsuranceApplicationProvider>
+         
             <InsuranceCalculationStep />
-            </InsuranceApplicationProvider>
+         
             </CustomerLayout>
         }
         />
@@ -691,10 +691,8 @@ const AppRoutes: React.FC = () => {
         <Route  path='/apply/car-info'
         element={
           <CustomerLayout>
-            <InsuranceApplicationProvider>
             <InsuranceCarStep />
-            </InsuranceApplicationProvider>
-            </CustomerLayout>
+          </CustomerLayout>
         }
         />
 
@@ -708,10 +706,8 @@ const AppRoutes: React.FC = () => {
         <Route path='/insurance/apply/payment'
         element={
           <CustomerLayout>
-            <InsuranceApplicationProvider>
             <PaymentStep/>
-            </InsuranceApplicationProvider>
-            </CustomerLayout>
+          </CustomerLayout>
         }
         />
         <Route path='/insurance/apply/rejected'

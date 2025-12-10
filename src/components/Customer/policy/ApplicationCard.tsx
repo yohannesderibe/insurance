@@ -1,6 +1,5 @@
-// src/components/PaidApplications/ApplicationCard.tsx
 import React from "react";
-import { ShieldCheck, CalendarDays, DollarSign, ExternalLink, Eye } from "lucide-react";
+import { ShieldCheck, CalendarDays, DollarSign, ExternalLink, Eye, Car, Heart } from "lucide-react";
 import { type Policy } from "../../../api/Coustomer/Policy/policiesApi";
 
 interface ApplicationCardProps {
@@ -34,6 +33,16 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({
             }`}>
               {String(application.paymentStatus ?? "Unknown").toUpperCase()}
             </span>
+            {/* Category badge */}
+            <span className={`text-xs font-semibold px-2 py-1 rounded ${
+              application.category === 'MOTOR' 
+                ? 'bg-blue-50 text-blue-700'
+                : application.category === 'LIFE'
+                ? 'bg-purple-50 text-purple-700'
+                : 'bg-gray-50 text-gray-700'
+            }`}>
+              {application.category || 'Unknown'}
+            </span>
           </div>
           <div>
             <p className="text-xs text-amber-600 font-semibold tracking-wide">
@@ -46,6 +55,23 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({
               {application.description}
             </p>
           </div>
+        </div>
+        
+        {/* Category Icon */}
+        <div className={`p-2 rounded-lg ${
+          application.category === 'MOTOR'
+            ? 'bg-blue-50 text-blue-600'
+            : application.category === 'LIFE'
+            ? 'bg-purple-50 text-purple-600'
+            : 'bg-gray-50 text-gray-600'
+        }`}>
+          {application.category === 'MOTOR' ? (
+            <Car className="w-5 h-5" />
+          ) : application.category === 'LIFE' ? (
+            <Heart className="w-5 h-5" />
+          ) : (
+            <ShieldCheck className="w-5 h-5" />
+          )}
         </div>
       </div>
 
@@ -92,4 +118,4 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({
   );
 };
 
-export default ApplicationCard; 
+export default ApplicationCard;

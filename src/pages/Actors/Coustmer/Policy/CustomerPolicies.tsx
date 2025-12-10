@@ -745,6 +745,8 @@
 
 // export default PaidApplications;
 // src/components/PaidApplications/PaidApplications.tsx
+
+
 import React, { useEffect, useMemo, useState } from "react";
 import { getPaidApplications, type Policy } from "../../../../api/Coustomer/Policy/policiesApi";
 import {
@@ -753,7 +755,9 @@ import {
   ShieldCheck,
   CalendarDays,
   Loader2,
-  CheckCircle
+  CheckCircle,
+  Car,
+  Heart
 } from "lucide-react";
 import SearchBar from "../../../../reusable/UI/SearchBar";
 import StatCard from "../../../../components/Customer/policy/StatCard";
@@ -768,6 +772,7 @@ const PaidApplications: React.FC = () => {
   const [selectedApplication, setSelectedApplication] = useState<Policy | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [viewMode, setViewMode] = useState<'preview' | 'full'>('preview');
+  const [categoryFilter, setCategoryFilter] = useState<'ALL' | 'MOTOR' | 'LIFE'>('ALL');
 
   const loadApplications = async (showLoading = true) => {
     if (showLoading) setLoading(true);
@@ -804,6 +809,12 @@ const PaidApplications: React.FC = () => {
   const filteredApplications = useMemo(() => {
     const q = (searchTerm || "").toLowerCase();
     return applications.filter((app) => {
+      // Apply category filter
+      if (categoryFilter !== 'ALL' && app.category !== categoryFilter) {
+        return false;
+      }
+      
+      // Apply search filter
       const name = app.name ?? "";
       const policyNumber = app.policyNumber ?? "";
       const description = app.description ?? "";
@@ -813,7 +824,7 @@ const PaidApplications: React.FC = () => {
         description.toLowerCase().includes(q)
       );
     });
-  }, [applications, searchTerm]);
+  }, [applications, searchTerm, categoryFilter]);
 
   const stats = useMemo(() => {
     const total = applications.length;
@@ -824,8 +835,10 @@ const PaidApplications: React.FC = () => {
     const pendingRenewal = applications.filter(app => 
       app.status === "Pending Renewal" || app.status === "Pending"
     ).length;
+    const motorCount = applications.filter(app => app.category === 'MOTOR').length;
+    const lifeCount = applications.filter(app => app.category === 'LIFE').length;
     
-    return { total, totalValue, active, pendingRenewal };
+    return { total, totalValue, active, pendingRenewal, motorCount, lifeCount };
   }, [applications]);
 
   const formatDate = (dateString?: string) => {
@@ -920,16 +933,16 @@ const PaidApplications: React.FC = () => {
           />
           
           <StatCard
-            title="Active Policies"
-            value={stats.active}
-            icon={ShieldCheck}
+            title="Motor Policies"
+            value={stats.motorCount}
+            icon={Car}
             color="blue"
           />
           
           <StatCard
-            title="Pending Renewal"
-            value={stats.pendingRenewal}
-            icon={CalendarDays}
+            title="Life Policies"
+            value={stats.lifeCount}
+            icon={Heart}
             color="purple"
           />
         </div>
@@ -945,7 +958,41 @@ const PaidApplications: React.FC = () => {
               />
             </div>
             
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
+              {/* Category Filters */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setCategoryFilter('ALL')}
+                  className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                    categoryFilter === 'ALL'
+                      ? 'bg-amber-500 text-white'
+                      : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+                  }`}
+                >
+                  All ({applications.length})
+                </button>
+                <button
+                  onClick={() => setCategoryFilter('MOTOR')}
+                  className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                    categoryFilter === 'MOTOR'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+                  }`}
+                >
+                  Motor ({stats.motorCount})
+                </button>
+                <button
+                  onClick={() => setCategoryFilter('LIFE')}
+                  className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+                    categoryFilter === 'LIFE'
+                      ? 'bg-purple-500 text-white'
+                      : 'bg-purple-50 text-purple-700 hover:bg-purple-100'
+                  }`}
+                >
+                  Life ({stats.lifeCount})
+                </button>
+              </div>
+              
               <button className="px-4 py-2.5 bg-amber-50 text-amber-700 rounded-xl text-sm font-semibold hover:bg-amber-100 transition-colors">
                 Sort by: Recent
               </button>
@@ -961,20 +1008,30 @@ const PaidApplications: React.FC = () => {
                 <FileText className="w-8 h-8 text-amber-500" />
               </div>
               <h3 className="text-xl font-bold text-amber-900 mb-2">
-                {searchTerm ? "No matching applications" : "No paid applications yet"}
+                {searchTerm 
+                  ? "No matching applications" 
+                  : categoryFilter !== 'ALL'
+                  ? `No ${categoryFilter.toLowerCase()} applications found`
+                  : "No paid applications yet"
+                }
               </h3>
               <p className="text-amber-600 mb-6">
                 {searchTerm 
                   ? "Try adjusting your search terms"
+                  : categoryFilter !== 'ALL'
+                  ? `No paid ${categoryFilter.toLowerCase()} insurance applications found.`
                   : "Once you make a payment for your insurance applications, they will appear here."
                 }
               </p>
-              {searchTerm && (
+              {(searchTerm || categoryFilter !== 'ALL') && (
                 <button
-                  onClick={() => setSearchTerm("")}
+                  onClick={() => {
+                    setSearchTerm("");
+                    setCategoryFilter('ALL');
+                  }}
                   className="px-4 py-2 bg-amber-500 text-white rounded-xl font-semibold hover:bg-amber-600 transition-colors"
                 >
-                  Clear Search
+                  Clear Filters
                 </button>
               )}
             </div>
@@ -1002,6 +1059,7 @@ const PaidApplications: React.FC = () => {
             {/* Results Count */}
             <div className="text-center text-amber-600 text-sm">
               Showing {filteredApplications.length} of {applications.length} application{applications.length !== 1 ? 's' : ''}
+              {categoryFilter !== 'ALL' && ` in ${categoryFilter}`}
               {searchTerm && ` matching "${searchTerm}"`}
             </div>
           </>

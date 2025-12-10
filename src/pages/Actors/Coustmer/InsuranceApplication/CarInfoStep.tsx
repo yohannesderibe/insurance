@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useLocation ,Navigate, useNavigate } from "react-router-dom";
 import StepProgress from "../../../../reusable/UI/StepProgress";
 import { useInsuranceApplication, type CarInfo } from "../../../../context/InsuranceApplicationContext";
 import { useAuth } from "../../../../context/AuthContext";
-import { applyMotorInsurance } from "../../../../api/Coustomer/applications/motorInsuranceApi";
+import {  previewMotorInsurance  } from "../../../../api/Coustomer/applications/motorInsuranceApi";
 
 // Correct insurance type values from backend API
 const insuranceTypeOptions = [
@@ -13,6 +13,7 @@ const insuranceTypeOptions = [
 
 const CarInfoStep: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { 
     carInfo, 
     setCarInfo, 
@@ -21,10 +22,31 @@ const CarInfoStep: React.FC = () => {
   } = useInsuranceApplication();
   const { user } = useAuth();
 
-  if (!personalInfo) {
-    return <Navigate to="/apply/personal-info" replace />;
-  }
+  // if (!personalInfo) {
+  //   return <Navigate to="/apply/personal-info" replace />;
+  // }
+  const hasRequiredPersonalInfo = () => {
+    if (!personalInfo) return false;
+    
+    // Check for the most critical fields
+    const requiredFields = [
+      'categoryId',
+      'subCategoryId',
+      'fullName',
+      'email'
+    ];
+    
+    return requiredFields.every(field => 
+      personalInfo[field as keyof typeof personalInfo] && 
+      String(personalInfo[field as keyof typeof personalInfo]).trim() !== ''
+    );
+  };
 
+  // Redirect if no personal info
+  if (!hasRequiredPersonalInfo()) {
+    console.log("Redirecting: Missing personal info", personalInfo);
+    return <Navigate to="/apply/personal-info" replace state={{ from: location.pathname }} />;
+  }
   // Update form state to include all backend fields
   const [form, setForm] = useState({
     categoryId: personalInfo.categoryId || "",
@@ -34,9 +56,14 @@ const CarInfoStep: React.FC = () => {
     yearOfManufacture: carInfo?.yearOfManufacture ?? "",
     engineNumber: carInfo?.engineNumber ?? "",
     chassisNumber: carInfo?.chassisNumber ?? "",
-    insuranceType: ""
+    insuranceType:carInfo?.insuranceType || ""
   });
 
+    useEffect(() => {
+    console.log("CarInfoStep mounted with personalInfo:", personalInfo);
+    console.log("CarInfoStep mounted with carInfo:", carInfo);
+  }, []);
+  
   // Add state for file uploads
   const [carImage, setCarImage] = useState<File | null>(null);
   const [carLibreImage, setCarLibreImage] = useState<File | null>(null);
@@ -162,7 +189,7 @@ const CarInfoStep: React.FC = () => {
       }
 
       // Use the API function instead of fetch directly
-      const backendData = await applyMotorInsurance(formData);
+      const backendData = await previewMotorInsurance(formData);
       console.log("Backend API Response:", backendData);
       
       // Save the backend response to context

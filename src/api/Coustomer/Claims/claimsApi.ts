@@ -15,4 +15,3 @@ export const getCustomerClaims = async (): Promise<CustomerClaim[]> => {
     return customerClaims;
   }
 };
-
