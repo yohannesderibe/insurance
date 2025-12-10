@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
-import { 
-  Shield, 
-  LayoutDashboard, 
-  FolderKanban, 
-  FileText, 
-  AlertCircle, 
+import {
+  LayoutDashboard,
+  FolderKanban,
+  FileText,
+  AlertCircle,
   User,
   Menu,
   X,
@@ -63,14 +62,13 @@ const CustomerTopNav: React.FC = () => {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br  flex items-center justify-center shadow-sm">
-                <Shield className="w-6 h-6 text-white" />
-                <img src="/src/assets/bee-logo.png" alt="Logo" className="h-10" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-sm">
+                <img src="/src/assets/bee-logo.png" alt="Logo" className="w-6 h-6 object-contain" />
               </div>
               <div>
                 <h1 className="text-lg font-bold text-neutral-800">NIB Insurance</h1>
                 {/* <p className="text-xs text-neutral-500">Customer Portal</p> */}
-                
+
               </div>
             </div>
 
@@ -81,10 +79,9 @@ const CustomerTopNav: React.FC = () => {
                   key={item.to}
                   to={item.to}
                   className={({ isActive }) =>
-                    `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      isActive
-                        ? "bg-amber-50 text-amber-700 shadow-sm"
-                        : "text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900"
+                    `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive
+                      ? "bg-amber-50 text-amber-700 shadow-sm"
+                      : "text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900"
                     }`
                   }
                 >
@@ -108,7 +105,7 @@ const CustomerTopNav: React.FC = () => {
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="text-neutral-400 hover:text-neutral-600 transition-colors"
                 >
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w - 4 h - 4 transition - transform duration - 200 ${isDropdownOpen ? 'rotate-180' : ''} `} />
                 </button>
               </div>
 
@@ -147,8 +144,8 @@ const CustomerTopNav: React.FC = () => {
       <header className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-neutral-200/50 shadow-sm">
         <div className="flex items-center justify-between h-16 px-4">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
-              <Shield className="w-5 h-5 text-white" />
+            <div className="w-14 h-14 rounded-lg flex items-center justify-center">
+              <img src="/src/assets/bee-logo.png" alt="Logo" className="w-14 h-14 object-contain" />
             </div>
             <div>
               <h1 className="text-sm font-bold text-neutral-800">Insurance</h1>
@@ -170,11 +167,11 @@ const CustomerTopNav: React.FC = () => {
       {isMobileMenuOpen && (
         <>
           {/* Overlay */}
-          <div 
+          <div
             className="lg:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-50 animate-in fade-in duration-200"
             onClick={() => setIsMobileMenuOpen(false)}
           />
-          
+
           {/* Sidebar */}
           <aside className="lg:hidden fixed top-16 left-0 bottom-0 w-72 bg-white border-r border-neutral-200/50 shadow-xl z-50 overflow-y-auto animate-in slide-in-from-left duration-300">
             <div className="p-6">
@@ -197,10 +194,9 @@ const CustomerTopNav: React.FC = () => {
                     to={item.to}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={({ isActive }) =>
-                      `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-                        isActive
-                          ? "bg-amber-50 text-amber-700 shadow-sm"
-                          : "text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900"
+                      `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isActive
+                        ? "bg-amber-50 text-amber-700 shadow-sm"
+                        : "text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900"
                       }`
                     }
                   >
