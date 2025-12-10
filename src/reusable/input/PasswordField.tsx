@@ -10,6 +10,7 @@ interface PasswordFieldProps {
   label?: string;
   placeholder?: string;
   errorText?: string;
+  compact?: boolean;
 }
 
 const PasswordField: React.FC<PasswordFieldProps> = ({
@@ -18,6 +19,7 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
   label = 'Password',
   placeholder = 'Enter your password',
   errorText,
+  compact = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -25,9 +27,11 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <label htmlFor="password" className="text-sm font-medium text-gray-600">
-        {label}
-      </label>
+      {!compact && (
+        <label htmlFor="password" className="text-sm font-medium text-gray-600">
+          {label}
+        </label>
+      )}
       <InputBase
         id="password"
         type={showPassword ? 'text' : 'password'}
@@ -42,33 +46,33 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
         }
         endAdornment={
           <InputAdornment position="end">
-            <IconButton onClick={togglePasswordVisibility} edge="end"    tabIndex={-1}
-    sx={{ p: 0.5 }}
-    >
+            <IconButton onClick={togglePasswordVisibility} edge="end" tabIndex={-1}
+              sx={{ p: 0.5 }}
+            >
               {showPassword ? <VisibilityOff /> : <Visibility />}
             </IconButton>
           </InputAdornment>
         }
-      sx={{
-  width: '100%',
-  maxWidth: '100%',
-  height: '48px',
-  border: '1px solid #FBBF24', // bright yellow border
-  borderRadius: '8px',
-  px: 2,
-  fontSize: '0.875rem',
-  color: '#000',
-  backgroundColor: '#fff',
-  '& input::placeholder': {
-    color: '#9CA3AF',
-    opacity: 1,
-  },
-  '&:focus-within': {
-    boxShadow: '0px 0px 0px 4px rgba(251, 191, 36, 0.25)', // yellow focus glow
-    borderColor: '#FBBF24', // keep yellow when focused
-  },
-  transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
-}}
+        sx={{
+          width: '100%',
+          maxWidth: '100%',
+          height: compact ? '40px' : '48px',
+          border: '1px solid #FBBF24', // bright yellow border
+          borderRadius: '8px',
+          px: 2,
+          fontSize: '0.875rem',
+          color: '#000',
+          backgroundColor: '#fff',
+          '& input::placeholder': {
+            color: '#9CA3AF',
+            opacity: 1,
+          },
+          '&:focus-within': {
+            boxShadow: '0px 0px 0px 4px rgba(251, 191, 36, 0.25)', // yellow focus glow
+            borderColor: '#FBBF24', // keep yellow when focused
+          },
+          transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
+        }}
 
       />
       {errorText && (

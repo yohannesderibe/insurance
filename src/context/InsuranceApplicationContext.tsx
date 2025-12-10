@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, type ReactNode } from "react";
 
 export interface PersonalInfo {
+  clientId?: string;
   fullName: string;
   fathersName: string;
   grandfathersName: string;
@@ -20,15 +21,21 @@ export interface PersonalInfo {
 }
 
 export interface CarInfo {
-  carName: string;
+  // carName: string;
   modelNumber: string;
-  carType: string;
-  fuelType: string;
+  // carType: string;
+  // fuelType: string;
   yearOfManufacture: string;
   registrationNumber: string;
   engineNumber: string;
   chassisNumber: string;
-  marketPrice: number;
+  // marketPrice: number;
+  // Add these fields for backend API
+  categoryId?: string;
+  subCategoryId?: string;
+  model?: string;
+  plateNumber?: string;
+  insuranceType?: "Full" | "ThirdParty" | "";
 }
 
 export interface CoverageSelection {
@@ -44,6 +51,31 @@ export interface CalculationTotals {
   total: number;
 }
 
+// Add this interface for backend response
+export interface BackendApplicationResponse {
+  applicationId: string;
+  clientId: string;
+  categoryName: string;
+  subCategoryName: string;
+  model: string;
+  plateNumber: string;
+  yearOfManufacture: number;
+  engineNumber: string;
+  chassisNumber: string;
+  marketPrice: number;
+  calculatedPremium: number;
+  insuranceType: string;
+  status: string;
+  createdAt: string;
+  message: string;
+  clientFullName: string;
+  clientEmail: string;
+  clientPhoneNumber: string;
+  clientGender: string;
+  clientDateOfBirth: string;
+  clientNationalIdOrPassport: string;
+}
+
 interface InsuranceApplicationContextValue {
   personalInfo: PersonalInfo | null;
   setPersonalInfo: (info: PersonalInfo) => void;
@@ -55,6 +87,11 @@ interface InsuranceApplicationContextValue {
   setCalculationTotals: (totals: CalculationTotals | null) => void;
   financeDecision: "approved" | "rejected" | null;
   setFinanceDecision: (decision: "approved" | "rejected" | null) => void;
+  
+  // Add backend application data
+  backendApplicationData: BackendApplicationResponse | null;
+  setBackendApplicationData: (data: BackendApplicationResponse | null) => void;
+  
   resetApplication: () => void;
 }
 
@@ -73,13 +110,17 @@ export const InsuranceApplicationProvider = ({ children }: { children: ReactNode
   const [coverages, setCoveragesState] = useState<CoverageSelection>(defaultCoverages);
   const [calculationTotals, setCalculationTotalsState] = useState<CalculationTotals | null>(null);
   const [financeDecision, setFinanceDecisionState] = useState<"approved" | "rejected" | null>(null);
-
+  
+  // Add state for backend data
+  const [backendApplicationData, setBackendApplicationDataState] = useState<BackendApplicationResponse | null>(null);
+  
   const resetApplication = () => {
     setPersonalInfoState(null);
     setCarInfoState(null);
     setCoveragesState(defaultCoverages);
     setCalculationTotalsState(null);
     setFinanceDecisionState(null);
+    setBackendApplicationDataState(null);
   };
 
   const value: InsuranceApplicationContextValue = {
@@ -93,6 +134,11 @@ export const InsuranceApplicationProvider = ({ children }: { children: ReactNode
     setCalculationTotals: setCalculationTotalsState,
     financeDecision,
     setFinanceDecision: setFinanceDecisionState,
+    
+    // Backend data
+    backendApplicationData,
+    setBackendApplicationData: setBackendApplicationDataState,
+    
     resetApplication
   };
 
@@ -106,4 +152,3 @@ export const useInsuranceApplication = () => {
   }
   return ctx;
 };
-

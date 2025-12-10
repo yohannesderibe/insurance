@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { 
-  Shield, 
-  FileText, 
-  CreditCard, 
+import {
+  Shield,
+  FileText,
+  CreditCard,
   AlertTriangle,
   TrendingUp,
   Users,
@@ -69,15 +69,15 @@ const CoustmerDash: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {stats.map((stat, index) => (
-            <div key={index} className="bg-white rounded-2xl shadow-sm border border-neutral-200/50 p-6 hover:shadow-md transition-shadow">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-neutral-500">{stat.label}</p>
-                  <p className="text-2xl font-bold text-neutral-800">{stat.value}</p>
+            <div key={index} className="bg-white rounded-2xl shadow-sm border border-neutral-200/50 p-4 sm:p-6 hover:shadow-md transition-shadow">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="order-2 sm:order-1">
+                  <p className="text-sm font-medium text-neutral-500 whitespace-nowrap">{stat.label}</p>
+                  <p className="text-xl sm:text-2xl font-bold text-neutral-800">{stat.value}</p>
                 </div>
-                <div className={`p-3 rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 ${stat.color}`}>
+                <div className={`order-1 sm:order-2 self-start sm:self-center p-3 rounded-xl bg-gradient-to-br from-amber-50 to-amber-100 ${stat.color}`}>
                   {stat.icon}
                 </div>
               </div>
@@ -121,19 +121,17 @@ const CoustmerDash: React.FC = () => {
                 {recentActivities.map((activity, index) => (
                   <div key={index} className="flex items-center justify-between p-4 bg-neutral-50 rounded-xl hover:bg-neutral-100 transition-colors">
                     <div className="flex items-center">
-                      <div className={`w-3 h-3 rounded-full mr-3 ${
-                        activity.status === 'completed' ? 'bg-green-500' : 'bg-amber-500'
-                      }`} />
+                      <div className={`w-3 h-3 rounded-full mr-3 ${activity.status === 'completed' ? 'bg-green-500' : 'bg-amber-500'
+                        }`} />
                       <div>
                         <p className="font-medium text-neutral-800">{activity.action}</p>
                         <p className="text-sm text-neutral-500">{activity.date}</p>
                       </div>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      activity.status === 'completed' 
-                        ? 'bg-green-100 text-green-700' 
-                        : 'bg-amber-100 text-amber-700'
-                    }`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${activity.status === 'completed'
+                      ? 'bg-green-100 text-green-700'
+                      : 'bg-amber-100 text-amber-700'
+                      }`}>
                       {activity.status}
                     </span>
                   </div>
@@ -154,22 +152,22 @@ const CoustmerDash: React.FC = () => {
                     <h4 className="font-semibold text-blue-900">Home Insurance</h4>
                   </div>
                   <p className="text-sm text-blue-700 mb-3">Protect your home with comprehensive coverage</p>
-                  <Link 
-                    to="/categories" 
+                  <Link
+                    to="/categories"
                     className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors"
                   >
                     Learn More →
                   </Link>
                 </div>
-                
+
                 <div className="p-4 bg-green-50 rounded-xl hover:bg-green-100 transition-colors">
                   <div className="flex items-center mb-2">
                     <Users className="w-5 h-5 text-green-600 mr-2" />
                     <h4 className="font-semibold text-green-900">Family Plan</h4>
                   </div>
                   <p className="text-sm text-green-700 mb-3">Save 15% with our family insurance bundle</p>
-                  <Link 
-                    to="/categories" 
+                  <Link
+                    to="/categories"
                     className="text-green-600 hover:text-green-700 text-sm font-medium transition-colors"
                   >
                     View Plans →

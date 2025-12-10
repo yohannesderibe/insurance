@@ -28,7 +28,7 @@ const QuickStats: React.FC = () => {
 
   const animateCounter = (element: HTMLDivElement | null, target: number, suffix: string = "") => {
     if (!element) return;
-    
+
     let current = 0;
     const increment = target / 100;
     const timer = setInterval(() => {
@@ -45,26 +45,26 @@ const QuickStats: React.FC = () => {
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="text-center p-4 sm:p-0">
             <div ref={yearsCounterRef} className="text-4xl font-bold text-primary mb-2">
               0
             </div>
             <div className="text-gray-600">Years of Service</div>
           </div>
-          <div className="text-center">
+          <div className="text-center p-4 sm:p-0">
             <div ref={customersCounterRef} className="text-4xl font-bold text-primary mb-2">
               0
             </div>
             <div className="text-gray-600">Satisfied Customers</div>
           </div>
-          <div className="text-center">
+          <div className="text-center p-4 sm:p-0">
             <div ref={branchesCounterRef} className="text-4xl font-bold text-primary mb-2">
               0
             </div>
             <div className="text-gray-600">Branch Network</div>
           </div>
-          <div className="text-center">
+          <div className="text-center p-4 sm:p-0">
             <div ref={claimsCounterRef} className="text-4xl font-bold text-primary mb-2">
               0
             </div>

@@ -352,7 +352,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import {InsuranceApplicationProvider } from '../context/InsuranceApplicationContext'
 // Type definitions
 type Role = 'admin' | 'customer' | 'finance' | 'manager' | 'operator';
-
+import { LifeInsuranceProvider } from '../context/LifeInsuranceContext';
 // Lazy-loaded components
 const FirstPage = lazy(() => import('../pages/FirstPage'));
 const SignIn = lazy(() => import('../pages/Auth/signin'));
@@ -384,11 +384,10 @@ const InsuranceCalculationStep = lazy(() => import('../pages/Actors/Coustmer/Ins
 const HealthInfoStep = lazy(() => import('../pages/Actors/Coustmer/InsuranceApplication/HealthInfoStep'));
 const LifeInfoStep = lazy(() => import('../pages/Actors/Coustmer/InsuranceApplication/LifeInfoStep'));
 const InsuranceCarStep = lazy(() => import('../pages/Actors/Coustmer/InsuranceApplication/CarInfoStep'));
-
 // const InsuranceCategories = lazy(() => import('../pages/Actors/Coustmer/InsuranceCategories'));
 // const CategoryDetails = lazy(() => import('../pages/Actors/Coustmer/CategoryDetails'));
 // const InsurancePurchase = lazy(() => import('../pages/Actors/Coustmer/InsurancePurchase'));
-// const ClientProfilePage = lazy(() => import('../pages/Actors/Coustmer/ClientProfilePage'));
+ const ClientProfilePage = lazy(() => import('../pages/Actors/Coustmer/myprofile/MyProfile'));
 const CoustomerInsuranceCategories = lazy(() => import('../pages/Actors/Coustmer/Catagory/CategoryPage'));
 const CoustomerInsuranceSubCategories = lazy(() => import('../pages/Actors/Coustmer/Catagory/Subcategories'));
 
@@ -397,7 +396,7 @@ const CoustomerInsuranceSubCategories = lazy(() => import('../pages/Actors/Coust
 const OperatingDash = lazy(() => import('../pages/Actors/OperatingOfficer/OpDash'));
 const OperatingOfficerClaimReview = lazy(() => import('../pages/Actors/OperatingOfficer/OperatingOfficerClaimReview'));
 const ClaimDetails = lazy(() => import('../pages/Actors/OperatingOfficer/ClaimDetails'));
-
+const RecentPayment = lazy(() => import ("../pages/Actors/OperatingOfficer/might-Remove/RecentPayments"))
 // Finance Officer Pages
 const FinanceDash = lazy(() => import('../pages/Actors/Finance/FinanceDash'));
 const FinanceApplications = lazy(() => import('../pages/Actors/Finance/FinanceApplications'));
@@ -606,6 +605,15 @@ const AppRoutes: React.FC = () => {
         />
 
 
+             <Route 
+          path="/customer/profile" 
+          element={
+            <CustomerLayout>
+              <ClientProfilePage />
+            </CustomerLayout>
+          } 
+        />
+
         {/* <Route 
           path="/categories" 
           element={
@@ -630,14 +638,7 @@ const AppRoutes: React.FC = () => {
             </CustomerLayout>
           } 
         />
-        <Route 
-          path="/customer/profile" 
-          element={
-            <CustomerLayout>
-              <ClientProfilePage />
-            </CustomerLayout>
-          } 
-        />
+       
         <Route 
           path="/customer/profile/:id" 
           element={
@@ -653,9 +654,9 @@ const AppRoutes: React.FC = () => {
         <Route path='/apply/personal-info'
         element={
           <CustomerLayout>
-            <InsuranceApplicationProvider>
+           
             <InsurancePersonalStep />
-            </InsuranceApplicationProvider>
+           
             </CustomerLayout>
         }
         />
@@ -663,7 +664,9 @@ const AppRoutes: React.FC = () => {
         <Route path='/apply/insurance-calculation'
         element={
           <CustomerLayout>
+         
             <InsuranceCalculationStep />
+         
             </CustomerLayout>
         }
         />
@@ -675,6 +678,7 @@ const AppRoutes: React.FC = () => {
             </CustomerLayout>
         }
         />
+         
 
         <Route  path='/apply/life-info'
         element={
@@ -688,7 +692,7 @@ const AppRoutes: React.FC = () => {
         element={
           <CustomerLayout>
             <InsuranceCarStep />
-            </CustomerLayout>
+          </CustomerLayout>
         }
         />
 
@@ -699,14 +703,14 @@ const AppRoutes: React.FC = () => {
             </CustomerLayout>
         }
         />
-        <Route path='/payment/process'
+        <Route path='/insurance/apply/payment'
         element={
           <CustomerLayout>
             <PaymentStep/>
-            </CustomerLayout>
+          </CustomerLayout>
         }
         />
-        <Route path='/payment/rejection'
+        <Route path='/insurance/apply/rejected'
         element={
           <CustomerLayout>
             <RejectionPage/>
@@ -732,6 +736,12 @@ const AppRoutes: React.FC = () => {
           path="/operatingofficer/claim-details/:id" 
           element={<ProtectedRouteWrapper role="operator" component={ClaimDetails} />} 
         />
+
+        <Route 
+            path='/Recent-transaction'
+            element={<ProtectedRouteWrapper role="operator" component={RecentPayment} />}
+
+          />
 
 
 

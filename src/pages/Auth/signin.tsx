@@ -120,11 +120,11 @@
 
 //       // Use real API instead of mock
 //       const response = await authApi.login(email, password);
-      
+
 //       // Store token and user data
 //       localStorage.setItem("token", response.token);
 //       localStorage.setItem("user", JSON.stringify(response.user));
-      
+
 //       navigate("/dashboard");
 //     }  catch (err: unknown) {
 //   if (err instanceof Error) {
@@ -180,22 +180,22 @@
 
 // export default LoginPage;
 
-//try3
-// src/pages/LoginPage.tsx
+//try3// src/pages/LoginPage.tsx
 import React, { useState } from "react";
 import EmailField from "../../reusable/input/EmailField";
 import PasswordField from "../../reusable/input/PasswordField";
 import logo from "../../assets/bee-logo.png";
 import bgImage from "../../assets/login.png";
 import { useNavigate } from "react-router-dom";
-import authApi from "../../api/auth/auth"; 
-import { jwtDecode } from "jwt-decode"; // ✅ add this
+import authApi from "../../api/auth/auth";
+import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../../context/AuthContext";
 
-// Define the shape of your token payload
+// Token structure
 interface DecodedToken {
   role?: string;
   exp?: number;
-  [key: string]: string|number|undefined; // for any other claims
+  [key: string]: any;
 }
 
 const LoginPage: React.FC = () => {
@@ -203,18 +203,20 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
-  // ✅ role → route mapping
-     const roleRoutes: Record<string, string> = {
-      superadmin: "/admin-dash",
-      admin: "/admindash",
-      manager: "/managerdash",
-      operator: "/operatingdash",     // map Operator → operator
-      operatingofficer: "/operatingdash",
-      finance: "/financedash",
-      client: "/customerdash",
-    };
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  // Role → Route mapping
+  const roleRoutes: Record<string, string> = {
+    superadmin: "/admin-dash",
+    admin: "/admindash",
+    manager: "/managerdash",
+    operator: "/operatingdash",
+    operatingofficer: "/operatingdash",
+    finance: "/financedash",
+    client: "/customerdash",
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -228,40 +230,41 @@ const LoginPage: React.FC = () => {
     try {
       setLoading(true);
 
-      // Call real API
+      // 1️⃣ Call API
       const response = await authApi.login(email, password);
       console.log("🔑 API Response:", response);
 
-      // Save token + user
+      // 2️⃣ Store token & user
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
 
-      // ✅ Decode JWT
+      // 3️⃣ Decode JWT
       const decoded: DecodedToken = jwtDecode(response.token);
       console.log("📜 Decoded JWT:", decoded);
 
-      // Role comes from token first, fallback to response.user
-const roleFromToken =
-      decoded.role ||
-      decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
-      decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role"];     
-      
-      const roleFromUser = response.user?.role;
-const rawRole = roleFromToken || roleFromUser || "";
-const role = String(rawRole).toLowerCase(); // ✅ Fix: always a string
-      console.log("🎭 Role from token:", roleFromToken);
-      console.log("👤 Role from user object:", roleFromUser);
-      console.log("✅ Final resolved role:", role);
+      // 4️⃣ Extract role from token or user object
+      const roleFromToken =
+        decoded.role ||
+        decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
+        decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role"];
 
-      if (role && roleRoutes[role]) {
-        console.log(`🚀 Redirecting to: ${roleRoutes[role]}`);
+      const roleRaw = roleFromToken || response.user?.role || "";
+      const role = String(roleRaw).toLowerCase();
+
+      console.log("🎭 Resolved role:", role);
+
+      // 5️⃣ Update AuthContext
+      await login(email, password);
+
+      // 6️⃣ Redirect based on role
+      if (role in roleRoutes) {
         navigate(roleRoutes[role]);
       } else {
-        console.warn("⚠️ Unknown role, cannot redirect:", role);
         setError("Unknown or unsupported user role");
       }
     } catch (err: unknown) {
       console.error("❌ Login error:", err);
+
       if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -274,10 +277,10 @@ const role = String(rawRole).toLowerCase(); // ✅ Fix: always a string
 
   return (
     <div
-      className="h-screen w-screen flex items-center justify-center bg-cover bg-center"
+      className="min-h-screen w-full flex items-center justify-center bg-cover bg-center p-4"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
-      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 sm:p-8">
         <div className="flex flex-col items-center mb-6">
           <img src={logo} alt="Logo" className="h-16 w-16 mb-2" />
           <h1 className="text-lg font-bold text-gray-700">
@@ -286,11 +289,9 @@ const role = String(rawRole).toLowerCase(); // ✅ Fix: always a string
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+
           <EmailField value={email} onChange={(e) => setEmail(e.target.value)} />
-          <PasswordField
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <PasswordField value={password} onChange={(e) => setPassword(e.target.value)} />
 
           {error && <p className="text-red-600 text-sm">{error}</p>}
 
@@ -307,7 +308,7 @@ const role = String(rawRole).toLowerCase(); // ✅ Fix: always a string
               Forgot Password?
             </a>
             <a href="/selfcreatedclient" className="hover:text-yellow-500">
-              Create Account(Client only)
+              Create Account (Client only)
             </a>
           </div>
         </form>

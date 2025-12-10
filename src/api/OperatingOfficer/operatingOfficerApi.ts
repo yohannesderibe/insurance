@@ -1,4 +1,4 @@
-import { customerClaims, type CustomerClaim } from "../mockdata/claims";
+import { customerClaims, type CustomerClaim } from "../../mockdata/claims";
 
 export const getClaims = async (): Promise<CustomerClaim[]> => {
   await new Promise(res => setTimeout(res, 300));

@@ -419,13 +419,13 @@ const CustomerCategories = () => {
       {/* Categories Section */}
       {viewMode === "grid" ? (
         // 🟢 Grid View
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className=" max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredCategories.map((cat) => (
             <Card
               key={cat.id}
               className="rounded-2xl border border-amber-100 shadow-md hover:shadow-lg transition-transform duration-300 hover:-translate-y-1 bg-gradient-to-b from-amber-50 to-white"
             >
-              <CardContent className="p-6 flex flex-col justify-between h-full">
+              <CardContent className="p-6 flex flex-col justify-between  h-full ">
                 <div className="flex items-center justify-between mb-3">
                   <div className="bg-amber-100 p-3 rounded-full">
                     <FiShield className="text-amber-600 text-2xl" />
