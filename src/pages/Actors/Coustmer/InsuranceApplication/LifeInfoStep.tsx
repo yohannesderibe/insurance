@@ -28,7 +28,7 @@
 //     personalInfo,
 //     setCalculationTotals
 //   } = useInsuranceApplication();
-  
+
 //   const {
 //     lifeInfo: contextLifeInfo,
 //     setLifeInfo,
@@ -102,9 +102,9 @@
 //       "weight",
 //       "lifeInsuranceType"
 //     ];
-    
+
 //     const newErrors: Record<string, string> = {};
-    
+
 //     requiredFields.forEach((field) => {
 //       const value = form[field];
 //       if (
@@ -162,14 +162,14 @@
 //       const confirmedData = await lifeApiService.confirmLifeApplication(previewData.applicationId);
 //       setBackendLifeApplicationData(confirmedData);
 //       setShowPreview(false);
-      
+
 //       // Save calculation totals to main context
 //       setCalculationTotals({
 //         basePrice: confirmedData.lifePrice || 0,
 //         optionalTotal: 0,
 //         total: confirmedData.lifePrice || 0
 //       });
-      
+
 //       // Navigate to calculation step
 //       navigate("/insurance/apply/calculation");
 //     } catch (error) {
@@ -396,7 +396,7 @@
 //           <div className="space-y-8">
 //             <div className="bg-green-50 rounded-2xl p-6 border border-green-200">
 //               <h2 className="text-xl font-bold text-green-900 mb-4">Application Preview</h2>
-              
+
 //               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 //                 <div>
 //                   <h3 className="text-sm font-medium text-green-700">Personal Information</h3>
@@ -405,7 +405,7 @@
 //                   <p><span className="font-semibold">Height:</span> {previewData?.height} cm</p>
 //                   <p><span className="font-semibold">Weight:</span> {previewData?.weight} kg</p>
 //                 </div>
-                
+
 //                 <div>
 //                   <h3 className="text-sm font-medium text-green-700">Insurance Details</h3>
 //                   <p className="mt-2"><span className="font-semibold">Type:</span> {previewData?.lifeInsuranceType}</p>
@@ -416,7 +416,7 @@
 //                   </p>
 //                 </div>
 //               </div>
-              
+
 //               <div className="mt-6 p-4 bg-yellow-50 rounded-xl border border-yellow-200">
 //                 <p className="text-sm text-yellow-800">{previewData?.message}</p>
 //                 <p className="text-xs text-yellow-600 mt-2">Application ID: {previewData?.applicationId}</p>
@@ -506,19 +506,19 @@ const LifeInfoStep: React.FC = () => {
     subCategoryId: LIFE_SUBCATEGORY_ID,
     message: ""
   }));
-  
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
 
   const handleChange = (field: keyof LifeInfo, value: string) => {
     setForm((prev) => ({
       ...prev,
-      [field]: 
+      [field]:
         field === "age" ||
-        field === "height" ||
-        field === "weight" ||
-        field === "coverageAmount" ||
-        field === "policyTermYears"
+          field === "height" ||
+          field === "weight" ||
+          field === "coverageAmount" ||
+          field === "policyTermYears"
           ? Number(value)
           : value
     }));
@@ -532,9 +532,9 @@ const LifeInfoStep: React.FC = () => {
       "weight",
       "lifeInsuranceType"
     ];
-    
+
     const newErrors: Record<string, string> = {};
-    
+
     requiredFields.forEach((field) => {
       const value = form[field];
       if (
@@ -564,7 +564,7 @@ const LifeInfoStep: React.FC = () => {
     try {
       // Save life info to context
       setLifeInfo(form);
-      
+
       // Navigate to calculation step
       navigate("/apply/insurance-calculation");
     } catch (error) {
@@ -578,7 +578,7 @@ const LifeInfoStep: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50 py-10 px-4 md:px-8">
       <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl border border-green-100 p-6 md:p-10">
-        <StepProgress currentStep={2} />
+        <StepProgress currentStep={2} insuranceType="life" />
 
         <header className="mb-8">
           <p className="text-sm text-green-600 font-semibold uppercase tracking-wide">
@@ -642,11 +642,10 @@ const LifeInfoStep: React.FC = () => {
                   key={type}
                   type="button"
                   onClick={() => handleChange("lifeInsuranceType", type)}
-                  className={`px-6 py-3 rounded-2xl border font-semibold text-sm transition-colors ${
-                    form.lifeInsuranceType === type
+                  className={`px-6 py-3 rounded-2xl border font-semibold text-sm transition-colors ${form.lifeInsuranceType === type
                       ? "bg-green-600 text-white border-green-600"
                       : "bg-white text-green-700 border-green-200 hover:bg-green-50"
-                  }`}
+                    }`}
                 >
                   {type === "FullLife" ? "Full Life" : "Half Life"}
                 </button>

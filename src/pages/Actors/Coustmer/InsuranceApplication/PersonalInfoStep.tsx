@@ -73,7 +73,7 @@
 //       try {
 //         const profile = await getClientProfile();
 //         setClientProfile(profile);
-        
+
 //         // Pre-fill form with profile data (exact field matching)
 //         setForm(prev => ({
 //           ...prev,
@@ -201,7 +201,7 @@
 //         } catch {}
 //       }
 //       const clientIdToUse = clientProfile?.id || user?.id || clientIdFallback;
-      
+
 //       console.log("Continuing with clientId:", clientIdToUse);
 //       setPersonalInfo({
 //         ...form,
@@ -252,7 +252,7 @@
 //                 }
 //               </p>
 //             </div>
-            
+
 //             {clientProfile && (
 //               <div className="bg-green-50 border border-green-200 rounded-xl p-3">
 //                 <p className="text-green-700 text-sm font-medium">
@@ -310,7 +310,7 @@
 //             <h2 className="text-lg font-semibold text-amber-900 mb-4">
 //               {clientProfile ? "Review Your Information" : "Personal Details"}
 //             </h2>
-            
+
 //             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 //               {/* Only include fields that exist in backend response */}
 //               {[
@@ -466,27 +466,27 @@ const genders = ["Male", "Female"];
 // Helper function to detect insurance type from category
 const detectInsuranceTypeFromCategory = (category: CategoryOption): 'motor' | 'life' | null => {
   if (!category) return null;
-  
+
   const name = category.name.toLowerCase();
-  
+
   // Check by category properties
   const hasLifeProperties = category.halfLifePrice !== null || category.fullLifePrice !== null;
   const hasMotorProperties = category.fullInsurancePercentage !== null || category.thirdPartyPercentage !== null;
-  
+
   if (hasLifeProperties) return 'life';
   if (hasMotorProperties) return 'motor';
-  
+
   // Check by name patterns
   const motorPatterns = ['motor', 'car', 'vehicle', 'auto', 'automobile'];
   const lifePatterns = ['life', 'health', 'medical', 'lif', 'hea'];
-  
+
   if (motorPatterns.some(pattern => name.includes(pattern))) return 'motor';
   if (lifePatterns.some(pattern => name.includes(pattern))) return 'life';
-  
+
   // Check first letters
   if (name.startsWith('m') || name.startsWith('mo') || name.startsWith('ve')) return 'motor';
   if (name.startsWith('l') || name.startsWith('li') || name.startsWith('he')) return 'life';
-  
+
   return null;
 };
 
@@ -501,7 +501,7 @@ const PersonalInfoStep: React.FC = () => {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [clientProfile, setClientProfile] = useState<ClientProfile | null>(null);
   const [documents, setDocuments] = useState<File[]>(personalInfo?.documents ?? []);
-  
+
   // Track selected category for insurance type detection
   const [selectedCategory, setSelectedCategory] = useState<CategoryOption | null>(null);
   const [insuranceType, setInsuranceType] = useState<'motor' | 'life' | null>(null);
@@ -532,7 +532,7 @@ const PersonalInfoStep: React.FC = () => {
       try {
         const profile = await getClientProfile();
         setClientProfile(profile);
-        
+
         setForm(prev => ({
           ...prev,
           fullName: profile.firstName,
@@ -596,7 +596,7 @@ const PersonalInfoStep: React.FC = () => {
           thirdPartyPercentage: sub.thirdPartyPercentage
         }));
         setSubCategories(mappedSubcategories);
-        
+
         // Find and set selected category
         const category = categories.find(c => c.id === form.categoryId);
         if (category) {
@@ -671,13 +671,13 @@ const PersonalInfoStep: React.FC = () => {
 
   const getButtonText = (): string => {
     if (!insuranceType) return "Continue";
-    
+
     if (insuranceType === 'motor') {
       return "Continue to Car Information";
     } else if (insuranceType === 'life') {
       return "Continue to Life Insurance Details";
     }
-    
+
     return "Continue";
   };
 
@@ -694,14 +694,14 @@ const PersonalInfoStep: React.FC = () => {
         try {
           const decoded: any = jwtDecode(storedToken);
           clientIdFallback = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-        } catch {}
+        } catch { }
       }
       const clientIdToUse = clientProfile?.id || user?.id || clientIdFallback;
-      
+
       // Find category and subcategory names
       const category = categories.find((c) => c.id === form.categoryId);
       const subCategory = subCategories.find((s) => s.id === form.subCategoryId);
-      
+
       setPersonalInfo({
         ...form,
         clientId: clientIdToUse,
@@ -709,9 +709,9 @@ const PersonalInfoStep: React.FC = () => {
         subCategoryName: subCategory?.name,
         documents
       });
-      
+
       setSubmitting(false);
-      
+
       // Navigate to appropriate step based on insurance type
       const nextStep = getNextStep();
       console.log(`Navigating to: ${nextStep} (insurance type: ${insuranceType})`);
@@ -742,7 +742,7 @@ const PersonalInfoStep: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-amber-50 py-10 px-4 md:px-8">
       <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl border border-amber-100 p-6 md:p-10">
-        <StepProgress currentStep={1} />
+        <StepProgress currentStep={1} insuranceType={insuranceType} />
 
         <header className="mb-8">
           <div className="flex items-center justify-between">
@@ -750,13 +750,13 @@ const PersonalInfoStep: React.FC = () => {
               <p className="text-sm text-amber-600 font-semibold uppercase tracking-wide">Step 1 of 3</p>
               <h1 className="text-3xl md:text-4xl font-bold text-amber-900 mt-2">Personal Information</h1>
               <p className="text-amber-700 mt-2">
-                {clientProfile 
+                {clientProfile
                   ? "Your profile information has been pre-filled. Review and edit if needed."
                   : "Select a category & subcategory, then provide personal details to begin your insurance application."
                 }
               </p>
             </div>
-            
+
             {clientProfile && (
               <div className="bg-green-50 border border-green-200 rounded-xl p-3">
                 <p className="text-green-700 text-sm font-medium">
@@ -772,13 +772,12 @@ const PersonalInfoStep: React.FC = () => {
           <section className="bg-amber-50 rounded-2xl p-6 border border-amber-200">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-amber-900">Insurance Selection</h2>
-              
+
               {insuranceType && (
-                <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${
-                  insuranceType === 'motor' 
-                    ? 'bg-blue-100 text-blue-800 border border-blue-200' 
+                <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${insuranceType === 'motor'
+                    ? 'bg-blue-100 text-blue-800 border border-blue-200'
                     : 'bg-red-100 text-red-800 border border-red-200'
-                }`}>
+                  }`}>
                   {insuranceType === 'motor' ? (
                     <>
                       <Car className="w-4 h-4" />
@@ -793,7 +792,7 @@ const PersonalInfoStep: React.FC = () => {
                 </div>
               )}
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="text-sm font-medium text-amber-800 mb-1 block">Category *</label>
@@ -813,7 +812,7 @@ const PersonalInfoStep: React.FC = () => {
                   })}
                 </select>
                 {errors.categoryId && <p className="text-xs text-red-600 mt-1">{errors.categoryId}</p>}
-                
+
                 {/* Category description */}
                 {selectedCategory?.description && (
                   <p className="text-xs text-amber-600 mt-2">
@@ -838,7 +837,7 @@ const PersonalInfoStep: React.FC = () => {
                   ))}
                 </select>
                 {errors.subCategoryId && <p className="text-xs text-red-600 mt-1">{errors.subCategoryId}</p>}
-                
+
                 {/* Show insurance type info */}
                 {insuranceType && (
                   <div className="mt-3 p-3 rounded-lg bg-blue-50 border border-blue-100">
@@ -876,7 +875,7 @@ const PersonalInfoStep: React.FC = () => {
             <h2 className="text-lg font-semibold text-amber-900 mb-4">
               {clientProfile ? "Review Your Information" : "Personal Details"}
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 { label: "First Name", field: "fullName", type: "text" },
@@ -937,11 +936,11 @@ const PersonalInfoStep: React.FC = () => {
           <section className="space-y-3">
             <label className="text-sm font-medium text-amber-800 block">Supporting Documents</label>
             <p className="text-sm text-amber-600">
-              {insuranceType === 'motor' 
+              {insuranceType === 'motor'
                 ? "Upload vehicle documents, driving license, ownership papers, etc."
                 : insuranceType === 'life'
-                ? "Upload identification documents, medical reports if any, etc."
-                : "Upload identification documents and any relevant supporting documents."
+                  ? "Upload identification documents, medical reports if any, etc."
+                  : "Upload identification documents and any relevant supporting documents."
               }
             </p>
             <label className="border-2 border-dashed border-amber-200 rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-amber-400 transition-colors bg-white">
@@ -980,13 +979,12 @@ const PersonalInfoStep: React.FC = () => {
           <div className="flex justify-end">
             <button
               type="submit"
-              className={`px-6 py-3 rounded-2xl font-semibold text-sm hover:opacity-90 transition-colors flex items-center gap-2 ${
-                insuranceType === 'motor'
+              className={`px-6 py-3 rounded-2xl font-semibold text-sm hover:opacity-90 transition-colors flex items-center gap-2 ${insuranceType === 'motor'
                   ? 'bg-blue-600 text-white'
                   : insuranceType === 'life'
-                  ? 'bg-red-600 text-white'
-                  : 'bg-amber-500 text-white'
-              }`}
+                    ? 'bg-red-600 text-white'
+                    : 'bg-amber-500 text-white'
+                }`}
               disabled={submitting}
             >
               {submitting ? (

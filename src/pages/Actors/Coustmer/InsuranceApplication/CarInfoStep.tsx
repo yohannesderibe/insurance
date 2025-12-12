@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useLocation ,Navigate, useNavigate } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import StepProgress from "../../../../reusable/UI/StepProgress";
 import { useInsuranceApplication, type CarInfo } from "../../../../context/InsuranceApplicationContext";
 import { useAuth } from "../../../../context/AuthContext";
-import {  previewMotorInsurance  } from "../../../../api/Coustomer/applications/motorInsuranceApi";
+import { previewMotorInsurance } from "../../../../api/Coustomer/applications/motorInsuranceApi";
 
 // Correct insurance type values from backend API
 const insuranceTypeOptions = [
@@ -14,10 +14,10 @@ const insuranceTypeOptions = [
 const CarInfoStep: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { 
-    carInfo, 
-    setCarInfo, 
-    personalInfo, 
+  const {
+    carInfo,
+    setCarInfo,
+    personalInfo,
     setBackendApplicationData
   } = useInsuranceApplication();
   const { user } = useAuth();
@@ -27,7 +27,7 @@ const CarInfoStep: React.FC = () => {
   // }
   const hasRequiredPersonalInfo = () => {
     if (!personalInfo) return false;
-    
+
     // Check for the most critical fields
     const requiredFields = [
       'categoryId',
@@ -35,9 +35,9 @@ const CarInfoStep: React.FC = () => {
       'fullName',
       'email'
     ];
-    
-    return requiredFields.every(field => 
-      personalInfo[field as keyof typeof personalInfo] && 
+
+    return requiredFields.every(field =>
+      personalInfo[field as keyof typeof personalInfo] &&
       String(personalInfo[field as keyof typeof personalInfo]).trim() !== ''
     );
   };
@@ -56,20 +56,20 @@ const CarInfoStep: React.FC = () => {
     yearOfManufacture: carInfo?.yearOfManufacture ?? "",
     engineNumber: carInfo?.engineNumber ?? "",
     chassisNumber: carInfo?.chassisNumber ?? "",
-    insuranceType:carInfo?.insuranceType || ""
+    insuranceType: carInfo?.insuranceType || ""
   });
 
-    useEffect(() => {
+  useEffect(() => {
     console.log("CarInfoStep mounted with personalInfo:", personalInfo);
     console.log("CarInfoStep mounted with carInfo:", carInfo);
   }, []);
-  
+
   // Add state for file uploads
   const [carImage, setCarImage] = useState<File | null>(null);
   const [carLibreImage, setCarLibreImage] = useState<File | null>(null);
   const [previewCarImage, setPreviewCarImage] = useState<string>("");
   const [previewCarLibreImage, setPreviewCarLibreImage] = useState<string>("");
-  
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
 
@@ -108,35 +108,35 @@ const CarInfoStep: React.FC = () => {
       "chassisNumber",
       "insuranceType"
     ];
-    
+
     const newErrors: Record<string, string> = {};
-    
+
     // Validate text fields
     requiredFields.forEach((field) => {
       if (!form[field as keyof typeof form] || String(form[field as keyof typeof form]).trim() === "") {
         newErrors[field] = "This field is required";
       }
     });
-    
+
     // Validate file uploads
     if (!carImage) {
       newErrors.carImage = "Car image is required";
     }
-    
+
     if (!carLibreImage) {
       newErrors.carLibreImage = "Car libre image is required";
     }
-    
+
     // Validate year is a valid number
     if (form.yearOfManufacture && (Number(form.yearOfManufacture) < 1900 || Number(form.yearOfManufacture) > new Date().getFullYear() + 1)) {
       newErrors.yearOfManufacture = `Please enter a valid year between 1900 and ${new Date().getFullYear() + 1}`;
     }
-    
+
     // Validate insurance type is one of the valid values
     if (form.insuranceType && !["Full", "ThirdParty"].includes(form.insuranceType)) {
       newErrors.insuranceType = "Please select a valid insurance type";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -151,13 +151,13 @@ const CarInfoStep: React.FC = () => {
 
       // Prepare FormData matching exactly the backend API
       const formData = new FormData();
-      
+
       // Make sure category and subcategory IDs are valid UUIDs
       if (!personalInfo.categoryId || !personalInfo.subCategoryId) {
         alert("Please go back and select a valid category and subcategory.");
         return;
       }
-      
+
       // Append all fields including files
       formData.append("CategoryId", personalInfo.categoryId);
       formData.append("SubCategoryId", personalInfo.subCategoryId);
@@ -167,7 +167,7 @@ const CarInfoStep: React.FC = () => {
       formData.append("EngineNumber", form.engineNumber.trim());
       formData.append("ChassisNumber", form.chassisNumber.trim());
       formData.append("InsuranceType", form.insuranceType);
-      
+
       // Append files - these field names must match the backend exactly
       if (carImage) {
         formData.append("CarImage", carImage);
@@ -191,7 +191,7 @@ const CarInfoStep: React.FC = () => {
       // Use the API function instead of fetch directly
       const backendData = await previewMotorInsurance(formData);
       console.log("Backend API Response:", backendData);
-      
+
       // Save the backend response to context
       setBackendApplicationData(backendData);
 
@@ -227,7 +227,7 @@ const CarInfoStep: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 py-10 px-4 md:px-8">
       <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl border border-blue-100 p-6 md:p-10">
-        <StepProgress currentStep={2} />
+        <StepProgress currentStep={2} insuranceType="motor" />
 
         <header className="mb-8">
           <p className="text-sm text-blue-600 font-semibold uppercase tracking-wide">Step 2 of 3</p>
@@ -241,38 +241,38 @@ const CarInfoStep: React.FC = () => {
           <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Text fields */}
             {[
-              { 
-                label: "Model", 
+              {
+                label: "Model",
                 field: "model",
                 type: "text",
                 placeholder: "e.g., Camry, Corolla, bz4x",
                 description: "Vehicle model name (exact model name)"
               },
-              { 
-                label: "Plate Number", 
+              {
+                label: "Plate Number",
                 field: "plateNumber",
                 type: "text",
                 placeholder: "e.g., AA123BB",
                 description: "Vehicle registration plate"
               },
-              { 
-                label: "Year of Manufacture", 
-                field: "yearOfManufacture", 
+              {
+                label: "Year of Manufacture",
+                field: "yearOfManufacture",
                 type: "number",
                 placeholder: "e.g., 2020",
                 description: "Year the vehicle was made",
                 min: 1900,
                 max: new Date().getFullYear() + 1
               },
-              { 
-                label: "Engine Number", 
-                field: "engineNumber", 
+              {
+                label: "Engine Number",
+                field: "engineNumber",
                 type: "text",
                 placeholder: "Engine identification number"
               },
-              { 
-                label: "Chassis Number", 
-                field: "chassisNumber", 
+              {
+                label: "Chassis Number",
+                field: "chassisNumber",
                 type: "text",
                 placeholder: "Chassis identification number"
               },
@@ -294,7 +294,7 @@ const CarInfoStep: React.FC = () => {
                 {errors[field] && <p className="text-xs text-red-600 mt-1">{errors[field]}</p>}
               </div>
             ))}
-            
+
             {/* Insurance Type Select */}
             <div>
               <label className="text-sm font-medium text-blue-900 mb-1 block">
@@ -322,7 +322,7 @@ const CarInfoStep: React.FC = () => {
             <h2 className="text-xl font-bold text-blue-900 border-b border-blue-200 pb-2">
               Vehicle Images
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Car Image Upload */}
               <div>
@@ -341,9 +341,9 @@ const CarInfoStep: React.FC = () => {
                   {previewCarImage && (
                     <div className="mt-2">
                       <p className="text-xs text-blue-600 mb-1">Preview:</p>
-                      <img 
-                        src={previewCarImage} 
-                        alt="Car preview" 
+                      <img
+                        src={previewCarImage}
+                        alt="Car preview"
                         className="w-full h-48 object-cover rounded-lg border border-blue-200"
                       />
                     </div>
@@ -369,9 +369,9 @@ const CarInfoStep: React.FC = () => {
                   {previewCarLibreImage && (
                     <div className="mt-2">
                       <p className="text-xs text-blue-600 mb-1">Preview:</p>
-                      <img 
-                        src={previewCarLibreImage} 
-                        alt="Car libre preview" 
+                      <img
+                        src={previewCarLibreImage}
+                        alt="Car libre preview"
                         className="w-full h-48 object-cover rounded-lg border border-blue-200"
                       />
                     </div>
