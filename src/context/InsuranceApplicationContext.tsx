@@ -85,13 +85,13 @@ interface InsuranceApplicationContextValue {
   setCoverages: (coverages: CoverageSelection) => void;
   calculationTotals: CalculationTotals | null;
   setCalculationTotals: (totals: CalculationTotals | null) => void;
-  financeDecision: "approved" | "rejected" | null;
-  setFinanceDecision: (decision: "approved" | "rejected" | null) => void;
-  
+  financeDecision: "approved" | "rejected" | "pending" | null;
+  setFinanceDecision: (decision: "approved" | "rejected" | "pending" | null) => void;
+
   // Add backend application data
   backendApplicationData: BackendApplicationResponse | null;
   setBackendApplicationData: (data: BackendApplicationResponse | null) => void;
-  
+
   resetApplication: () => void;
 }
 
@@ -109,11 +109,11 @@ export const InsuranceApplicationProvider = ({ children }: { children: ReactNode
   const [carInfo, setCarInfoState] = useState<CarInfo | null>(null);
   const [coverages, setCoveragesState] = useState<CoverageSelection>(defaultCoverages);
   const [calculationTotals, setCalculationTotalsState] = useState<CalculationTotals | null>(null);
-  const [financeDecision, setFinanceDecisionState] = useState<"approved" | "rejected" | null>(null);
-  
+  const [financeDecision, setFinanceDecisionState] = useState<"approved" | "rejected" | "pending" | null>(null);
+
   // Add state for backend data
   const [backendApplicationData, setBackendApplicationDataState] = useState<BackendApplicationResponse | null>(null);
-  
+
   const resetApplication = () => {
     setPersonalInfoState(null);
     setCarInfoState(null);
@@ -134,11 +134,11 @@ export const InsuranceApplicationProvider = ({ children }: { children: ReactNode
     setCalculationTotals: setCalculationTotalsState,
     financeDecision,
     setFinanceDecision: setFinanceDecisionState,
-    
+
     // Backend data
     backendApplicationData,
     setBackendApplicationData: setBackendApplicationDataState,
-    
+
     resetApplication
   };
 

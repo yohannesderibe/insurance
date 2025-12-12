@@ -42,7 +42,7 @@
 // // //     backendApplicationData,
 // // //     setBackendApplicationData
 // // //   } = useInsuranceApplication();
-  
+
 // // //   const [sendingToFinance, setSendingToFinance] = useState(false);
 // // //   const [fetchingPremium, setFetchingPremium] = useState(false);
 // // //   const [error, setError] = useState<string | null>(null);
@@ -107,10 +107,10 @@
 
 // // //     setFetchingPremium(true);
 // // //     setError(null);
-    
+
 // // //     try {
 // // //       const token = localStorage.getItem('token');
-      
+
 // // //       const formData = new FormData();
 // // //       formData.append('CategoryId', carInfo.categoryId!);
 // // //       formData.append('SubCategoryId', carInfo.subCategoryId!);
@@ -136,7 +136,7 @@
 
 // // //       const data = await response.json();
 // // //       setBackendApplicationData(data);
-      
+
 // // //     } catch (error) {
 // // //       console.error('Error fetching premium:', error);
 // // //       setError("Failed to fetch premium from server. Please try again.");
@@ -230,7 +230,7 @@
 // // //                 <ShieldCheck className="w-5 h-5 text-[#FFC107]" />
 // // //                 <h2 className="text-lg font-semibold text-[#000000]">Vehicle Information</h2>
 // // //               </div>
-              
+
 // // //               {backendApplicationData ? (
 // // //                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-[#4E342E]">
 // // //                   <div>
@@ -270,7 +270,7 @@
 // // //                   <p className="text-gray-500">Vehicle information will appear after fetching premium from backend.</p>
 // // //                 </div>
 // // //               )}
-              
+
 // // //               {/* Premium Fetch Button */}
 // // //               <div className="mt-4 pt-4 border-t border-[#FFE082]">
 // // //                 <div className="flex items-center justify-between">
@@ -350,7 +350,7 @@
 // // //               <DollarSign className="w-5 h-5" />
 // // //               <h3 className="text-lg font-semibold">Premium Calculation</h3>
 // // //             </div>
-            
+
 // // //             <div className="space-y-3 text-sm text-[#4E342E]">
 // // //               <div className="flex justify-between">
 // // //                 <span>Base Premium</span>
@@ -365,24 +365,24 @@
 // // //                   )}
 // // //                 </div>
 // // //               </div>
-              
+
 // // //               <div className="flex justify-between">
 // // //                 <span>Optional Coverages</span>
 // // //                 <strong>${optionalTotal.toLocaleString()}</strong>
 // // //               </div>
-              
+
 // // //               <div className="h-px bg-[#FFD54F]" />
-              
+
 // // //               <div className="flex justify-between text-lg font-bold text-[#000000]">
 // // //                 <span>Total Premium</span>
 // // //                 <span>${total.toLocaleString()}</span>
 // // //               </div>
-              
+
 // // //               <p className="text-xs text-[#5D4037]">
 // // //                 * Optional coverages can be customized later with a finance officer.
 // // //               </p>
 // // //             </div>
-            
+
 // // //             <div className="space-y-3">
 // // //               <button
 // // //                 onClick={handleContinue}
@@ -391,7 +391,7 @@
 // // //               >
 // // //                 {sendingToFinance ? "Sending to Finance Officer..." : "Continue to Finance Officer"}
 // // //               </button>
-              
+
 // // //               <button
 // // //                 type="button"
 // // //                 onClick={() => navigate("/insurance/apply/car")}
@@ -400,7 +400,7 @@
 // // //                 Back to Car Info
 // // //               </button>
 // // //             </div>
-            
+
 // // //             {/* Application Status */}
 // // //             {backendApplicationData && (
 // // //               <div className="mt-4 pt-4 border-t border-[#FFE082]">
@@ -473,7 +473,7 @@
 // //     backendApplicationData,
 // //     setBackendApplicationData
 // //   } = useInsuranceApplication();
-  
+
 // //   const [sendingToFinance, setSendingToFinance] = useState(false);
 // //   const [refreshingPremium, setRefreshingPremium] = useState(false);
 // //   const [error, setError] = useState<string | null>(null);
@@ -497,7 +497,7 @@
 // //       <div className="min-h-screen bg-[#FFF8E1] py-10 px-4 md:px-8">
 // //         <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl border border-[#FFE082] p-6 md:p-10">
 // //           <StepProgress currentStep={3} />
-          
+
 // //           <header className="mb-8">
 // //             <p className="text-sm text-[#FFC107] font-semibold uppercase tracking-wide">Step 3 of 3</p>
 // //             <h1 className="text-3xl md:text-4xl font-bold text-[#000000] mt-2">Loading Application Data</h1>
@@ -505,7 +505,7 @@
 // //               Please wait while we load your insurance application data...
 // //             </p>
 // //           </header>
-          
+
 // //           <div className="flex flex-col items-center justify-center py-12">
 // //             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#FFC107] mb-4"></div>
 // //             <p className="text-gray-600 mb-2">Loading premium information...</p>
@@ -554,10 +554,10 @@
 
 // //     setRefreshingPremium(true);
 // //     setError(null);
-    
+
 // //     try {
 // //       const token = localStorage.getItem('token');
-      
+
 // //       const formData = new FormData();
 // //       formData.append('CategoryId', carInfo.categoryId!);
 // //       formData.append('SubCategoryId', carInfo.subCategoryId!);
@@ -583,7 +583,7 @@
 
 // //       const data = await response.json();
 // //       setBackendApplicationData(data);
-      
+
 // //     } catch (error) {
 // //       console.error('Error refreshing premium:', error);
 // //       setError("Failed to refresh premium. The current data is still valid.");
@@ -617,7 +617,7 @@
 // //     });
 
 // //       navigate("/insurance/apply/payment");
-  
+
 // // } catch(error: any){
 // //   console.error("error conforming application: ", error);
 // //   setError(error.message || "failed to submit your application to Finance officer. ")
@@ -682,7 +682,7 @@
 // //                 <ShieldCheck className="w-5 h-5 text-[#FFC107]" />
 // //                 <h2 className="text-lg font-semibold text-[#000000]">Vehicle Information</h2>
 // //               </div>
-              
+
 // //               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-[#4E342E]">
 // //                 <div>
 // //                   <p className="font-semibold">Model & Year</p>
@@ -719,7 +719,7 @@
 // //                   </p>
 // //                 </div>
 // //               </div>
-              
+
 // //               {/* Refresh Premium Button */}
 // //               <div className="mt-4 pt-4 border-t border-[#FFE082]">
 // //                 <div className="flex items-center justify-between">
@@ -799,7 +799,7 @@
 // //               <DollarSign className="w-5 h-5" />
 // //               <h3 className="text-lg font-semibold">Premium Calculation</h3>
 // //             </div>
-            
+
 // //             <div className="space-y-3 text-sm text-[#4E342E]">
 // //               <div className="flex justify-between">
 // //                 <span>Base Premium</span>
@@ -808,24 +808,24 @@
 // //                   <p className="text-xs text-green-600">✓ System calculated</p>
 // //                 </div>
 // //               </div>
-              
+
 // //               <div className="flex justify-between">
 // //                 <span>Optional Coverages</span>
 // //                 <strong>${optionalTotal.toLocaleString()}</strong>
 // //               </div>
-              
+
 // //               <div className="h-px bg-[#FFD54F]" />
-              
+
 // //               <div className="flex justify-between text-lg font-bold text-[#000000]">
 // //                 <span>Total Premium</span>
 // //                 <span>${total.toLocaleString()}</span>
 // //               </div>
-              
+
 // //               <p className="text-xs text-[#5D4037]">
 // //                 * Optional coverages can be customized later with a finance officer.
 // //               </p>
 // //             </div>
-            
+
 // //             <div className="space-y-3">
 // //               <button
 // //                 onClick={handleContinue}
@@ -834,7 +834,7 @@
 // //               >
 // //                 {sendingToFinance ? "Sending to Finance Officer..." : "Continue to Finance Officer"}
 // //               </button>
-              
+
 // //               <button
 // //                 type="button"
 // //                 onClick={() => navigate("/insurance/apply/car")}
@@ -843,7 +843,7 @@
 // //                 Back to Car Info
 // //               </button>
 // //             </div>
-            
+
 // //             {/* Application Details */}
 // //             <div className="mt-4 pt-4 border-t border-[#FFE082]">
 // //               <p className="text-xs font-semibold text-[#000000]">Application Details</p>
@@ -958,25 +958,25 @@
 // // Main detection function
 // const detectInsuranceType = (backendData: any): 'motor' | 'life' | null => {
 //   if (!backendData) return null;
-  
+
 //   // Method 1: Check for specific properties
 //   if (backendData.lifePrice !== undefined) {
 //     return 'life';
 //   }
-  
+
 //   if (backendData.calculatedPremium !== undefined && backendData.marketPrice !== undefined) {
 //     return 'motor';
 //   }
-  
+
 //   // Method 2: Check data structure
 //   if (backendData.engineNumber || backendData.chassisNumber || backendData.plateNumber) {
 //     return 'motor';
 //   }
-  
+
 //   if (backendData.age || backendData.height || backendData.weight) {
 //     return 'life';
 //   }
-  
+
 //   // Method 3: Check category name
 //   if (backendData.categoryName) {
 //     const normalized = backendData.categoryName.toLowerCase();
@@ -987,7 +987,7 @@
 //       return 'life';
 //     }
 //   }
-  
+
 //   return null;
 // };
 
@@ -1003,12 +1003,12 @@
 //     setBackendApplicationData,
 //     setFinanceDecision
 //   } = useInsuranceApplication();
-  
+
 //   const [sendingToFinance, setSendingToFinance] = useState(false);
 //   const [refreshingPremium, setRefreshingPremium] = useState(false);
 //   const [error, setError] = useState<string | null>(null);
 //   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  
+
 //   // State for life insurance data (from localStorage since we don't have context)
 //   const [lifeInsuranceData, setLifeInsuranceData] = useState<any>(null);
 
@@ -1029,7 +1029,7 @@
 //   // Determine which insurance type we're dealing with
 //   let activeBackendData = null;
 //   let insuranceType: 'motor' | 'life' | null = null;
-  
+
 //   // Check motor data first
 //   if (backendApplicationData) {
 //     insuranceType = 'motor';
@@ -1042,7 +1042,7 @@
 //     activeBackendData = lifeInsuranceData;
 //     console.log("Using life insurance data:", lifeInsuranceData);
 //   }
-  
+
 //   // Get insurance-specific configuration
 //   const insuranceConfig = insuranceType ? getInsuranceSpecificOptions(insuranceType) : null;
 //   const allCoverageOptions = insuranceConfig ? 
@@ -1058,7 +1058,7 @@
 //       <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-8">
 //         <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl border border-gray-200 p-6 md:p-10">
 //           <StepProgress currentStep={3} />
-          
+
 //           <header className="mb-8">
 //             <p className="text-sm text-gray-600 font-semibold uppercase tracking-wide">Step 3 of 3</p>
 //             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">Unable to Determine Insurance Type</h1>
@@ -1066,7 +1066,7 @@
 //               We couldn't determine what type of insurance you're applying for.
 //             </p>
 //           </header>
-          
+
 //           <div className="flex flex-col items-center justify-center py-12 space-y-6">
 //             <div className="text-center">
 //               <p className="text-gray-600 mb-4">Please select one of the options below:</p>
@@ -1130,7 +1130,7 @@
 //         const confirmedData = await confirmMotorInsurance(activeBackendData.applicationId);
 //         console.log("Motor application confirmed:", confirmedData);
 //         setBackendApplicationData(confirmedData);
-        
+
 //         // Check if application was sent to finance successfully
 //         if (confirmedData.status === "Pending" || confirmedData.status === "Submitted") {
 //           setSuccessMessage("✅ Your motor insurance application has been successfully submitted to the Finance Officer!");
@@ -1141,18 +1141,18 @@
 //         }
 //       } else if (insuranceType === 'life') {
 //         console.log("Sending life application to finance...");
-        
+
 //         // For life insurance, we need to confirm the application first
 //         // The data should already be confirmed from LifeInfoStep, but let's double-check
 //         if (!lifeInsuranceData || lifeInsuranceData.status !== "Pending") {
 //           // If not confirmed yet, confirm it now
 //           const confirmedData = await lifeApiService.confirmLifeApplication(activeBackendData.applicationId);
 //           console.log("Life application confirmed:", confirmedData);
-          
+
 //           // Update localStorage with confirmed data
 //           localStorage.setItem('lifeInsuranceData', JSON.stringify(confirmedData));
 //           setLifeInsuranceData(confirmedData);
-          
+
 //           if (confirmedData.status === "Pending" || confirmedData.status === "Submitted") {
 //             setSuccessMessage("✅ Your life insurance application has been successfully submitted to the Finance Officer!");
 //             setFinanceDecision("pending");
@@ -1177,10 +1177,10 @@
 //       setTimeout(() => {
 //         navigate("/insurance/apply/payment");
 //       }, 2000);
-      
+
 //     } catch (error: any) {
 //       console.error("Error sending application to finance: ", error);
-      
+
 //       // Provide more specific error messages
 //       if (error.message?.includes("network") || error.message?.includes("fetch")) {
 //         setError("Network error. Please check your internet connection and try again.");
@@ -1433,7 +1433,7 @@
 //               <DollarSign className={`w-5 h-5 ${getIconColor()}`} />
 //               <h3 className="text-lg font-semibold">Premium Calculation</h3>
 //             </div>
-            
+
 //             <div className="space-y-3 text-sm text-gray-700">
 //               <div className="flex justify-between">
 //                 <span>Base Premium</span>
@@ -1442,28 +1442,28 @@
 //                   <p className="text-xs text-green-600">✓ System calculated</p>
 //                 </div>
 //               </div>
-              
+
 //               <div className="flex justify-between">
 //                 <span>Optional Coverages</span>
 //                 <strong>${optionalTotal.toLocaleString()}</strong>
 //               </div>
-              
+
 //               <div className={`h-px ${
 //                 themeClass === 'red' ? 'bg-red-300' : 
 //                 themeClass === 'yellow' ? 'bg-[#FFD54F]' : 
 //                 'bg-gray-300'
 //               }`} />
-              
+
 //               <div className="flex justify-between text-lg font-bold text-gray-900">
 //                 <span>Total Premium</span>
 //                 <span>${total.toLocaleString()}</span>
 //               </div>
-              
+
 //               <p className="text-xs text-gray-600">
 //                 * Optional coverages can be customized later with a finance officer.
 //               </p>
 //             </div>
-            
+
 //             <div className="space-y-3">
 //               <button
 //                 onClick={handleContinue}
@@ -1481,7 +1481,7 @@
 //                   "Send to Finance Officer"
 //                 )}
 //               </button>
-              
+
 //               <button
 //                 type="button"
 //                 onClick={() => {
@@ -1505,7 +1505,7 @@
 //                 Back to {insuranceType === 'motor' ? 'Car Info' : insuranceType === 'life' ? 'Life Info' : 'Previous Step'}
 //               </button>
 //             </div>
-            
+
 //             {/* Application Details */}
 //             {activeBackendData && (
 //               <div className={`mt-4 pt-4 border-t ${
@@ -1644,13 +1644,13 @@ const InsuranceCalculationStep: React.FC = () => {
     setBackendApplicationData,
     setFinanceDecision
   } = useInsuranceApplication();
-  
+
   const {
     lifeInfo,
     backendLifeApplicationData,
     setBackendLifeApplicationData
   } = useLifeInsurance();
-  
+
   const [sendingToFinance, setSendingToFinance] = useState(false);
   const [gettingPreview, setGettingPreview] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -1667,25 +1667,25 @@ const InsuranceCalculationStep: React.FC = () => {
         setPreviewData(backendApplicationData);
         return;
       }
-      
+
       // Check if we have life data already previewed
       if (backendLifeApplicationData) {
         setInsuranceType('life');
         setPreviewData(backendLifeApplicationData);
         return;
       }
-      
+
       // Check if we should do a life preview
       if (lifeInfo && personalInfo) {
         setInsuranceType('life');
       }
-      
+
       // Default to motor if we have car info
       if (carInfo) {
         setInsuranceType('motor');
       }
     };
-    
+
     determineInsuranceType();
   }, [backendApplicationData, backendLifeApplicationData, lifeInfo, personalInfo, carInfo]);
 
@@ -1715,7 +1715,7 @@ const InsuranceCalculationStep: React.FC = () => {
         }
       }
     };
-    
+
     getLifePreview();
   }, [insuranceType, lifeInfo, backendLifeApplicationData, previewData]);
 
@@ -1728,7 +1728,7 @@ const InsuranceCalculationStep: React.FC = () => {
       <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-8">
         <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl border border-gray-200 p-6 md:p-10">
           <StepProgress currentStep={3} />
-          
+
           <header className="mb-8">
             <p className="text-sm text-gray-600 font-semibold uppercase tracking-wide">Step 3 of 3</p>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">Loading...</h1>
@@ -1736,7 +1736,7 @@ const InsuranceCalculationStep: React.FC = () => {
               Determining insurance type and calculating premium...
             </p>
           </header>
-          
+
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500" />
           </div>
@@ -1750,7 +1750,7 @@ const InsuranceCalculationStep: React.FC = () => {
   const allCoverageOptions = [...GENERIC_COVERAGE_OPTIONS, ...insuranceConfig.coverageOptions];
 
   // Calculate totals
-  const basePrice = insuranceType === 'motor' 
+  const basePrice = insuranceType === 'motor'
     ? (previewData as any)?.calculatedPremium || 0
     : (previewData as any)?.lifePrice || 0;
 
@@ -1786,7 +1786,7 @@ const InsuranceCalculationStep: React.FC = () => {
         const confirmedData = await confirmMotorInsurance(previewData.applicationId);
         console.log("Motor application confirmed:", confirmedData);
         setBackendApplicationData(confirmedData);
-        
+
         if (confirmedData.status === "Pending" || confirmedData.status === "Submitted") {
           setSuccessMessage("✅ Your motor insurance application has been successfully submitted!");
         } else {
@@ -1798,7 +1798,7 @@ const InsuranceCalculationStep: React.FC = () => {
         const confirmedData = await lifeApiService.confirmLifeApplication(previewData.applicationId);
         console.log("Life application confirmed:", confirmedData);
         setBackendLifeApplicationData(confirmedData);
-        
+
         if (confirmedData.status === "Pending" || confirmedData.status === "Submitted") {
           setSuccessMessage("✅ Your life insurance application has been successfully submitted!");
         } else {
@@ -1820,10 +1820,10 @@ const InsuranceCalculationStep: React.FC = () => {
       setTimeout(() => {
         navigate("/insurance/apply/payment");
       }, 2000);
-      
+
     } catch (error: any) {
       console.error("Error confirming application: ", error);
-      
+
       if (error.message?.includes("network") || error.message?.includes("fetch")) {
         setError("Network error. Please check your internet connection and try again.");
       } else if (error.response?.status === 401) {
@@ -1882,7 +1882,7 @@ const InsuranceCalculationStep: React.FC = () => {
   return (
     <div className={`min-h-screen py-10 px-4 md:px-8 ${getBackgroundClass()}`}>
       <div className={`max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl border ${getBorderClass()} p-6 md:p-10`}>
-        <StepProgress currentStep={3} />
+        <StepProgress currentStep={3} insuranceType={insuranceType} />
 
         <header className="mb-8">
           <p className={`text-sm font-semibold uppercase tracking-wide ${getTextClass()}`}>
@@ -1960,9 +1960,8 @@ const InsuranceCalculationStep: React.FC = () => {
 
               {/* Insurance-specific details */}
               {insuranceType === 'motor' && previewData && (
-                <section className={`border rounded-2xl p-6 space-y-4 bg-white ${
-                  insuranceConfig.themeClass === 'yellow' ? 'border-[#FFE082]' : 'border-gray-200'
-                }`}>
+                <section className={`border rounded-2xl p-6 space-y-4 bg-white ${insuranceConfig.themeClass === 'yellow' ? 'border-[#FFE082]' : 'border-gray-200'
+                  }`}>
                   <div className="flex items-center gap-3">
                     <Car className="w-5 h-5 text-[#FFC107]" />
                     <h2 className="text-lg font-semibold text-gray-900">Vehicle Information</h2>
@@ -1986,9 +1985,8 @@ const InsuranceCalculationStep: React.FC = () => {
               )}
 
               {insuranceType === 'life' && previewData && (
-                <section className={`border rounded-2xl p-6 space-y-4 bg-white ${
-                  insuranceConfig.themeClass === 'red' ? 'border-red-200' : 'border-gray-200'
-                }`}>
+                <section className={`border rounded-2xl p-6 space-y-4 bg-white ${insuranceConfig.themeClass === 'red' ? 'border-red-200' : 'border-gray-200'
+                  }`}>
                   <div className="flex items-center gap-3">
                     <Heart className="w-5 h-5 text-red-500" />
                     <h2 className="text-lg font-semibold text-gray-900">Life Insurance Details</h2>
@@ -2030,19 +2028,18 @@ const InsuranceCalculationStep: React.FC = () => {
                   {allCoverageOptions.map((option) => (
                     <label
                       key={option.key}
-                      className={`border rounded-2xl p-4 flex items-center gap-3 cursor-pointer transition-colors ${
-                        coverages[option.key as keyof typeof coverages]
-                          ? insuranceConfig.themeClass === 'red' 
-                            ? "border-red-300 bg-red-50" 
+                      className={`border rounded-2xl p-4 flex items-center gap-3 cursor-pointer transition-colors ${coverages[option.key as keyof typeof coverages]
+                          ? insuranceConfig.themeClass === 'red'
+                            ? "border-red-300 bg-red-50"
                             : insuranceConfig.themeClass === 'yellow'
-                            ? "border-[#FFC107] bg-[#FFF8E1]" 
-                            : "border-gray-300 bg-gray-50"
-                          : insuranceConfig.themeClass === 'red' 
-                            ? "border-red-200 hover:border-red-300" 
+                              ? "border-[#FFC107] bg-[#FFF8E1]"
+                              : "border-gray-300 bg-gray-50"
+                          : insuranceConfig.themeClass === 'red'
+                            ? "border-red-200 hover:border-red-300"
                             : insuranceConfig.themeClass === 'yellow'
-                            ? "border-[#FFE082] hover:border-[#FFC107]" 
-                            : "border-gray-200 hover:border-gray-300"
-                      }`}
+                              ? "border-[#FFE082] hover:border-[#FFC107]"
+                              : "border-gray-200 hover:border-gray-300"
+                        }`}
                     >
                       <input
                         type="checkbox"
@@ -2069,7 +2066,7 @@ const InsuranceCalculationStep: React.FC = () => {
                 <DollarSign className={`w-5 h-5 ${getIconColor()}`} />
                 <h3 className="text-lg font-semibold">Premium Calculation</h3>
               </div>
-              
+
               <div className="space-y-3 text-sm text-gray-700">
                 <div className="flex justify-between">
                   <span>Base Premium</span>
@@ -2078,28 +2075,27 @@ const InsuranceCalculationStep: React.FC = () => {
                     <p className="text-xs text-green-600">✓ System calculated</p>
                   </div>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span>Optional Coverages</span>
                   <strong>${optionalTotal.toLocaleString()}</strong>
                 </div>
-                
-                <div className={`h-px ${
-                  insuranceConfig.themeClass === 'red' ? 'bg-red-300' : 
-                  insuranceConfig.themeClass === 'yellow' ? 'bg-[#FFD54F]' : 
-                  'bg-gray-300'
-                }`} />
-                
+
+                <div className={`h-px ${insuranceConfig.themeClass === 'red' ? 'bg-red-300' :
+                    insuranceConfig.themeClass === 'yellow' ? 'bg-[#FFD54F]' :
+                      'bg-gray-300'
+                  }`} />
+
                 <div className="flex justify-between text-lg font-bold text-gray-900">
                   <span>Total Premium</span>
                   <span>${total.toLocaleString()}</span>
                 </div>
-                
+
                 <p className="text-xs text-gray-600">
                   * Optional coverages can be customized later with a finance officer.
                 </p>
               </div>
-              
+
               <div className="space-y-3">
                 <button
                   onClick={handleConfirm}
@@ -2117,7 +2113,7 @@ const InsuranceCalculationStep: React.FC = () => {
                     "Confirm Application"
                   )}
                 </button>
-                
+
                 <button
                   type="button"
                   onClick={() => {
@@ -2129,26 +2125,24 @@ const InsuranceCalculationStep: React.FC = () => {
                       navigate("/insurance/apply/personal");
                     }
                   }}
-                  className={`w-full py-3 rounded-2xl border font-semibold text-sm hover:bg-white transition-colors ${
-                    insuranceConfig.themeClass === 'red'
+                  className={`w-full py-3 rounded-2xl border font-semibold text-sm hover:bg-white transition-colors ${insuranceConfig.themeClass === 'red'
                       ? 'border-red-300 text-red-700 hover:border-red-400'
                       : insuranceConfig.themeClass === 'yellow'
-                      ? 'border-[#FFC107] text-gray-900 hover:border-[#FFB300]'
-                      : 'border-gray-300 text-gray-700 hover:border-gray-400'
-                  }`}
+                        ? 'border-[#FFC107] text-gray-900 hover:border-[#FFB300]'
+                        : 'border-gray-300 text-gray-700 hover:border-gray-400'
+                    }`}
                   disabled={sendingToFinance || gettingPreview}
                 >
                   Back to {insuranceType === 'motor' ? 'Car Info' : 'Life Info'}
                 </button>
               </div>
-              
+
               {/* Application Details */}
               {previewData && (
-                <div className={`mt-4 pt-4 border-t ${
-                  insuranceConfig.themeClass === 'red' ? 'border-red-200' : 
-                  insuranceConfig.themeClass === 'yellow' ? 'border-[#FFE082]' : 
-                  'border-gray-300'
-                }`}>
+                <div className={`mt-4 pt-4 border-t ${insuranceConfig.themeClass === 'red' ? 'border-red-200' :
+                    insuranceConfig.themeClass === 'yellow' ? 'border-[#FFE082]' :
+                      'border-gray-300'
+                  }`}>
                   <p className="text-xs font-semibold text-gray-900">Application Details</p>
                   <p className="text-xs text-gray-500 truncate">
                     ID: {previewData.applicationId}
@@ -2171,11 +2165,10 @@ const InsuranceCalculationStep: React.FC = () => {
       {sendingToFinance && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-8 flex flex-col items-center gap-3">
-            <div className={`animate-spin rounded-full h-12 w-12 border-b-2 ${
-              insuranceConfig.themeClass === 'red' ? 'border-red-500' : 
-              insuranceConfig.themeClass === 'yellow' ? 'border-[#FFC107]' : 
-              'border-gray-600'
-            }`} />
+            <div className={`animate-spin rounded-full h-12 w-12 border-b-2 ${insuranceConfig.themeClass === 'red' ? 'border-red-500' :
+                insuranceConfig.themeClass === 'yellow' ? 'border-[#FFC107]' :
+                  'border-gray-600'
+              }`} />
             <p className="text-gray-900 font-semibold">Submitting Application...</p>
             <p className="text-sm text-gray-600">Please don't close this window</p>
           </div>

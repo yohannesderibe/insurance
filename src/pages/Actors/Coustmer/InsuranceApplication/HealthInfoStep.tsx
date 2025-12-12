@@ -92,7 +92,7 @@ const HealthInfoStep: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50 py-10 px-4 md:px-8">
       <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-xl border border-purple-100 p-6 md:p-10">
-        <StepProgress currentStep={2} />
+        <StepProgress currentStep={2} insuranceType="life" />
 
         <header className="mb-8">
           <p className="text-sm text-purple-600 font-semibold uppercase tracking-wide">
