@@ -42,7 +42,7 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
     { label: "Client Applications", to: "/client-finance-application", icon: <ApplicationsIcon /> },
     { label: "Financial Reports", to: "/finance-reports", icon: <FinanceIcon /> },
     { label: "Payment Processing", to: "/payment-processing", icon: <PaymentIcon /> },
-    { label: "Invoices", to: "/support", icon: <SupportIcon /> },
+    { label: "Myprofile", to: "/financeofficer/profile", icon: <SupportIcon /> },
   ],
   
   manager: [
@@ -50,6 +50,7 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
     { label: "Team Management", to: "/team-management", icon: <TeamIcon /> },
     { label: "Performance", to: "/performance", icon: <TeamIcon /> },
     { label: "Support", to: "/support", icon: <SupportIcon /> },
+    { label: "Myprofile", to: "/manager/profile", icon: <SupportIcon /> },
   ],
   
   operator: [
@@ -57,6 +58,7 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
     { label: "Claims", to: "/operating-claims", icon: <ClaimsIcon /> },
     {label: "Recent transaction" , to: "/Recent-transaction", icon:<PaymentIcon />},
     { label: "Support", to: "/support", icon: <SupportIcon /> },
+    {label: "Myprofile", to: "/operatingofficer/profile", icon: <SupportIcon /> },
   ],
 };
 

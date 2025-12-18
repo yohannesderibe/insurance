@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import bgImage from "../../assets/login.png";
 import PasswordField from "../../reusable/input/PasswordField";
-import { FiMail, FiPhone, FiCamera, FiCalendar } from "react-icons/fi";
+import { FiMail, FiPhone, FiUser, FiCamera } from "react-icons/fi";
 import { FaIdCard, FaUser, FaUserFriends, FaUserTie } from "react-icons/fa";
 import cityData from "../../data/cities.json";
 import beeLogo from "../../assets/bee-logo.png";
@@ -12,7 +12,6 @@ interface RegisterClientPayload {
   firstName: string;
   fatherName: string;
   grandFatherName: string;
-  dateOfBirth: string;
   email: string;
   phoneNumber: string;
   region: string;
@@ -41,7 +40,6 @@ const RegisterPage: React.FC = () => {
     firstName: "",
     fatherName: "",
     grandFatherName: "",
-    dateOfBirth: "",
     email: "",
     phone: "",
     country: "Ethiopia",
@@ -106,38 +104,38 @@ const RegisterPage: React.FC = () => {
 
   const validateForm = () => {
     if (!validatePasswords()) return false;
-
+    
     if (!formData.firstName.trim() || !formData.fatherName.trim() || !formData.grandFatherName.trim()) {
       alert("All name fields (First, Father, Grand Father) are required");
       return false;
     }
-
+    
     if (!formData.email.trim()) {
       alert("Email is required");
       return false;
     }
-
+    
     if (!formData.phone.trim()) {
       alert("Phone Number is required");
       return false;
     }
-
+    
     if (!formData.nationalIdOrPassport.trim()) {
       alert("National ID or Passport is required");
       return false;
     }
-
+    
     if (!passportImage) {
       alert("Passport or National ID Image is required");
       return false;
     }
-
+    
     return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (!validateForm()) return;
 
     setIsLoading(true);
@@ -147,7 +145,6 @@ const RegisterPage: React.FC = () => {
         firstName: formData.firstName.trim(),
         fatherName: formData.fatherName.trim(),
         grandFatherName: formData.grandFatherName.trim(),
-        dateOfBirth: formData.dateOfBirth,
         email: formData.email,
         phoneNumber: formData.phone,
         region: formData.country,
@@ -161,20 +158,20 @@ const RegisterPage: React.FC = () => {
       };
 
       console.log("📤 Sending registration data:", payload);
-
+      
       const response = await clientApi.registerClient(payload);
-
+      
       console.log("✅ Registered successfully:", response);
       setIsSuccess(true);
-
+      
       setTimeout(() => {
         navigate("/login");
       }, 2000);
-
+      
     } catch (error: any) {
       console.error("❌ Registration error:", error);
       let errorMessage = "Registration failed. Please try again.";
-
+      
       if (error.response?.data?.errors) {
         const validationErrors = error.response.data.errors;
         errorMessage = "Validation errors:\n";
@@ -184,7 +181,7 @@ const RegisterPage: React.FC = () => {
       } else if (error.response?.data?.message) {
         errorMessage = error.response.data.message;
       }
-
+      
       alert(errorMessage);
     } finally {
       setIsLoading(false);
@@ -235,7 +232,7 @@ const RegisterPage: React.FC = () => {
         {/* Form - Compact with tighter spacing */}
         <form onSubmit={handleSubmit} className="space-y-2">
           {/* 3 Name Fields Side by Side - Compact */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <div className="relative">
               <FaUser className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs" />
               <input
@@ -274,22 +271,8 @@ const RegisterPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Date of Birth - Compact */}
-          <div className="relative">
-            <FiCalendar className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs" />
-            <input
-              type="date"
-              name="dateOfBirth"
-              placeholder="Date of Birth"
-              value={formData.dateOfBirth}
-              onChange={handleChange}
-              required
-              className="w-full pl-8 pr-2 py-3 text-xs border border-amber-300 rounded-lg shadow-[0_0_8px_rgba(255,193,7,0.25)] focus:shadow-[0_0_12px_rgba(255,193,7,0.45)] focus:border-amber-400 focus:ring-0 outline-none transition-shadow"
-            />
-          </div>
-
           {/* Email & Phone - Compact */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <div className="relative">
               <FiMail className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 text-xs" />
               <input
@@ -317,7 +300,7 @@ const RegisterPage: React.FC = () => {
           </div>
 
           {/* Password and Confirm Password Side by Side - Compact */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <PasswordField
               value={formData.password}
               onChange={(e) =>
@@ -356,11 +339,11 @@ const RegisterPage: React.FC = () => {
           </div>
 
           {/* Gender Selection - INLINE (Gender label + Male/Female options in one line) */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+          <div className="flex items-center space-x-4">
             <label className="text-xs font-medium text-gray-700 whitespace-nowrap">
               Gender *
             </label>
-            <div className="flex space-x-2 flex-1 w-full sm:w-auto">
+            <div className="flex space-x-2 flex-1">
               <label className="flex-1">
                 <input
                   type="radio"
@@ -371,10 +354,11 @@ const RegisterPage: React.FC = () => {
                   className="hidden"
                   id="gender-male"
                 />
-                <div className={`w-full py-2 text-center rounded-lg border cursor-pointer transition-all text-xs ${formData.gender === "Male"
-                  ? "border-amber-500 bg-amber-50 text-amber-700"
-                  : "border-gray-300 hover:border-amber-300 text-gray-700"
-                  }`}>
+                <div className={`w-full py-2 text-center rounded-lg border cursor-pointer transition-all text-xs ${
+                  formData.gender === "Male" 
+                    ? "border-amber-500 bg-amber-50 text-amber-700" 
+                    : "border-gray-300 hover:border-amber-300 text-gray-700"
+                }`}>
                   <span className="font-medium">Male</span>
                 </div>
               </label>
@@ -388,10 +372,11 @@ const RegisterPage: React.FC = () => {
                   className="hidden"
                   id="gender-female"
                 />
-                <div className={`w-full py-2 text-center rounded-lg border cursor-pointer transition-all text-xs ${formData.gender === "Female"
-                  ? "border-amber-500 bg-amber-50 text-amber-700"
-                  : "border-gray-300 hover:border-amber-300 text-gray-700"
-                  }`}>
+                <div className={`w-full py-2 text-center rounded-lg border cursor-pointer transition-all text-xs ${
+                  formData.gender === "Female" 
+                    ? "border-amber-500 bg-amber-50 text-amber-700" 
+                    : "border-gray-300 hover:border-amber-300 text-gray-700"
+                }`}>
                   <span className="font-medium">Female</span>
                 </div>
               </label>
@@ -399,7 +384,7 @@ const RegisterPage: React.FC = () => {
           </div>
 
           {/* Location Fields - Compact */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <select
               name="country"
               value={formData.country}
@@ -448,14 +433,14 @@ const RegisterPage: React.FC = () => {
             <label className="block text-xs font-medium text-gray-700 mb-1">
               Passport / National ID Photo *
             </label>
-
+            
             <div className="border border-dashed border-amber-300 rounded-lg p-3 shadow-[0_0_8px_rgba(255,193,7,0.20)] focus-within:shadow-[0_0_12px_rgba(255,193,7,0.40)] hover:border-amber-400 transition-all">
               {previewImage ? (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <img
-                      src={previewImage}
-                      alt="ID preview"
+                    <img 
+                      src={previewImage} 
+                      alt="ID preview" 
                       className="w-16 h-12 object-cover rounded border border-gray-300"
                     />
                     <span className="text-xs text-gray-600">Image uploaded</span>
@@ -517,8 +502,9 @@ const RegisterPage: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full ${isLoading ? "bg-amber-300 cursor-not-allowed" : "bg-amber-400 hover:bg-amber-500"
-              } text-white font-semibold py-2.5 rounded-lg transition duration-200 text-xs mt-2 flex items-center justify-center`}
+            className={`w-full ${
+              isLoading ? "bg-amber-300 cursor-not-allowed" : "bg-amber-400 hover:bg-amber-500"
+            } text-white font-semibold py-2.5 rounded-lg transition duration-200 text-xs mt-2 flex items-center justify-center`}
           >
             {isLoading ? (
               <>

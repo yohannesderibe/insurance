@@ -8,13 +8,12 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
-    // Proxy API requests to the backend to avoid CORS in development
+    // Proxy API requests to the backend during development to avoid CORS
     proxy: {
       '/api': {
         target: 'http://localhost:5150',
         changeOrigin: true,
         secure: false,
-        // keep the /api prefix so backend routes remain unchanged
       }
     }
   }

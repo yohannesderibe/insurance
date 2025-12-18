@@ -369,6 +369,7 @@ const CatagoryInAdmin = lazy(() => import('../pages/Actors/Admin/Catagory-Manage
 
 // Manager Pages
 const ManagerDash = lazy(() => import('../pages/Actors/Manager/ManagerDash'));
+const ManagerProfile = lazy(() =>import ("../pages/Actors/Manager/ManagerProfile") )
 
 // Customer Pages
 const CoustmerDash = lazy(() => import('../pages/Actors/Coustmer/CoustmerDash'));
@@ -397,11 +398,14 @@ const OperatingDash = lazy(() => import('../pages/Actors/OperatingOfficer/OpDash
 const OperatingOfficerClaimReview = lazy(() => import('../pages/Actors/OperatingOfficer/OperatingOfficerClaimReview'));
 const ClaimDetails = lazy(() => import('../pages/Actors/OperatingOfficer/ClaimDetails'));
 const RecentPayment = lazy(() => import ("../pages/Actors/OperatingOfficer/might-Remove/RecentPayments"))
+const OperatingProfile = lazy(() =>import ("../pages/Actors/OperatingOfficer/OperatorProfile") )
+
+
 // Finance Officer Pages
 const FinanceDash = lazy(() => import('../pages/Actors/Finance/FinanceDash'));
 const FinanceApplications = lazy(() => import('../pages/Actors/Finance/FinanceApplications'));
 const FinanceOfficerClientApplications = lazy(() => import('../pages/Actors/Finance/FinanceOfficerClientApplications'));
-
+const FinanceProfile = lazy(() =>import ("../pages/Actors/Finance/FinanceProfile") )
 
 
 //finace and coustomer combied to do together 
@@ -743,6 +747,11 @@ const AppRoutes: React.FC = () => {
 
           />
 
+          <Route 
+            path="/operatingofficer/profile"
+            element={<ProtectedRouteWrapper role="operator" component={OperatingProfile} />}
+          />
+
 
 
 
@@ -763,6 +772,11 @@ const AppRoutes: React.FC = () => {
           element={<ProtectedRouteWrapper role="finance" component={FinanceOfficerClientApplications} />} 
         />
 
+          <Route 
+          path="/financeofficer/profile" 
+          element={<ProtectedRouteWrapper role="finance" component={FinanceProfile} />} 
+        />
+
 
 
 
@@ -773,6 +787,13 @@ const AppRoutes: React.FC = () => {
           path="/managerdash" 
           element={<ProtectedRouteWrapper role="manager" component={ManagerDash} />} 
         />
+
+        <Route  
+          path="/manager/profile"
+          element={<ProtectedRouteWrapper role="manager" component={ManagerProfile} />}
+        />
+
+        
 
         {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -120,11 +120,11 @@
 
 //       // Use real API instead of mock
 //       const response = await authApi.login(email, password);
-
+      
 //       // Store token and user data
 //       localStorage.setItem("token", response.token);
 //       localStorage.setItem("user", JSON.stringify(response.user));
-
+      
 //       navigate("/dashboard");
 //     }  catch (err: unknown) {
 //   if (err instanceof Error) {
@@ -277,10 +277,10 @@ const LoginPage: React.FC = () => {
 
   return (
     <div
-      className="min-h-screen w-full flex items-center justify-center bg-cover bg-center p-4"
+      className="h-screen w-screen flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
-      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 sm:p-8">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-8">
         <div className="flex flex-col items-center mb-6">
           <img src={logo} alt="Logo" className="h-16 w-16 mb-2" />
           <h1 className="text-lg font-bold text-gray-700">
@@ -289,9 +289,9 @@ const LoginPage: React.FC = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-
-          <EmailField value={email} onChange={(e) => setEmail(e.target.value)} />
-          <PasswordField value={password} onChange={(e) => setPassword(e.target.value)} />
+         
+         <EmailField value={email} onChange={(e) => setEmail(e.target.value)} />
+<PasswordField value={password} onChange={(e) => setPassword(e.target.value)} />
 
           {error && <p className="text-red-600 text-sm">{error}</p>}
 
