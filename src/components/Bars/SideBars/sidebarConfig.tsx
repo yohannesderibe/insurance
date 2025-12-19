@@ -13,6 +13,8 @@ import {
   Description as ApplicationsIcon,
 } from "@mui/icons-material";
 
+import AccountCircleIcon from '@mui/icons-material/ManageAccounts';
+
 export interface MenuItem {
   label: string;
   to: string;
@@ -33,7 +35,7 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
     { label: "Policy", to: "/policy", icon: <PolicyIcon /> },
     { label: "Claims", to: "/claims", icon: <ClaimsIcon /> },
     { label: "Payment", to: "/payment", icon: <PaymentIcon /> },
-    { label: "My Profile", to: "/support", icon: <SupportIcon /> },
+    { label: "My Profile", to: "/support", icon: <AccountCircleIcon /> },
   ],
   
   finance: [
@@ -42,7 +44,7 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
     { label: "Client Applications", to: "/client-finance-application", icon: <ApplicationsIcon /> },
     { label: "Financial Reports", to: "/finance-reports", icon: <FinanceIcon /> },
     { label: "Payment Processing", to: "/payment-processing", icon: <PaymentIcon /> },
-    { label: "Myprofile", to: "/financeofficer/profile", icon: <SupportIcon /> },
+    { label: "Myprofile", to: "/financeofficer/profile", icon: <AccountCircleIcon /> },
   ],
   
   manager: [
@@ -50,7 +52,6 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
     { label: "Team Management", to: "/team-management", icon: <TeamIcon /> },
     { label: "Performance", to: "/performance", icon: <TeamIcon /> },
     { label: "Support", to: "/support", icon: <SupportIcon /> },
-    { label: "Myprofile", to: "/manager/profile", icon: <SupportIcon /> },
   ],
   
   operator: [
@@ -58,7 +59,7 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
     { label: "Claims", to: "/operating-claims", icon: <ClaimsIcon /> },
     {label: "Recent transaction" , to: "/Recent-transaction", icon:<PaymentIcon />},
     { label: "Support", to: "/support", icon: <SupportIcon /> },
-    {label: "Myprofile", to: "/operatingofficer/profile", icon: <SupportIcon /> },
+    {label: "Myprofile", to: "/operatingofficer/profile", icon: <AccountCircleIcon /> },
   ],
 };
 
