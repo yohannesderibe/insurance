@@ -11,7 +11,35 @@ import {
   ArrowRight
 } from "lucide-react";
 
+import { useEffect, useState } from "react";
+import {
+  getClientDashboard,
+   type ClientDashboardResponse
+} from "../../../api/Coustomer/Dashboard/clientDashApi";
+
+
+
+
+
 const CoustmerDash: React.FC = () => {
+
+const [dashboard, setDashboard] =
+  useState<ClientDashboardResponse | null>(null);
+const [error, setError] = useState<string | null>(null);
+
+useEffect(() => {
+  const loadDashboard = async () => {
+    try {
+      const res = await getClientDashboard();
+      setDashboard(res);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  loadDashboard();
+}, []);
+
 
   const quickActions = [
     {
@@ -45,9 +73,16 @@ const CoustmerDash: React.FC = () => {
   ];
 
   const stats = [
-    { label: "Active Policies", value: "3", icon: <Shield className="w-6 h-6" />, color: "text-blue-600" },
-    { label: "Total Claims", value: "1", icon: <AlertTriangle className="w-6 h-6" />, color: "text-orange-600" },
-    { label: "Premium Paid", value: "$2,400", icon: <TrendingUp className="w-6 h-6" />, color: "text-green-600" },
+    { label: "Active Policies", value:"0", icon: <Shield className="w-6 h-6" />, color: "text-blue-600" },
+    { label: "Total Claims", value:"0", icon: <AlertTriangle className="w-6 h-6" />, color: "text-orange-600" },
+    { label: "Premium Paid", value:  dashboard
+      ? `${dashboard.totalPaidAmount.toLocaleString()} ETB`
+      : "—", icon: <TrendingUp className="w-6 h-6" />, color: "text-green-600" },
+
+
+        { label: "Approved Applications", value: dashboard?.approvedApplications ?? "—", icon: <Shield className="w-6 h-6" />, color: "text-blue-600" },
+    { label: "Total Applications", value: dashboard?.totalApplications ?? "—", icon: <AlertTriangle className="w-6 h-6" />, color: "text-orange-600" },
+    { label: "Premium Paid", value:"0", icon: <TrendingUp className="w-6 h-6" />, color: "text-green-600" },
     // { label: "Next Payment", value: "Dec 15", icon: <CreditCard className="w-6 h-6" />, color: "text-purple-600" }
   ];
 
