@@ -24,8 +24,10 @@ const api: AxiosInstance = axios.create({
 
 // Request interceptor
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = localStorage.getItem('authToken');
-  //  const token = localStorage.getItem("token");
+  const token =
+    localStorage.getItem('authToken') ??
+    localStorage.getItem('token') ??
+    localStorage.getItem('accessToken');
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
      // Set Content-Type for JSON requests only:

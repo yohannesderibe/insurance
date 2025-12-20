@@ -1,4 +1,39 @@
 import axios from "axios";
+ import api from "../../axios"; // your configured axios instance
+
+// ---------- Motor Claim ----------
+export const submitMotorClaim = (
+  motorApplicationId: string,
+  data: FormData
+) => {
+  return api.post(
+    `/api/Client/claims/motor/${motorApplicationId}`,
+    data,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }
+  );
+};
+
+// ---------- Life Claim ----------
+export const submitLifeClaim = (
+  lifeApplicationId: string,
+  data: FormData
+) => {
+  return api.post(
+    `/api/Client/claims/life/${lifeApplicationId}`,
+    data,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }
+  );
+};
+
+
 import { customerClaims, type CustomerClaim } from "../../../mockdata/claims";
 
 const API_URL = "http://localhost:5150/api/Customer";
