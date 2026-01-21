@@ -89,6 +89,7 @@
 
 // // Manager Pages
 // const ManagerDash = lazy(() => import('../pages/Actors/Manager/ManagerDash'));
+// const ManagerClaimReview = lazy(() => import('../pages/Actors/Manager/ManagerClaimReview'));
 
 // // Customer Pages
 // const CoustmerDash = lazy(() => import('../pages/Actors/Coustmer/CoustmerDash'));
@@ -136,7 +137,7 @@
 //         onClose={() => setSidebarOpen(false)}
 //         onCollapse={handleSidebarCollapse}
 //       />
-      
+
 //       {/* Mobile Header */}
 //       <div className="md:hidden fixed top-0 left-0 right-0 bg-white shadow-sm z-20 p-4 border-b border-amber-200">
 //         <div className="flex items-center justify-between">
@@ -349,7 +350,7 @@
 // export default AppRoutes;
 import React, { lazy, Suspense, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import {InsuranceApplicationProvider } from '../context/InsuranceApplicationContext'
+import { InsuranceApplicationProvider } from '../context/InsuranceApplicationContext'
 // Type definitions
 type Role = 'admin' | 'customer' | 'finance' | 'manager' | 'operator';
 import { LifeInsuranceProvider } from '../context/LifeInsuranceContext';
@@ -369,7 +370,8 @@ const CatagoryInAdmin = lazy(() => import('../pages/Actors/Admin/Catagory-Manage
 
 // Manager Pages
 const ManagerDash = lazy(() => import('../pages/Actors/Manager/ManagerDash'));
-const ManagerProfile = lazy(() =>import ("../pages/Actors/Manager/ManagerProfile") )
+const ManagerProfile = lazy(() => import("../pages/Actors/Manager/ManagerProfile"))
+const ManagerClaimReview = lazy(() => import("../pages/Actors/Manager/ManagerClaimReview"));
 
 // Customer Pages
 const CoustmerDash = lazy(() => import('../pages/Actors/Coustmer/CoustmerDash'));
@@ -388,7 +390,7 @@ const InsuranceCarStep = lazy(() => import('../pages/Actors/Coustmer/InsuranceAp
 // const InsuranceCategories = lazy(() => import('../pages/Actors/Coustmer/InsuranceCategories'));
 // const CategoryDetails = lazy(() => import('../pages/Actors/Coustmer/CategoryDetails'));
 // const InsurancePurchase = lazy(() => import('../pages/Actors/Coustmer/InsurancePurchase'));
- const ClientProfilePage = lazy(() => import('../pages/Actors/Coustmer/myprofile/MyProfile'));
+const ClientProfilePage = lazy(() => import('../pages/Actors/Coustmer/myprofile/MyProfile'));
 const CoustomerInsuranceCategories = lazy(() => import('../pages/Actors/Coustmer/Catagory/CategoryPage'));
 const CoustomerInsuranceSubCategories = lazy(() => import('../pages/Actors/Coustmer/Catagory/Subcategories'));
 
@@ -397,15 +399,15 @@ const CoustomerInsuranceSubCategories = lazy(() => import('../pages/Actors/Coust
 const OperatingDash = lazy(() => import('../pages/Actors/OperatingOfficer/OpDash'));
 const OperatingOfficerClaimReview = lazy(() => import('../pages/Actors/OperatingOfficer/OperatingOfficerClaimReview'));
 const ClaimDetails = lazy(() => import('../pages/Actors/OperatingOfficer/ClaimDetails'));
-const RecentPayment = lazy(() => import ("../pages/Actors/OperatingOfficer/might-Remove/RecentPayments"))
-const OperatingProfile = lazy(() =>import ("../pages/Actors/OperatingOfficer/OperatorProfile") )
+const RecentPayment = lazy(() => import("../pages/Actors/OperatingOfficer/might-Remove/RecentPayments"))
+const OperatingProfile = lazy(() => import("../pages/Actors/OperatingOfficer/OperatorProfile"))
 
 
 // Finance Officer Pages
 const FinanceDash = lazy(() => import('../pages/Actors/Finance/FinanceDash'));
 const FinanceApplications = lazy(() => import('../pages/Actors/Finance/FinanceApplications'));
 const FinanceOfficerClientApplications = lazy(() => import('../pages/Actors/Finance/FinanceOfficerClientApplications'));
-const FinanceProfile = lazy(() =>import ("../pages/Actors/Finance/FinanceProfile") )
+const FinanceProfile = lazy(() => import("../pages/Actors/Finance/FinanceProfile"))
 
 
 //finace and coustomer combied to do together 
@@ -431,10 +433,10 @@ interface DashboardLayoutProps {
   SidebarComponent: React.LazyExoticComponent<React.ComponentType<Record<string, unknown>>>;
 }
 
-const DashboardLayout: React.FC<DashboardLayoutProps> = ({ 
-  children, 
-  role, 
-  SidebarComponent 
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({
+  children,
+  role,
+  SidebarComponent
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -446,16 +448,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-amber-50/50 to-yellow-50/50">
       {/* Sidebar */}
-      <SidebarComponent 
-        open={sidebarOpen} 
+      <SidebarComponent
+        open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         onCollapse={handleSidebarCollapse}
       />
-      
+
       {/* Mobile Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 bg-white shadow-sm z-20 p-4 border-b border-amber-200">
         <div className="flex items-center justify-between">
-          <button 
+          <button
             onClick={() => setSidebarOpen(true)}
             className="p-2 rounded-lg bg-amber-100 text-amber-700"
           >
@@ -469,9 +471,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       </div>
 
       {/* Main Content */}
-      <main className={`flex-1 transition-all duration-300 ${
-        isSidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-      } pt-16 md:pt-0`}>
+      <main className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
+        } pt-16 md:pt-0`}>
         <div className="p-6">
           {children}
         </div>
@@ -501,9 +502,9 @@ interface ProtectedRouteWrapperProps {
   component: React.LazyExoticComponent<React.ComponentType<Record<string, never>>>;
 }
 
-const ProtectedRouteWrapper: React.FC<ProtectedRouteWrapperProps> = ({ 
-  role, 
-  component: Component 
+const ProtectedRouteWrapper: React.FC<ProtectedRouteWrapperProps> = ({
+  role,
+  component: Component
 }) => {
   // Map roles to their respective sidebar components
   const getSidebarComponent = (): React.LazyExoticComponent<React.ComponentType<Record<string, unknown>>> => {
@@ -520,9 +521,9 @@ const ProtectedRouteWrapper: React.FC<ProtectedRouteWrapperProps> = ({
   const SidebarComponent = getSidebarComponent();
 
   return (
-      <DashboardLayout role={role} SidebarComponent={SidebarComponent}>
-        <Component />
-      </DashboardLayout>
+    <DashboardLayout role={role} SidebarComponent={SidebarComponent}>
+      <Component />
+    </DashboardLayout>
   );
 };
 
@@ -545,77 +546,77 @@ const AppRoutes: React.FC = () => {
         <Route path="/selfcreatedclient" element={<SelfRegistedClient />} />
 
         {/* Admin Routes */}
-        <Route 
-          path="/admindash" 
-          element={<ProtectedRouteWrapper role="admin" component={AdminDash} />} 
+        <Route
+          path="/admindash"
+          element={<ProtectedRouteWrapper role="admin" component={AdminDash} />}
         />
-        <Route 
-          path="/UserManagment" 
-          element={<ProtectedRouteWrapper role="admin" component={AdminUserManagment} />} 
+        <Route
+          path="/UserManagment"
+          element={<ProtectedRouteWrapper role="admin" component={AdminUserManagment} />}
         />
-        <Route 
-          path="/catagoyinadmin" 
-          element={<ProtectedRouteWrapper role="admin" component={CatagoryInAdmin} />} 
+        <Route
+          path="/catagoyinadmin"
+          element={<ProtectedRouteWrapper role="admin" component={CatagoryInAdmin} />}
         />
 
         {/* Customer Routes - Using Top Navigation Layout */}
-        <Route 
-          path="/customerdash" 
+        <Route
+          path="/customerdash"
           element={
             <CustomerLayout>
               <CoustmerDash />
             </CustomerLayout>
-          } 
+          }
         />
         <Route path='/policy'
-        element={
-          <CustomerLayout>
-            <CustomerPolicies />
-          </CustomerLayout> 
-        }
-          />
+          element={
+            <CustomerLayout>
+              <CustomerPolicies />
+            </CustomerLayout>
+          }
+        />
 
-          <Route path='/claims'
-        element={
-          <CustomerLayout>
-            <CustomerClaims />
-          </CustomerLayout> 
-        }
-          />
+        <Route path='/claims'
+          element={
+            <CustomerLayout>
+              <CustomerClaims />
+            </CustomerLayout>
+          }
+        />
 
-          <Route path='/claims/file'
-          element ={
+        <Route path='/claims/file'
+          element={
             <CustomerLayout>
               <FileClaimWizard />
             </CustomerLayout>
           }
-          />
+        />
 
         <Route path="/categories"
-        element={
-          <CustomerLayout>
-            <CoustomerInsuranceCategories />
-          </CustomerLayout>
-        }
+          element={
+            <CustomerLayout>
+              <CoustomerInsuranceCategories />
+            </CustomerLayout>
+          }
         />
 
 
         <Route path="/categories/:id"
-        element={
-          <CustomerLayout>
-            <CoustomerInsuranceSubCategories />
-          </CustomerLayout>
-        }
+          element={
+            <CustomerLayout>
+              <CoustomerInsuranceSubCategories />
+            </CustomerLayout>
+          }
         />
 
 
-             <Route 
-          path="/customer/profile" 
+        <Route
+          path="/customer/profile"
           element={
             <CustomerLayout>
               <ClientProfilePage />
             </CustomerLayout>
-          } 
+          }
         />
 
         {/* <Route 
@@ -656,101 +657,101 @@ const AppRoutes: React.FC = () => {
 
         {/* for apply  */}
         <Route path='/apply/personal-info'
-        element={
-          <CustomerLayout>
-           
-            <InsurancePersonalStep />
-           
+          element={
+            <CustomerLayout>
+
+              <InsurancePersonalStep />
+
             </CustomerLayout>
-        }
+          }
         />
 
         <Route path='/apply/insurance-calculation'
-        element={
-          <CustomerLayout>
-         
-            <InsuranceCalculationStep />
-         
+          element={
+            <CustomerLayout>
+
+              <InsuranceCalculationStep />
+
             </CustomerLayout>
-        }
+          }
         />
 
         <Route path='/apply/health-info'
-        element={
-          <CustomerLayout>
-            <HealthInfoStep />
+          element={
+            <CustomerLayout>
+              <HealthInfoStep />
             </CustomerLayout>
-        }
-        />
-         
-
-        <Route  path='/apply/life-info'
-        element={
-          <CustomerLayout>
-            <LifeInfoStep />
-            </CustomerLayout>
-        }
+          }
         />
 
-        <Route  path='/apply/car-info'
-        element={
-          <CustomerLayout>
-            <InsuranceCarStep />
-          </CustomerLayout>
-        }
+
+        <Route path='/apply/life-info'
+          element={
+            <CustomerLayout>
+              <LifeInfoStep />
+            </CustomerLayout>
+          }
+        />
+
+        <Route path='/apply/car-info'
+          element={
+            <CustomerLayout>
+              <InsuranceCarStep />
+            </CustomerLayout>
+          }
         />
 
         <Route path='/payment/review'
-        element={
-          <CustomerLayout>
-            <FinanceOfficerReview />
+          element={
+            <CustomerLayout>
+              <FinanceOfficerReview />
             </CustomerLayout>
-        }
+          }
         />
         <Route path='/insurance/apply/payment'
-        element={
-          <CustomerLayout>
-            <PaymentStep/>
-          </CustomerLayout>
-        }
+          element={
+            <CustomerLayout>
+              <PaymentStep />
+            </CustomerLayout>
+          }
         />
         <Route path='/insurance/apply/rejected'
-        element={
-          <CustomerLayout>
-            <RejectionPage/>
+          element={
+            <CustomerLayout>
+              <RejectionPage />
             </CustomerLayout>
-        }
+          }
         />
 
 
-      
+
 
 
 
         {/* Operating Officer Routes */}
-        <Route 
-          path="/operatingdash" 
-          element={<ProtectedRouteWrapper role="operator" component={OperatingDash} />} 
+        <Route
+          path="/operatingdash"
+          element={<ProtectedRouteWrapper role="operator" component={OperatingDash} />}
         />
-        <Route 
-          path="/operatingofficer/claim-review" 
-          element={<ProtectedRouteWrapper role="operator" component={OperatingOfficerClaimReview} />} 
+        <Route
+          path="/operatingofficer/claim-review"
+          element={<ProtectedRouteWrapper role="operator" component={OperatingOfficerClaimReview} />}
         />
-        <Route 
-          path="/operatingofficer/claim-details/:id" 
-          element={<ProtectedRouteWrapper role="operator" component={ClaimDetails} />} 
+        <Route
+          path="/operatingofficer/claim-details/:id"
+          element={<ProtectedRouteWrapper role="operator" component={ClaimDetails} />}
         />
 
-        <Route 
-            path='/Recent-transaction'
-            element={<ProtectedRouteWrapper role="operator" component={RecentPayment} />}
+        <Route
+          path='/Recent-transaction'
+          element={<ProtectedRouteWrapper role="operator" component={RecentPayment} />}
 
-          />
+        />
 
-          <Route 
-            path="/operatingofficer/profile"
-            element={<ProtectedRouteWrapper role="operator" component={OperatingProfile} />}
-          />
+        <Route
+          path="/operatingofficer/profile"
+          element={<ProtectedRouteWrapper role="operator" component={OperatingProfile} />}
+        />
 
 
 
@@ -758,23 +759,23 @@ const AppRoutes: React.FC = () => {
 
 
         {/* Finance Officer Routes */}
-        <Route 
-          path="/financedash" 
-          element={<ProtectedRouteWrapper role="finance" component={FinanceDash} />} 
+        <Route
+          path="/financedash"
+          element={<ProtectedRouteWrapper role="finance" component={FinanceDash} />}
         />
 
-               <Route 
-          path="/finance-applications" 
-          element={<ProtectedRouteWrapper role="finance" component={FinanceApplications} />} 
+        <Route
+          path="/finance-applications"
+          element={<ProtectedRouteWrapper role="finance" component={FinanceApplications} />}
         />
-        <Route 
-          path="/client-finance-application" 
-          element={<ProtectedRouteWrapper role="finance" component={FinanceOfficerClientApplications} />} 
+        <Route
+          path="/client-finance-application"
+          element={<ProtectedRouteWrapper role="finance" component={FinanceOfficerClientApplications} />}
         />
 
-          <Route 
-          path="/financeofficer/profile" 
-          element={<ProtectedRouteWrapper role="finance" component={FinanceProfile} />} 
+        <Route
+          path="/financeofficer/profile"
+          element={<ProtectedRouteWrapper role="finance" component={FinanceProfile} />}
         />
 
 
@@ -783,17 +784,22 @@ const AppRoutes: React.FC = () => {
 
 
         {/* Manager Routes */}
-        <Route 
-          path="/managerdash" 
-          element={<ProtectedRouteWrapper role="manager" component={ManagerDash} />} 
+        <Route
+          path="/managerdash"
+          element={<ProtectedRouteWrapper role="manager" component={ManagerDash} />}
         />
 
-        <Route  
+        <Route
           path="/manager/profile"
           element={<ProtectedRouteWrapper role="manager" component={ManagerProfile} />}
         />
 
-        
+        <Route
+          path="/manager/claims"
+          element={<ProtectedRouteWrapper role="manager" component={ManagerClaimReview} />}
+        />
+
+
 
         {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/" replace />} />

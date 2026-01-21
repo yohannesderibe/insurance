@@ -44,7 +44,7 @@
 //         <div className={`h-20 px-4 flex items-center border-b ${borderColor} ${
 //           isCollapsed ? "justify-center" : "justify-between"
 //         }`}>
-          
+
 //           {!isCollapsed && (
 //             <img 
 //               src="/src/assets/LogoWithName1.png" 
@@ -52,7 +52,7 @@
 //               className="h-8" 
 //             />
 //           )}
-          
+
 //           <button
 //             onClick={toggleSidebar}
 //             className={`p-1 rounded-lg transition-colors ${hoverButton} ${textColor}`}
@@ -106,16 +106,16 @@
 //           <aside className={`absolute left-0 top-0 h-full z-50 transition-transform ${
 //             isCollapsed ? "w-16" : "w-64"
 //           } ${styles.mobile}`}>
-            
+
 //             {/* Logo + Close + Toggle */}
 //             <div className={`h-20 px-4 flex items-center border-b ${borderColor} relative ${
 //               isCollapsed ? "justify-center" : "justify-between"
 //             }`}>
-              
+
 //               {!isCollapsed && (
 //                 <img src="/src/assets/niblogo.svg" alt="Logo" className="h-10" />
 //               )}
-              
+
 //               <div className="flex items-center gap-2">
 //                 <button
 //                   onClick={toggleSidebar}
@@ -124,7 +124,7 @@
 //                 >
 //                   {isCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
 //                 </button>
-                
+
 //                 {!isCollapsed && (
 //                   <button
 //                     className={`p-1 rounded-lg transition-colors ${hoverButton} ${textColor}`}
@@ -203,7 +203,7 @@ interface SidebarProps {
 }
 
 
-const Sidebar: React.FC<SidebarProps> = ({onCollapse, role, user }) => {
+const Sidebar: React.FC<SidebarProps> = ({ onCollapse, role, user }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [currentUser, setCurrentUser] = useState<{ fullName: string; role: string } | null>(user || null);
   const navigate = useNavigate();
@@ -255,17 +255,15 @@ const Sidebar: React.FC<SidebarProps> = ({onCollapse, role, user }) => {
     <>
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden md:block fixed h-full top-0 left-0 z-30 transition-all duration-300 ${
-          isCollapsed ? "w-16" : "w-64"
-        } ${styles.desktop}`}
+        className={`hidden md:block fixed h-full top-0 left-0 z-30 transition-all duration-300 ${isCollapsed ? "w-16" : "w-64"
+          } ${styles.desktop}`}
       >
         {/* Logo and Toggle */}
         <div
-          className={`h-20 px-4 flex items-center border-b ${borderColor} ${
-            isCollapsed ? "justify-center" : "justify-between"
-          }`}
+          className={`h-20 px-4 flex items-center border-b ${borderColor} ${isCollapsed ? "justify-center" : "justify-between"
+            }`}
         >
-          {!isCollapsed && <img src="/src/assets/LogoWithName1.png" alt="Logo" className="h-8" />}
+          {!isCollapsed && <img src="/src/assets/LogoWithName1.png" alt="Logo" className="h-16" />}
 
           <button
             onClick={toggleSidebar}
@@ -282,8 +280,7 @@ const Sidebar: React.FC<SidebarProps> = ({onCollapse, role, user }) => {
               key={`${item.label}-${item.to}`}
               to={item.to}
               className={({ isActive }) =>
-                `capitalize px-3 py-3 rounded-xl text-sm font-medium transition-all flex items-center gap-3 ${
-                  isActive ? styles.active : `${textColor} ${styles.hover}`
+                `capitalize px-3 py-3 rounded-xl text-sm font-medium transition-all flex items-center gap-3 ${isActive ? styles.active : `${textColor} ${styles.hover}`
                 } ${isCollapsed ? "justify-center" : ""}`
               }
               title={isCollapsed ? item.label : ""}
@@ -300,7 +297,7 @@ const Sidebar: React.FC<SidebarProps> = ({onCollapse, role, user }) => {
             <>
               <div className={`rounded-lg p-3 mb-3 bg-white/10 ${textColor}`}>
                 <p className="font-semibold text-sm truncate">
-                  {currentUser?.fullName ||currentUser?.name|| "Guest User"}
+                  {currentUser?.fullName || currentUser?.name || "Guest User"}
                 </p>
                 <p className="text-xs opacity-80 capitalize">{currentUser?.role || role}</p>
               </div>
@@ -317,9 +314,9 @@ const Sidebar: React.FC<SidebarProps> = ({onCollapse, role, user }) => {
             <div className="flex flex-col items-center">
               <div
                 className="w-10 h-10 flex items-center justify-center rounded-full bg-white/20 text-sm font-bold cursor-default"
-                title={`${currentUser?.fullName ||currentUser?.name || "Guest"} (${currentUser?.role || role})`}
+                title={`${currentUser?.fullName || currentUser?.name || "Guest"} (${currentUser?.role || role})`}
               >
-                {getInitials(currentUser?.fullName ||currentUser?.name || "G")}
+                {getInitials(currentUser?.fullName || currentUser?.name || "G")}
               </div>
               <button
                 onClick={handleLogout}
@@ -336,9 +333,8 @@ const Sidebar: React.FC<SidebarProps> = ({onCollapse, role, user }) => {
         <div className={`absolute bottom-4 left-0 right-0 px-4 ${isCollapsed ? "flex justify-center" : ""}`}>
           <button
             onClick={toggleSidebar}
-            className={`p-2 rounded-lg transition-colors ${bgButton} ${textColor} ${
-              isCollapsed ? "" : "w-full flex items-center gap-3 px-3"
-            }`}
+            className={`p-2 rounded-lg transition-colors ${bgButton} ${textColor} ${isCollapsed ? "" : "w-full flex items-center gap-3 px-3"
+              }`}
           >
             <MenuIcon />
             {!isCollapsed && <span>Collapse Menu</span>}
