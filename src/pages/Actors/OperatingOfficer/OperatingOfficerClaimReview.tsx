@@ -1,13 +1,22 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { TableRow, TableCell } from "@mui/material";
 import ReusableTable from "../../../components/Tables/ReusableTable";
+<<<<<<< HEAD
 import { Search, CheckCircle, XCircle, FileText, StickyNote, Calendar, Eye, DollarSign, AlertCircle, ArrowLeftCircle } from "lucide-react";
+=======
+import { Search, CheckCircle, XCircle, FileText, StickyNote, Calendar, Eye, DollarSign, AlertCircle } from "lucide-react";
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
 import {
   getOperatorClaims,
   updateOperatorClaimStatus,
   type CustomerClaim,
+<<<<<<< HEAD
 } from "../../../api/OperatingOfficer/claimReviewApi";
 // import type { ClaimStatus } from "../../../mockdata/claims";
+=======
+  type OperatorClaimDto,
+} from "../../../api/OperatingOfficer/claimReviewApi";
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
 
 type FilterStatus = "All" | "Submitted" | "In Review" | "OperatorApproved" | "OperatorRejected" | "SentBack" | "Approved" | "Rejected";
 
@@ -15,13 +24,21 @@ type FilterStatus = "All" | "Submitted" | "In Review" | "OperatorApproved" | "Op
 const NotesModal: React.FC<{ claim: CustomerClaim | null; onClose: () => void; onSaved: () => void; }> = ({ claim, onClose, onSaved }) => {
   const [notes, setNotes] = useState<string>(claim?.notes ?? "");
   useEffect(() => { setNotes(claim?.notes ?? ""); }, [claim]);
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
   const save = async () => {
     if (!claim) return;
     await updateOperatorClaimStatus(claim.id, claim.status as any, notes);
     onSaved();
   };
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
   if (!claim) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
@@ -30,11 +47,19 @@ const NotesModal: React.FC<{ claim: CustomerClaim | null; onClose: () => void; o
           <h3 className="text-lg font-bold text-amber-900">Add Notes</h3>
           <button onClick={onClose} className="px-3 py-1 rounded-lg border border-amber-300 text-amber-700 hover:bg-amber-50">Close</button>
         </div>
+<<<<<<< HEAD
         <textarea
           value={notes}
           onChange={e => setNotes(e.target.value)}
           rows={6}
           className="w-full border border-amber-200 rounded-lg p-2 text-sm focus:ring-1 focus:ring-amber-500"
+=======
+        <textarea 
+          value={notes} 
+          onChange={e => setNotes(e.target.value)} 
+          rows={6} 
+          className="w-full border border-amber-200 rounded-lg p-2 text-sm focus:ring-1 focus:ring-amber-500" 
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
           placeholder="Enter notes about this claim..."
         />
         <div className="mt-4 flex justify-end gap-2">
@@ -47,10 +72,17 @@ const NotesModal: React.FC<{ claim: CustomerClaim | null; onClose: () => void; o
 };
 
 // Approval Modal
+<<<<<<< HEAD
 const ApprovalModal: React.FC<{
   claim: CustomerClaim | null;
   onClose: () => void;
   onApproved: (amount: number) => void;
+=======
+const ApprovalModal: React.FC<{ 
+  claim: CustomerClaim | null; 
+  onClose: () => void; 
+  onApproved: (amount: number) => void; 
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
 }> = ({ claim, onClose, onApproved }) => {
   const [amount, setAmount] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -70,7 +102,11 @@ const ApprovalModal: React.FC<{
   };
 
   if (!claim) return null;
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div className="w-full max-w-md bg-white rounded-xl border border-green-200 shadow-xl p-6">
@@ -79,11 +115,19 @@ const ApprovalModal: React.FC<{
             <CheckCircle className="w-6 h-6 text-green-600" />
           </div>
           <div>
+<<<<<<< HEAD
             <h3 className="text-lg font-bold text-gray-900">Approve & Forward</h3>
             <p className="text-sm text-gray-600">Claim #{claim.claimNumber}</p>
           </div>
         </div>
 
+=======
+            <h3 className="text-lg font-bold text-gray-900">Approve Claim</h3>
+            <p className="text-sm text-gray-600">Claim #{claim.claimNumber}</p>
+          </div>
+        </div>
+        
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Approved Amount ($)
@@ -104,9 +148,12 @@ const ApprovalModal: React.FC<{
           <p className="text-xs text-gray-500 mt-2">
             Original requested amount: ${claim.amountRequested.toLocaleString()}
           </p>
+<<<<<<< HEAD
           <p className="text-xs text-amber-600 mt-2 italic">
             Note: This will be sent to the Manager for final verification.
           </p>
+=======
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
         </div>
 
         <div className="flex justify-end gap-3">
@@ -130,7 +177,11 @@ const ApprovalModal: React.FC<{
             ) : (
               <>
                 <CheckCircle className="w-4 h-4" />
+<<<<<<< HEAD
                 Confirm Approval
+=======
+                Approve Claim
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
               </>
             )}
           </button>
@@ -141,10 +192,17 @@ const ApprovalModal: React.FC<{
 };
 
 // Rejection Modal
+<<<<<<< HEAD
 const RejectionModal: React.FC<{
   claim: CustomerClaim | null;
   onClose: () => void;
   onRejected: (reason: string) => void;
+=======
+const RejectionModal: React.FC<{ 
+  claim: CustomerClaim | null; 
+  onClose: () => void; 
+  onRejected: (reason: string) => void; 
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
 }> = ({ claim, onClose, onRejected }) => {
   const [reason, setReason] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -164,7 +222,11 @@ const RejectionModal: React.FC<{
   };
 
   if (!claim) return null;
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div className="w-full max-w-md bg-white rounded-xl border border-red-200 shadow-xl p-6">
@@ -173,11 +235,19 @@ const RejectionModal: React.FC<{
             <XCircle className="w-6 h-6 text-red-600" />
           </div>
           <div>
+<<<<<<< HEAD
             <h3 className="text-lg font-bold text-gray-900">Reject & Forward</h3>
             <p className="text-sm text-gray-600">Claim #{claim.claimNumber}</p>
           </div>
         </div>
 
+=======
+            <h3 className="text-lg font-bold text-gray-900">Reject Claim</h3>
+            <p className="text-sm text-gray-600">Claim #{claim.claimNumber}</p>
+          </div>
+        </div>
+        
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Rejection Reason
@@ -190,8 +260,13 @@ const RejectionModal: React.FC<{
             rows={4}
             autoFocus
           />
+<<<<<<< HEAD
           <p className="text-xs text-amber-600 mt-2 italic">
             Note: This rejection will be reviewed by the Manager before being finalized.
+=======
+          <p className="text-xs text-gray-500 mt-2">
+            This reason will be shared with the client
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
           </p>
         </div>
 
@@ -216,7 +291,11 @@ const RejectionModal: React.FC<{
             ) : (
               <>
                 <XCircle className="w-4 h-4" />
+<<<<<<< HEAD
                 Confirm Rejection
+=======
+                Reject Claim
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
               </>
             )}
           </button>
@@ -227,6 +306,7 @@ const RejectionModal: React.FC<{
 };
 
 // Details Modal with improved styling
+<<<<<<< HEAD
 const DetailsModal: React.FC<{
   claim: CustomerClaim | null;
   onClose: () => void;
@@ -237,12 +317,37 @@ const DetailsModal: React.FC<{
   if (!claim) return null;
 
   const canAct = claim.status === 'Submitted' || claim.status === 'In Review' || claim.status === 'SentBack';
+=======
+const DetailsModal: React.FC<{ 
+  claim: CustomerClaim | null; 
+  onClose: () => void;
+  onApprove: () => void;
+  onReject: () => void;
+  backendData?: OperatorClaimDto;
+}> = ({ claim, onClose, onApprove, onReject, backendData }) => {
+  if (!claim) return null;
+  
+  // Format time from "101.00:00:00" to readable format
+  const formatIncidentTime = (timeString: string) => {
+    if (!timeString) return "Not specified";
+    const parts = timeString.split('.');
+    if (parts.length === 2) {
+      const [days, time] = parts;
+      return `${days} days, ${time}`;
+    }
+    return timeString;
+  };
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 overflow-y-auto">
       <div className="w-full max-w-4xl bg-white rounded-xl border border-amber-200 shadow-2xl my-8">
         {/* Header */}
+<<<<<<< HEAD
         <div className="sticky top-0 bg-gradient-to-r from-amber-50 to-yellow-50 border-b border-amber-200 p-6 rounded-t-xl z-20">
+=======
+        <div className="sticky top-0 bg-gradient-to-r from-amber-50 to-yellow-50 border-b border-amber-200 p-6 rounded-t-xl">
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-2xl font-bold text-amber-900">Claim Details</h3>
@@ -259,6 +364,7 @@ const DetailsModal: React.FC<{
 
         {/* Content */}
         <div className="p-6">
+<<<<<<< HEAD
           {/* Warning for SentBack state */}
           {claim.status === 'SentBack' && (
             <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex gap-3">
@@ -271,6 +377,8 @@ const DetailsModal: React.FC<{
             </div>
           )}
 
+=======
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Column - Claim Information */}
             <div className="space-y-6">
@@ -283,11 +391,20 @@ const DetailsModal: React.FC<{
                   <DetailItem label="Claim ID" value={claim.id} />
                   <DetailItem label="Claim Number" value={claim.claimNumber} />
                   <DetailItem label="Status" value={
+<<<<<<< HEAD
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${claim.status.includes('Approved') ? 'bg-green-100 text-green-800' :
                         claim.status.includes('Rejected') ? 'bg-red-100 text-red-800' :
                           claim.status === 'SentBack' ? 'bg-red-100 text-red-800' :
                             'bg-blue-100 text-blue-800'
                       }`}>
+=======
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      claim.status === 'Approved' ? 'bg-green-100 text-green-800' :
+                      claim.status === 'Rejected' ? 'bg-red-100 text-red-800' :
+                      claim.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                      'bg-blue-100 text-blue-800'
+                    }`}>
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
                       {claim.status}
                     </span>
                   } />
@@ -312,7 +429,11 @@ const DetailsModal: React.FC<{
               </div>
             </div>
 
+<<<<<<< HEAD
             {/* Right Column - Incident Information */}
+=======
+            {/* Right Column - Incident & Client Information */}
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
             <div className="space-y-6">
               {/* Incident Details */}
               <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-5">
@@ -323,10 +444,41 @@ const DetailsModal: React.FC<{
                 <div className="space-y-3">
                   <DetailItem label="Incident Date" value={new Date(claim.incidentDate).toLocaleDateString()} />
                   <DetailItem label="Submitted On" value={new Date(claim.submittedOn).toLocaleDateString()} />
+<<<<<<< HEAD
                   {claim.adjuster && <DetailItem label="Adjuster" value={claim.adjuster} />}
                 </div>
               </div>
 
+=======
+                  {backendData && (
+                    <>
+                      <DetailItem label="Incident Time" value={formatIncidentTime(backendData.incidentTime)} />
+                      <DetailItem label="Location" value={backendData.location} />
+                      <DetailItem label="Incident Type" value={backendData.incidentType} />
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Client Information */}
+              <div className="bg-purple-50/50 border border-purple-100 rounded-xl p-5">
+                <h4 className="text-lg font-semibold text-purple-800 mb-4">
+                  Client Information
+                </h4>
+                {backendData ? (
+                  <div className="space-y-3">
+                    <DetailItem label="Full Name" value={
+                      `${backendData.clientFirstName} ${backendData.clientFatherName} ${backendData.clientGrandFatherName}`
+                    } />
+                    <DetailItem label="Email" value={backendData.clientEmail} />
+                    <DetailItem label="Client ID" value={backendData.clientId} />
+                  </div>
+                ) : (
+                  <p className="text-gray-500 text-sm">Loading client information...</p>
+                )}
+              </div>
+
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
               {/* Description */}
               <div className="border border-gray-200 rounded-xl p-5">
                 <h4 className="text-lg font-semibold text-gray-800 mb-4">
@@ -344,6 +496,7 @@ const DetailsModal: React.FC<{
                 Attachments ({claim.attachments.length})
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+<<<<<<< HEAD
                 {claim.attachments.map((attachment, index) => (
                   <div key={index} className="border border-gray-200 rounded-lg p-3">
                     <p className="text-sm font-medium text-gray-900 truncate">{attachment}</p>
@@ -356,6 +509,59 @@ const DetailsModal: React.FC<{
 
         {/* Footer with Action Buttons */}
         <div className="sticky bottom-0 bg-gradient-to-r from-gray-50 to-gray-100 border-t border-gray-200 p-6 rounded-b-xl z-20">
+=======
+                {claim.attachments.map((attachment, index) => {
+                  const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(attachment);
+                  const isPDF = /\.pdf$/i.test(attachment);
+                  const fileName = attachment.split('/').pop() || `Attachment ${index + 1}`;
+                  
+                  return (
+                    <div key={index} className="border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded-lg ${
+                          isImage ? 'bg-blue-100' :
+                          isPDF ? 'bg-red-100' :
+                          'bg-gray-100'
+                        }`}>
+                          {isImage ? '🖼️' : isPDF ? '📄' : '📎'}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 truncate">{fileName}</p>
+                          <p className="text-xs text-gray-500">
+                            {isImage ? 'Image' : isPDF ? 'PDF Document' : 'File'}
+                          </p>
+                        </div>
+                        <a
+                          href={attachment}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-amber-600 hover:text-amber-700 font-medium"
+                        >
+                          View
+                        </a>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Notes Section */}
+          {claim.notes && (
+            <div className="mt-6 border border-amber-200 rounded-xl p-5 bg-amber-50/30">
+              <h4 className="text-lg font-semibold text-amber-800 mb-4 flex items-center gap-2">
+                <StickyNote className="w-5 h-5" />
+                Internal Notes
+              </h4>
+              <p className="text-amber-900 whitespace-pre-wrap">{claim.notes}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Footer with Action Buttons */}
+        <div className="sticky bottom-0 bg-gradient-to-r from-gray-50 to-gray-100 border-t border-gray-200 p-6 rounded-b-xl">
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
           <div className="flex justify-between items-center">
             <button
               onClick={onClose}
@@ -363,6 +569,7 @@ const DetailsModal: React.FC<{
             >
               Close Details
             </button>
+<<<<<<< HEAD
 
             {canAct && (
               <div className="flex gap-3">
@@ -389,6 +596,24 @@ const DetailsModal: React.FC<{
                 </button>
               </div>
             )}
+=======
+            <div className="flex gap-3">
+              <button
+                onClick={onReject}
+                className="px-5 py-2.5 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors flex items-center gap-2"
+              >
+                <XCircle className="w-5 h-5" />
+                Reject Claim
+              </button>
+              <button
+                onClick={onApprove}
+                className="px-5 py-2.5 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-colors flex items-center gap-2"
+              >
+                <CheckCircle className="w-5 h-5" />
+                Approve Claim
+              </button>
+            </div>
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
           </div>
         </div>
       </div>
@@ -415,19 +640,32 @@ const OperatingOfficerClaimReview: React.FC = () => {
   const [detailsFor, setDetailsFor] = useState<CustomerClaim | null>(null);
   const [approveFor, setApproveFor] = useState<CustomerClaim | null>(null);
   const [rejectFor, setRejectFor] = useState<CustomerClaim | null>(null);
+<<<<<<< HEAD
+=======
+  const [backendDataMap, setBackendDataMap] = useState<Record<string, OperatorClaimDto>>({});
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
 
   const fetchClaims = async () => {
     setLoading(true);
     try {
       const data = await getOperatorClaims();
       setClaims(data);
+      
+      // Store backend data for details view
+      // Note: This requires getOperatorClaims to also return raw backend data
+      // or we need to fetch it separately. For now, we'll handle this in details modal
     } finally {
       setLoading(false);
     }
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     fetchClaims();
+=======
+  useEffect(() => { 
+    fetchClaims(); 
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
   }, []);
 
   const filtered = useMemo(() => {
@@ -443,8 +681,16 @@ const OperatingOfficerClaimReview: React.FC = () => {
 
   const handleApprove = async (claimId: string, amount: number) => {
     try {
+<<<<<<< HEAD
       await updateOperatorClaimStatus(claimId, "OperatorApproved", undefined, amount);
       await fetchClaims();
+=======
+      await updateOperatorClaimStatus(claimId, "Approved", `Amount approved: $${amount}`);
+      // Here you would also update the amountApproved field
+      // This requires a separate API call or an updated API endpoint
+      await fetchClaims();
+      alert(`Claim approved with amount: $${amount.toLocaleString()}`);
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
       setApproveFor(null);
     } catch (error) {
       alert("Error approving claim");
@@ -454,8 +700,14 @@ const OperatingOfficerClaimReview: React.FC = () => {
 
   const handleReject = async (claimId: string, reason: string) => {
     try {
+<<<<<<< HEAD
       await updateOperatorClaimStatus(claimId, "OperatorRejected", undefined, undefined, reason);
       await fetchClaims();
+=======
+      await updateOperatorClaimStatus(claimId, "Rejected", `Rejection reason: ${reason}`);
+      await fetchClaims();
+      alert("Claim rejected");
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
       setRejectFor(null);
     } catch (error) {
       alert("Error rejecting claim");
@@ -497,6 +749,7 @@ const OperatingOfficerClaimReview: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-500" />
+<<<<<<< HEAD
               <input
                 value={search}
                 onChange={e => setSearch(e.target.value)}
@@ -511,26 +764,58 @@ const OperatingOfficerClaimReview: React.FC = () => {
                 className="w-full border border-amber-200 rounded-lg p-2 text-sm"
               >
                 {(["All", "Submitted", "In Review", "OperatorApproved", "OperatorRejected", "SentBack", "Approved", "Rejected"] as FilterStatus[]).map(s => (
+=======
+              <input 
+                value={search} 
+                onChange={e => setSearch(e.target.value)} 
+                placeholder="Search by claim # or policy..." 
+                className="w-full border border-amber-200 rounded-lg pl-10 p-2 text-sm focus:ring-1 focus:ring-amber-500" 
+              />
+            </div>
+            <div>
+              <select 
+                value={status} 
+                onChange={e => setStatus(e.target.value as FilterStatus)} 
+                className="w-full border border-amber-200 rounded-lg p-2 text-sm"
+              >
+                {(["All","Submitted","In Review","Approved","Rejected","Paid"] as FilterStatus[]).map(s => (
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
                   <option key={s} value={s}>{s}</option>
                 ))}
               </select>
             </div>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-500" />
+<<<<<<< HEAD
               <input
                 type="date"
                 value={dateFrom}
                 onChange={e => setDateFrom(e.target.value)}
                 className="w-full border border-amber-200 rounded-lg pl-10 p-2 text-sm"
+=======
+              <input 
+                type="date" 
+                value={dateFrom} 
+                onChange={e => setDateFrom(e.target.value)} 
+                className="w-full border border-amber-200 rounded-lg pl-10 p-2 text-sm" 
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
               />
             </div>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-500" />
+<<<<<<< HEAD
               <input
                 type="date"
                 value={dateTo}
                 onChange={e => setDateTo(e.target.value)}
                 className="w-full border border-amber-200 rounded-lg pl-10 p-2 text-sm"
+=======
+              <input 
+                type="date" 
+                value={dateTo} 
+                onChange={e => setDateTo(e.target.value)} 
+                className="w-full border border-amber-200 rounded-lg pl-10 p-2 text-sm" 
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
               />
             </div>
           </div>
@@ -548,6 +833,7 @@ const OperatingOfficerClaimReview: React.FC = () => {
               <ReusableTable
                 columns={columns}
                 data={filtered}
+<<<<<<< HEAD
                 renderRow={(row: CustomerClaim) => {
                   const canAct = row.status === 'Submitted' || row.status === 'In Review' || row.status === 'SentBack';
                   return (
@@ -620,6 +906,74 @@ const OperatingOfficerClaimReview: React.FC = () => {
                     </TableRow>
                   );
                 }}
+=======
+                renderRow={(row: CustomerClaim) => (
+                  <TableRow key={row.id} className="hover:bg-amber-50">
+                    <TableCell className="py-3 px-4 font-medium text-amber-900">{row.claimNumber}</TableCell>
+                    <TableCell className="py-3 px-4 text-amber-800">{row.policyName}</TableCell>
+                    <TableCell className="py-3 px-4">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        row.type === "Motor" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800"
+                      }`}>
+                        {row.type}
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-3 px-4 text-amber-700">{new Date(row.submittedOn).toLocaleDateString()}</TableCell>
+                    <TableCell className="py-3 px-4 text-amber-700 font-medium" align="right">
+                      ${row.amountRequested.toLocaleString()}
+                    </TableCell>
+                    <TableCell className="py-3 px-4">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        row.status === 'Approved' ? 'bg-green-100 text-green-800' :
+                        row.status === 'Rejected' ? 'bg-red-100 text-red-800' :
+                        row.status === 'Submitted' || row.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-blue-100 text-blue-800'
+                      }`}>
+                        {row.status}
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-3 px-4 text-center">
+                      <div className="flex justify-center gap-1">
+                        <button 
+                          onClick={() => setDetailsFor(row)} 
+                          className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-700 transition-colors" 
+                          title="View Details"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button 
+                          onClick={() => setNotesFor(row)} 
+                          className="p-2 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-700 transition-colors" 
+                          title="Add Notes"
+                        >
+                          <StickyNote className="w-4 h-4" />
+                        </button>
+                        <button 
+                          onClick={() => setInReview(row.id)} 
+                          className="p-2 rounded-lg bg-yellow-100 hover:bg-yellow-200 text-yellow-700 transition-colors" 
+                          title="Mark In Review"
+                        >
+                          <FileText className="w-4 h-4" />
+                        </button>
+                        <button 
+                          onClick={() => setApproveFor(row)} 
+                          className="p-2 rounded-lg bg-green-100 hover:bg-green-200 text-green-700 transition-colors" 
+                          title="Approve"
+                        >
+                          <CheckCircle className="w-4 h-4" />
+                        </button>
+                        <button 
+                          onClick={() => setRejectFor(row)} 
+                          className="p-2 rounded-lg bg-red-100 hover:bg-red-200 text-red-600 transition-colors" 
+                          title="Reject"
+                        >
+                          <XCircle className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )}
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
               />
               {filtered.length === 0 && (
                 <div className="text-center py-12">
@@ -638,9 +992,15 @@ const OperatingOfficerClaimReview: React.FC = () => {
         <NotesModal
           claim={notesFor}
           onClose={() => setNotesFor(null)}
+<<<<<<< HEAD
           onSaved={async () => {
             setNotesFor(null);
             await fetchClaims();
+=======
+          onSaved={async () => { 
+            setNotesFor(null); 
+            await fetchClaims(); 
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
           }}
         />
       )}
@@ -676,10 +1036,15 @@ const OperatingOfficerClaimReview: React.FC = () => {
             setDetailsFor(null);
             setRejectFor(detailsFor);
           }}
+<<<<<<< HEAD
           onInReview={() => {
             setInReview(detailsFor.id);
             setDetailsFor(null);
           }}
+=======
+          // Pass backend data if available
+          backendData={backendDataMap[detailsFor.id]}
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
         />
       )}
     </div>

@@ -58,7 +58,11 @@ export const MENU_CONFIG: Record<string, MenuItem[]> = {
   operator: [
     { label: "Dashboard", to: "/operatingdash", icon: <DashboardIcon /> },
     { label: "Claims", to: "/operatingofficer/claim-review", icon: <ClaimsIcon /> },
+<<<<<<< HEAD
     { label: "Recent transaction", to: "/Recent-transaction", icon: <PaymentIcon /> },
+=======
+    {label: "Recent transaction" , to: "/Recent-transaction", icon:<PaymentIcon />},
+>>>>>>> 4617ce1e41f87b5983b6b63ef14dda98db37bdc3
     { label: "Support", to: "/support", icon: <SupportIcon /> },
     { label: "Myprofile", to: "/operatingofficer/profile", icon: <AccountCircleIcon /> },
   ],
